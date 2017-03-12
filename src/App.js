@@ -38,7 +38,8 @@ class NavbarInstance extends Component {
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(firebaseUser => {
-      firebaseUser ? this.changeLogInStatus(true, firebaseUser) : this.changeLogInStatus(false, firebaseUser);
+      firebaseUser ? this.changeLogInStatus(true, firebaseUser) 
+      : this.changeLogInStatus(false, firebaseUser);
     });
   }
 
@@ -71,7 +72,7 @@ class NavbarInstance extends Component {
   render() {
     if (this.state.isLoggedIn) {
       return (
-        <Navbar default collapseOnSelect fluid onSelect={this.handleSelect}>
+        <Navbar inverse collapseOnSelect fluid onSelect={this.handleSelect}>
           <Navbar.Header>
             <Navbar.Brand>
               <Link to="/">Choice Crafter</Link>
@@ -104,9 +105,6 @@ class NavbarInstance extends Component {
     );
   }
 }
-
-
-
 
 export default MainLayout;
 

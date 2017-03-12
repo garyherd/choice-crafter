@@ -9,6 +9,7 @@ import * as firebase from 'firebase';
 import MainLayout from './App';
 import Home from './components/home';
 import Decisions from './components/decisions';
+import DecisionDetail from './components/decision-detail';
 import DecisionsFree from './components/freedecisions';
 import SignIn from './components/signin';
 
@@ -35,6 +36,7 @@ ReactDOM.render((
       <Route path="freedecisions" component={DecisionsFree} />
       <Route path="decisions" component={Home} />
       <Route path="decisions/:userId" component={Decisions} />
+      <Route path="decisions/:uid/:decisionId" component={DecisionDetail}/>
     </Route>
     <Route path="signIn" component={SignIn} />
   </Router>
