@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { Grid, Row, Col, Panel, Button, Nav, NavItem } from 'react-bootstrap';
+
 class Problem extends Component {
     render() {
         return (
@@ -40,7 +42,29 @@ class TradeOffs extends Component {
     }
 }
 
+class ProbObjsAlts extends Component {
+
+    problemTitle = (
+        <h2>This is the problem title</h2>
+    );
+
+    render() {
+        return (
+            <Row>
+                <Col xs={12}>
+                    {this.problemTitle}
+                    <p>This will be the problem description</p>
+                    <span className="glyphicon glyphicon-pencil"></span>&nbsp;Edit
+                </Col>
+                <hr/>
+                
+            </Row>
+        );
+    }
+}
 
 
 
-export { Problem, Consequences, TradeOffs };
+
+
+export { ProbObjsAlts, Consequences, TradeOffs };

@@ -14,11 +14,6 @@ class Decisions extends Component {
     })};
   }
 
-  componentDidMount() {
-
-    console.log(this.state.decisions);
-  }
-
   render() {
     return (
       <Grid>
@@ -46,8 +41,7 @@ class Decisions extends Component {
 
 const DecisionPanel = (props) => {
 
-  const decisionDetailUrl = "/decisions/" + props.decision.uid + "/" + props.decision.decisionId;
-  console.log(decisionDetailUrl);
+  const decisionDetailUrl = `/decisions/${props.decision.uid}/${props.decision.decisionId}`;
 
   return (
     <div>

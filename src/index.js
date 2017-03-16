@@ -12,7 +12,7 @@ import Decisions from './components/decisions';
 import DecisionDetail from './components/decision-detail';
 import DecisionsFree from './components/freedecisions';
 import SignIn from './components/signin';
-import { Problem, Consequences, TradeOffs } from './components/prob-obj-alt'
+import { ProbObjsAlts, Consequences, TradeOffs } from './components/prob-obj-alt'
 
 // CSS & Other
 import './index.css';
@@ -39,8 +39,8 @@ ReactDOM.render((
       <Route path="decisions/:userId" component={Decisions} />
       <Route component={DecisionDetail}>
         <Route path="decisions/:userId/:decisionId">
-          <Route path="problem" component={Problem}/>
-          <Route path="consequnces" component={Consequences}/>
+          <Route path="problem" component={ProbObjsAlts}/>
+          <Route path="consequences" component={Consequences}/>
           <Route path="tradeoffs" component={TradeOffs}/>
         </Route>
       </Route>
