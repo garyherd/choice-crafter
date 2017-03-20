@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Link, browserHistory } from 'react-router';
+import { Link } from 'react-router';
 
 import { Grid, Row, Col, Panel, Button } from 'react-bootstrap';
 
@@ -10,7 +10,7 @@ class Decisions extends Component {
   constructor(props) {
     super(props);
     this.state = {decisions: DECISIONS_Arr.filter((decision) => {
-      return decision.uid == this.props.params.userId
+      return decision.uid === this.props.params.userId
     })};
   }
 

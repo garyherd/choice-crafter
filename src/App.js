@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, NavItem, MenuItem } from 'react-bootstrap';
+import { Navbar, Nav, NavItem} from 'react-bootstrap';
 
 import { Link, browserHistory } from 'react-router';
 
 import * as firebase from 'firebase';
 
 import './App.css';
-
-const logoutText = "Log Out";
-const loginText = "Log In";
 
 function MainLayout(props) {
     return (

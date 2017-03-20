@@ -1,26 +1,12 @@
 import React, { Component } from 'react';
 
-import { Grid, Row, Col, Panel, Button, Nav, NavItem } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 
-class Problem extends Component {
-    render() {
-        return (
-            <div>
-                This is the Problem/Objectives/Alternatives tab
-            </div>
-        );
-    }
-}
+import Problem from './problem';
+import Alternatives from './alternatives';
+import Objectives from './objectives';
 
-class Objectives extends Component {
-    render() {
-        return (
-            <div>
-                These are objectives
-            </div>
-        );
-    }
-}
+
 
 class Consequences extends Component {
     render() {
@@ -42,23 +28,23 @@ class TradeOffs extends Component {
     }
 }
 
-class ProbObjsAlts extends Component {
 
-    problemTitle = (
-        <h2>This is the problem title</h2>
-    );
+class ProbObjsAlts extends Component {
 
     render() {
         return (
-            <Row>
-                <Col xs={12}>
-                    {this.problemTitle}
-                    <p>This will be the problem description</p>
-                    <span className="glyphicon glyphicon-pencil"></span>&nbsp;Edit
+            <Row>              
+                <Col sm={12}>
+                    <Problem title={this.props.decision.decisionShort} description={this.props.decision.decisionLong}/>
                 </Col>
-                <hr/>
-                
+                <Col sm={6}>
+                    <Objectives/>
+                </Col>
+                <Col sm={6}>
+                    <Alternatives/>
+                </Col>                    
             </Row>
+
         );
     }
 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { browserHistory } from 'react-router';
 
-import { Button, Nav, NavItem } from 'react-bootstrap';
+import { Nav, NavItem } from 'react-bootstrap';
 
 class NavTabs extends Component {
     constructor(props) {

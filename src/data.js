@@ -1,10 +1,3 @@
-var DECISIONS_Arr_old = [
-  {uid: 'Fg7D7hAan5QHE3jcdo6n64QYS4a2', decisionShort: "Should I move to a new city?"},
-  {uid: 'Fg7D7hAan5QHE3jcdo6n64QYS4a2', decisionShort: "Which office should we move to?"},
-  {uid: 'Fg7D7hAan5QHE3jcdo6n64QYS4a2', decisionShort: "Which apartment should I move into?"},
-  {uid: '4', decisionShort: "Which programming language should I learn?"},
-]
-
 const DECISIONS_Arr = [
   {
     decisionId: 0,
