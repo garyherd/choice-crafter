@@ -38,7 +38,7 @@ class ProbObjsAlts extends Component {
                     <Problem title={this.props.decision.decisionShort} description={this.props.decision.decisionLong}/>
                 </Col>
                 <Col sm={6}>
-                    <Objectives/>
+                    <Objectives objectives={this.props.decision.objectives}/>
                 </Col>
                 <Col sm={6}>
                     <Alternatives/>

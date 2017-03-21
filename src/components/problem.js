@@ -6,7 +6,7 @@ import { Button, Panel, FormGroup, FormControl, ControlLabel, Form } from 'react
 class Problem extends Component {
     constructor(props) {
         super(props);
-        this.state = {title: this.props.title, description: this.props.description, editMode: "Edit", value: "Initial value"};
+        this.state = {title: this.props.title, description: this.props.description, editMode: "Edit"};
         this.handleButtonClick = this.handleButtonClick.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
     }
