@@ -80,7 +80,7 @@ class Objectives extends Component {
                 <h3>Objectives</h3>
                 <p>These are your decision criteria. What are you trying to accomplish with this decision?</p>
 
-                <Form inline>
+                <Form inline onSubmit={this.addItem}>
                     <FormGroup controlId="newObjective">
                         <FormControl
                             type="text"
@@ -89,7 +89,7 @@ class Objectives extends Component {
                             onChange={this.handleInputChange}
                         />
                     </FormGroup>
-                    <Button bsStyle="primary" bsSize="small" onClick={this.addItem}>Add</Button>
+                    <Button type="submit" bsStyle="primary" bsSize="small">Add</Button>
                 </Form>                
                 <br/>
                 <ListGroup>
