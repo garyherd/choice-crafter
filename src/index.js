@@ -6,7 +6,7 @@ import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import * as firebase from 'firebase';
 
 // Components
-import MainLayout from './App';
+import App from './App';
 import Home from './components/home';
 import Decisions from './components/decisions';
 import DecisionDetail from './components/decision-detail';
@@ -32,7 +32,7 @@ firebase.initializeApp(config);
 
 ReactDOM.render((
   <Router history={browserHistory}>
-    <Route path="/" component={MainLayout}>
+    <Route path="/" component={App}>
       <IndexRoute component={Home}></IndexRoute>
       <Route path="freedecisions" component={DecisionsFree} />
       <Route path="decisions" component={Home} />

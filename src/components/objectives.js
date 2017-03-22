@@ -79,8 +79,12 @@ class Objectives extends Component {
             <Panel>
                 <h3>Objectives</h3>
                 <p>These are your decision criteria. What are you trying to accomplish with this decision?</p>
-
-                <Form inline onSubmit={this.addItem}>
+                <ListGroup>
+                    {this.state.objectives.map((objective, index) =>
+                        <Objective key={index} objective={objective}/>
+                    )}
+                </ListGroup>
+                <Form onSubmit={this.addItem}>
                     <FormGroup controlId="newObjective">
                         <FormControl
                             type="text"
@@ -92,11 +96,7 @@ class Objectives extends Component {
                     <Button type="submit" bsStyle="primary" bsSize="small">Add</Button>
                 </Form>                
                 <br/>
-                <ListGroup>
-                {this.state.objectives.map((objective, index) =>
-                    <Objective key={index} objective={objective}/>
-                )}
-                </ListGroup>
+
             </Panel>
         );
     }

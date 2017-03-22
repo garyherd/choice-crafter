@@ -35,7 +35,7 @@ class DecisionDetail extends Component {
           </Row>
             <Col xs={12}>{this.renderChildren()}</Col>
         </Grid>
-      );
+    );
   }
 }
 
