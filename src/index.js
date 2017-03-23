@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 // External modules
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import * as firebase from 'firebase';
+import * as firebaseui from 'firebaseui';
+
 
 // Components
 import App from './App';
@@ -45,7 +47,7 @@ ReactDOM.render((
         </Route>
       </Route>
     </Route>
-    <Route path="signIn" component={SignIn} />
+    <Route path="signIn" component={SignIn}/>
   </Router>
 ), document.getElementById('root'));
 
