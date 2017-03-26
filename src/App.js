@@ -23,6 +23,10 @@ class App extends Component {
     this.handleUpdateProblem = this.handleUpdateProblem.bind(this);
     this.handleUpdateObjective = this.handleUpdateObjective.bind(this);
     this.handleAddObjective = this.handleAddObjective.bind(this);
+    this.handleUpdateAlternative = this.handleUpdateAlternative.bind(this);
+    this.handleAddAlternative = this.handleAddAlternative.bind(this);
+    this.handleRemoveObjective = this.handleRemoveObjective.bind(this);
+    this.handleRemoveAlternative = this.handleRemoveAlternative.bind(this);
   }
 
   handleUpdateProblem(decisionId, newShortDesc, newLongDesc) {
@@ -83,20 +87,139 @@ class App extends Component {
     this.setState({decisions: decisionsCopy});     
   }
 
-  handleAddObjective(newTitle) {
+  handleAddObjective(decisionId, newObjective) {
+    let decisionsCopy = this.state.decisions.slice();
+    let targetDecision = decisionsCopy.filter((decision) => {
+      return decision.decisionId == decisionId;
+    })[0];
 
+    targetDecision.objectives.push(newObjective);
+
+    let spliceStart = decisionsCopy.findIndex((decisionObj) => {
+      return decisionObj.decisionId == decisionId;
+    });
+
+    decisionsCopy.splice(spliceStart, 1);
+    decisionsCopy.splice(spliceStart, 0, targetDecision);
+
+    this.setState({decisions: decisionsCopy});       
   }
 
-  handleUpdateAlternative(decisionId,alternativeId, newAlternative) {
+  handleRemoveObjective(decisionId, objectiveId) {
 
-  }  
+    let decisionsCopy = this.state.decisions.slice();
+    let targetDecision = decisionsCopy.filter((decision) => {
+      return decision.decisionId == decisionId;
+    })[0];
+
+    let targetObjective = targetDecision.objectives.filter((objective) => {
+      return objective.id == objectiveId;
+    })[0];
+
+    let spliceStart = targetDecision.objectives.findIndex((objective) => {
+      return objective.id == objectiveId;
+    });
+
+    targetDecision.objectives.splice(spliceStart, 1);
+
+    spliceStart = decisionsCopy.findIndex((decisionObj) => {
+      return decisionObj.decisionId == decisionId;
+    });
+
+    decisionsCopy.splice(spliceStart, 1);
+    decisionsCopy.splice(spliceStart, 0, targetDecision);
+
+    this.setState({decisions: decisionsCopy});    
+  }
+
+  handleUpdateAlternative(decisionId, alternativeId, newTitle) {
+
+    let decisionsCopy = this.state.decisions.slice();
+    let targetDecision = decisionsCopy.filter((decision) => {
+      return decision.decisionId == decisionId;
+    })[0];
+
+    let targetAlternative = targetDecision.alternatives.filter((alternative) => {
+      return alternative.id == alternativeId;
+    })[0];
+
+    if (newTitle) {
+      targetAlternative.title = newTitle;
+    }
+
+    let spliceStart = targetDecision.alternatives.findIndex((alternative) => {
+      return alternative.id == alternativeId;
+    });
+
+    targetDecision.alternatives.splice(spliceStart, 1);
+    targetDecision.alternatives.splice(spliceStart, 0, targetAlternative);
+
+    spliceStart = decisionsCopy.findIndex((decisionObj) => {
+      return decisionObj.decisionId == decisionId;
+    });
+
+    decisionsCopy.splice(spliceStart, 1);
+    decisionsCopy.splice(spliceStart, 0, targetDecision);
+
+    this.setState({decisions: decisionsCopy});
+  } 
+
+  handleAddAlternative(decisionId, newAlternative) {
+    let decisionsCopy = this.state.decisions.slice();
+    let targetDecision = decisionsCopy.filter((decision) => {
+      return decision.decisionId == decisionId;
+    })[0];
+
+    targetDecision.alternatives.push(newAlternative);
+
+    let spliceStart = decisionsCopy.findIndex((decisionObj) => {
+      return decisionObj.decisionId == decisionId;
+    });
+
+    decisionsCopy.splice(spliceStart, 1);
+    decisionsCopy.splice(spliceStart, 0, targetDecision);
+
+    this.setState({decisions: decisionsCopy});  
+  }
+
+  handleRemoveAlternative(decisionId, alternativeId) {
+
+    let decisionsCopy = this.state.decisions.slice();
+    let targetDecision = decisionsCopy.filter((decision) => {
+      return decision.decisionId == decisionId;
+    })[0];
+
+    let targetAlternative = targetDecision.alternatives.filter((alternative) => {
+      return alternative.id == alternativeId;
+    })[0];
+
+    let spliceStart = targetDecision.alternatives.findIndex((alternative) => {
+      return alternative.id == alternativeId;
+    });
+
+    targetDecision.alternatives.splice(spliceStart, 1);
+
+    spliceStart = decisionsCopy.findIndex((decisionObj) => {
+      return decisionObj.decisionId == decisionId;
+    });
+
+    decisionsCopy.splice(spliceStart, 1);
+    decisionsCopy.splice(spliceStart, 0, targetDecision);
+
+    this.setState({decisions: decisionsCopy});    
+  }
 
   renderChildren() {
     return React.Children.map(this.props.children, child => {
       return React.cloneElement(child, {
         decisions: this.state.decisions,
         updateProblem: this.handleUpdateProblem,
-        updateObjective: this.handleUpdateObjective
+        updateObjective: this.handleUpdateObjective,
+        addObjective: this.handleAddObjective,
+        removeObjective: this.handleRemoveObjective,
+        updateAlternative: this.handleUpdateAlternative,
+        addAlternative: this.handleAddAlternative,
+        removeAlternative: this.handleRemoveAlternative
       });
     });
   }

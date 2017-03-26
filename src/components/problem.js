@@ -15,6 +15,10 @@ class Problem extends Component {
         this.state.editMode === "Edit" ? this.setState({editMode: "Save"}) : this.setState({editMode: "Edit"})
     }
 
+    handleSubmit(e) {
+        e.preventDefault();
+    }
+
     handleInputChange(event) {
         const target = event.target;
         const name = target.name;
@@ -38,7 +42,7 @@ class Problem extends Component {
              panel = (
                 <Panel>
                     <h3>Editing the Problem</h3>
-                    <Form>
+                    <Form onSubmit={this.handleSubmit}>
                         <FormGroup controlId="newTitle">
                             <ControlLabel>Title:</ControlLabel>
                             <FormControl

@@ -1,3 +1,6 @@
+import uuid from 'uuid';
+
+
 const DECISIONS_Arr = [
   {
     decisionId: 0,
@@ -5,19 +8,19 @@ const DECISIONS_Arr = [
     decisionShort: "Which job should I take?",
     decisionLong: "Planning to take time off from college to help relative recover from a serious illness",
     objectives: [
-      {id: 0, title: "Monthly Salary", description: ""},
-      {id: 1, title: "Flexibility", description: "need to able to deal with emergencies"},
-      {id: 2, title: "Business Skills Development", description: "gain some experience that will useful when I return school"},
-      {id: 3, title: "Annual vacation days", description: ""},
-      {id: 4, title: "Benefits", description: ""},
-      {id: 5, title: "Enjoyment", description: ""}
+      {id: uuid.v4(), title: "Monthly Salary", description: ""},
+      {id: uuid.v4(), title: "Flexibility", description: "need to able to deal with emergencies"},
+      {id: uuid.v4(), title: "Business Skills Development", description: "gain some experience that will useful when I return school"},
+      {id: uuid.v4(), title: "Annual vacation days", description: ""},
+      {id: uuid.v4(), title: "Benefits", description: ""},
+      {id: uuid.v4(), title: "Enjoyment", description: ""}
     ],
     alternatives: [
-      {id: 0, title: "Job A", description: ""},
-      {id: 1, title: "Job B", description: ""},
-      {id: 2, title: "Job C", description: ""},
-      {id: 3, title: "Job D", description: ""},
-      {id: 4, title: "Job E", description: ""},
+      {id: uuid.v4(), title: "Job A", description: ""},
+      {id: uuid.v4(), title: "Job B", description: ""},
+      {id: uuid.v4(), title: "Job C", description: ""},
+      {id: uuid.v4(), title: "Job D", description: ""},
+      {id: uuid.v4(), title: "Job E", description: ""},
     ],
     consequences: [
       {objId: 0, altId: 0, title: 2000, description: ""},

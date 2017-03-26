@@ -54,23 +54,4 @@ ReactDOM.render((
 ), document.getElementById('root'));
 
 
-/*ReactDOM.render((
-  <Router history={browserHistory}>
-    <Route path="/" component={App}>
-      <IndexRoute component={Home}></IndexRoute>
-      <Route path="freedecisions" component={DecisionsFree} />
-      <Route path="decisions" component={Home} />
-      <Route path="decisions/:userId" component={Decisions} />
-      <Route component={DecisionDetail}>
-        <Route path="decisions/:userId/:decisionId">
-          <Route path="problem" component={ProbObjsAlts}/>
-          <Route path="consequences" component={Consequences}/>
-          <Route path="tradeoffs" component={TradeOffs}/>
-        </Route>
-      </Route>
-    </Route>
-    <Route path="signIn" component={SignIn}/>
-  </Router>
-), document.getElementById('root'));*/
-
 

@@ -40,7 +40,12 @@ class DecisionDetail extends Component {
       return React.cloneElement(child, {
         decision: this.getDecision(),
         updateProblem: this.props.updateProblem,
-        updateObjective: this.props.updateObjective
+        updateObjective: this.props.updateObjective,
+        addObjective: this.props.addObjective,
+        removeObjective: this.props.removeObjective,
+        updateAlternative: this.props.updateAlternative,
+        addAlternative: this.props.addAlternative,
+        removeAlternative: this.props.removeAlternative
       });
     });
   }
