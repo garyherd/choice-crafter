@@ -17,7 +17,7 @@ class NavTabs extends Component {
     }
 
     makeUrls = (pageName) => {
-        let baseUrl = `/decisions/${this.props.decision.uid}/${this.props.decision.decisionId}/`;
+        let baseUrl = `/decisions/${this.props.userDecision.uid}/${this.props.userDecision.decisionId}/`;
         return baseUrl + pageName;
     }
 

@@ -32,13 +32,21 @@ class TradeOffs extends Component {
 class ProbObjsAlts extends Component {
 
     render() {
+        let decision = this.props.decision;
         return (
             <Row>              
                 <Col sm={12}>
-                    <Problem title={this.props.decision.decisionShort} description={this.props.decision.decisionLong}/>
+                    <Problem
+                        decisionId={decision.decisionId}
+                        uid={decision.uid}
+                        title={decision.decisionShort} 
+                        description={decision.decisionLong}
+                        updateProblem={this.props.updateProblem}
+                        updateObjective={this.props.updateObjective}/>
                 </Col>
                 <Col sm={6}>
-                    <Objectives objectives={this.props.decision.objectives}/>
+                    <Objectives decision={decision}
+                                updateObjective={this.props.updateObjective}/>
                 </Col>
                 <Col sm={6}>
                     <Alternatives/>

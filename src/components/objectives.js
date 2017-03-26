@@ -19,7 +19,9 @@ class Objective extends Component {
         const target = event.target;
         const name = target.name;
         const value = target.value
-        this.setState({[name]: value});
+        this.setState({[name]: value}, () => {
+            this.props.update(this.props.decisionId, this.props.objective.id, this.state.title);
+        });
     }
 
     render() {
@@ -58,21 +60,21 @@ class Objective extends Component {
 class Objectives extends Component {
     constructor(props) {
         super(props);
-        this.state = {objectives: this.props.objectives};
-        this.addItem = this.addItem.bind(this);
+        // this.state = {objectives: this.props.decision.objectives};
+        //this.addItem = this.addItem.bind(this);
     }
 
-    addItem(event) {
-        let objectives = this.state.objectives.slice();
-        const target = event.target;
-        const value = target.value;
-        console.log(value);
-        let newObj = {id: objectives.length, title: value, description: ""};
-        objectives.push(newObj);
-        this.setState((prevState, props) => ({
-            objectives: objectives
-        }));
-    }
+    // addItem(event) {
+    //     let objectives = this.state.objectives.slice();
+    //     const target = event.target;
+    //     const value = target.value;
+    //     console.log(value);
+    //     let newObj = {id: objectives.length, title: value, description: ""};
+    //     objectives.push(newObj);
+    //     this.setState((prevState, props) => ({
+    //         objectives: objectives
+    //     }));
+    // }
 
     render() {
         return (
@@ -80,8 +82,11 @@ class Objectives extends Component {
                 <h3>Objectives</h3>
                 <p>These are your decision criteria. What are you trying to accomplish with this decision?</p>
                 <ListGroup>
-                    {this.state.objectives.map((objective, index) =>
-                        <Objective key={index} objective={objective}/>
+                    {this.props.decision.objectives.map((objective, index) =>
+                        <Objective key={index} 
+                                    objective={objective} 
+                                    update={this.props.updateObjective}
+                                    decisionId={this.props.decision.decisionId}/>
                     )}
                 </ListGroup>
                 <Form onSubmit={this.addItem}>
@@ -96,17 +101,9 @@ class Objectives extends Component {
                     <Button type="submit" bsStyle="primary" bsSize="small">Add</Button>
                 </Form>                
                 <br/>
-
             </Panel>
         );
     }
 }
 
 export default Objectives;
-
-
-          /*{this.state.decisions.map((decision, index) =>
-            <Col sm={12} key={index}>
-              <DecisionPanel decision={decision} />
-            </Col>
-          )}*/

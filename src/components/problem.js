@@ -19,7 +19,9 @@ class Problem extends Component {
         const target = event.target;
         const name = target.name;
         const value = target.value;
-        this.setState({[name]: value});
+        this.setState({[name]: value}, () => {
+            this.props.updateProblem(this.props.decisionId, this.state.title, this.state.description);
+        });
     }
 
     render() {

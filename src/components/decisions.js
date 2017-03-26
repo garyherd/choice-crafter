@@ -2,19 +2,24 @@ import React, { Component } from 'react';
 
 import { Link } from 'react-router';
 
-import { Grid, Row, Col, Panel, Button } from 'react-bootstrap';
+import { Grid, Row, Col, Panel, Button, Glyphicon } from 'react-bootstrap';
 
-import DECISIONS_Arr from '../data.js';
+// import DECISIONS_Arr from '../data.js';
 
 class Decisions extends Component {
   constructor(props) {
     super(props);
-    this.state = {decisions: DECISIONS_Arr.filter((decision) => {
-      return decision.uid === this.props.params.userId
-    })};
+    // this.state = {userDecisions: DECISIONS_Arr.filter((decision) => {
+    //   return decision.uid === this.props.params.userId
+    // })};
   }
 
+
   render() {
+    let userDecisions = this.props.decisions.filter((decision) => {
+      return decision.uid == this.props.params.userId
+    });
+
     return (
       <Grid>
         <Row>
@@ -27,7 +32,7 @@ class Decisions extends Component {
           </Col>
         </Row>
         <Row>
-          {this.state.decisions.map((decision, index) =>
+          {userDecisions.map((decision, index) =>
             <Col sm={12} key={index}>
               <DecisionPanel decision={decision} />
             </Col>
@@ -50,8 +55,8 @@ const DecisionPanel = (props) => {
           <Col sm={6}>
             <h3>{props.decision.decisionShort}</h3>
             <Row>
-              <Col sm={6}><Link to={decisionDetailUrl}><span className="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Open decision</Link></Col>
-              <Col sm={6}><span className="glyphicon glyphicon-trash"></span>&nbsp;Archive decision</Col>
+              <Col sm={6}><Link to={decisionDetailUrl}><Glyphicon glyph="folder-open"/>&nbsp;&nbsp;Open decision</Link></Col>
+              <Col sm={6}><Glyphicon glyph="trash"/>&nbsp;Archive decision</Col>
             </Row>         
           </Col>
           <Col sm={6}>
@@ -83,4 +88,4 @@ const DecisionPanel = (props) => {
 }
 
 
-export default Decisions;
+    export { Decisions, DecisionPanel};
