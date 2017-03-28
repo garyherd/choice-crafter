@@ -109,13 +109,9 @@ class App extends Component {
 
     let decisionsCopy = this.state.decisions.slice();
     let targetDecision = decisionsCopy.filter(d => d.decisionId == decisionId)[0];
-
-    let targetObjective = targetDecision.objectives.filter(o => o.id == objectiveId)[0];
-
     let spliceStart = targetDecision.objectives.findIndex(o => o.id == objectiveId);
 
     targetDecision.objectives.splice(spliceStart, 1);
-
     spliceStart = decisionsCopy.findIndex(d => d.decisionId == decisionId);
 
     decisionsCopy.splice(spliceStart, 1);
