@@ -108,23 +108,15 @@ class App extends Component {
   handleRemoveObjective(decisionId, objectiveId) {
 
     let decisionsCopy = this.state.decisions.slice();
-    let targetDecision = decisionsCopy.filter((decision) => {
-      return decision.decisionId == decisionId;
-    })[0];
+    let targetDecision = decisionsCopy.filter(d => d.decisionId == decisionId)[0];
 
-    let targetObjective = targetDecision.objectives.filter((objective) => {
-      return objective.id == objectiveId;
-    })[0];
+    let targetObjective = targetDecision.objectives.filter(o => o.id == objectiveId)[0];
 
-    let spliceStart = targetDecision.objectives.findIndex((objective) => {
-      return objective.id == objectiveId;
-    });
+    let spliceStart = targetDecision.objectives.findIndex(o => o.id == objectiveId);
 
     targetDecision.objectives.splice(spliceStart, 1);
 
-    spliceStart = decisionsCopy.findIndex((decisionObj) => {
-      return decisionObj.decisionId == decisionId;
-    });
+    spliceStart = decisionsCopy.findIndex(d => d.decisionId == decisionId);
 
     decisionsCopy.splice(spliceStart, 1);
     decisionsCopy.splice(spliceStart, 0, targetDecision);
