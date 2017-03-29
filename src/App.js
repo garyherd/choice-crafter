@@ -107,17 +107,35 @@ class App extends Component {
 
   handleRemoveObjective(decisionId, objectiveId) {
 
-    let decisionsCopy = this.state.decisions.slice();
-    let targetDecision = decisionsCopy.filter(d => d.decisionId == decisionId)[0];
-    let spliceStart = targetDecision.objectives.findIndex(o => o.id == objectiveId);
+    // let decisionsCopy = this.state.decisions.slice();
+    // let targetDecision = decisionsCopy.filter(d => d.decisionId == decisionId)[0];
+    // let spliceStart = targetDecision.objectives.findIndex(o => o.id == objectiveId);
 
-    targetDecision.objectives.splice(spliceStart, 1);
-    spliceStart = decisionsCopy.findIndex(d => d.decisionId == decisionId);
+    // targetDecision.objectives.splice(spliceStart, 1);
+    // spliceStart = decisionsCopy.findIndex(d => d.decisionId == decisionId);
+
+    // decisionsCopy.splice(spliceStart, 1);
+    // decisionsCopy.splice(spliceStart, 0, targetDecision);
+
+    // this.setState({decisions: decisionsCopy});
+    let decisionsCopy = this.state.decisions.slice();
+    let targetDecision = decisionsCopy.filter((decision) => {
+      return decision.decisionId == decisionId;
+    })[0];
+
+    // targetDecision.objectives.push(newObjective);
+    console.log(targetDecision.objectives, objectiveId);
+    targetDecision.objectives = targetDecision.objectives.filter((objective) => {
+      return objective.id != objectiveId;
+    });
+    let spliceStart = decisionsCopy.findIndex((decisionObj) => {
+      return decisionObj.decisionId == decisionId;
+    });
 
     decisionsCopy.splice(spliceStart, 1);
     decisionsCopy.splice(spliceStart, 0, targetDecision);
 
-    this.setState({decisions: decisionsCopy});    
+    this.setState({decisions: decisionsCopy});              
   }
 
   handleUpdateAlternative(decisionId, alternativeId, newTitle) {
@@ -198,6 +216,7 @@ class App extends Component {
   }
 
   renderChildren() {
+    let userDecisions = this.state.decisions.filter(d => d.uid == this.state.firebaseUser);
     return React.Children.map(this.props.children, child => {
       return React.cloneElement(child, {
         decisions: this.state.decisions,

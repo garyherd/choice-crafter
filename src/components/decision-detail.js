@@ -36,6 +36,9 @@ class DecisionDetail extends Component {
 
   renderChildren() {
 
+    let userDecision = this.props.decisions.filter((decision) => {
+      return decision.decisionId == this.props.params.decisionId
+    })[0];
     return React.Children.map(this.props.children, child => {
       return React.cloneElement(child, {
         decision: this.getDecision(),
