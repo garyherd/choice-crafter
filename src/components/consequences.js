@@ -10,7 +10,7 @@ class Consequences extends Component {
     render() {
         return (
             <div>
-                This will be the Consequnces tab
+                This will be the Consequences tab
             </div>
         );
     }

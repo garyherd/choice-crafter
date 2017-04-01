@@ -3,8 +3,6 @@ import { Navbar, Nav, NavItem} from 'react-bootstrap';
 
 import { Link, browserHistory } from 'react-router';
 
-import * as firebase from 'firebase';
-
 class NavbarInstance extends Component {
   constructor(props) {
     super(props)

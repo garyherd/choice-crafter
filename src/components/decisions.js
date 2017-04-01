@@ -7,17 +7,10 @@ import { Grid, Row, Col, Panel, Button, Glyphicon } from 'react-bootstrap';
 // import DECISIONS_Arr from '../data.js';
 
 class Decisions extends Component {
-  constructor(props) {
-    super(props);
-    // this.state = {userDecisions: DECISIONS_Arr.filter((decision) => {
-    //   return decision.uid === this.props.params.userId
-    // })};
-  }
-
 
   render() {
     let userDecisions = this.props.decisions.filter((decision) => {
-      return decision.uid == this.props.params.userId
+      return decision.uid === this.props.params.userId
     });
 
     return (

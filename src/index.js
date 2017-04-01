@@ -2,15 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 // External modules
-import { Router, Route, browserHistory, IndexRoute } from 'react-router';
+import { Router, Route, browserHistory } from 'react-router';
 import * as firebase from 'firebase';
-import * as firebaseui from 'firebaseui';
 
 
 // Components
 import App from './App';
 import Home from './components/home';
-import { Decisions, DecisionPanel } from './components/decisions';
+import { Decisions } from './components/decisions';
 import DecisionDetail from './components/decision-detail';
 import DecisionsFree from './components/freedecisions';
 import SignIn from './components/signin';

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, NavItem} from 'react-bootstrap';
+// import { Navbar, Nav, NavItem} from 'react-bootstrap';
 
-import { Link, browserHistory } from 'react-router';
+import { browserHistory } from 'react-router';
 
 import NavbarInstance from './components/navbar';
 import DECISIONS_Arr from './data.js';
@@ -33,7 +33,7 @@ class App extends Component {
 
     let decisionsCopy = this.state.decisions.slice();
     let targetDecision = decisionsCopy.filter((decision) => {
-      return decision.decisionId == decisionId
+      return decision.decisionId === decisionId
     })[0];
 
     if (newShortDesc) {
@@ -45,7 +45,7 @@ class App extends Component {
     }
      
     let spliceStart = decisionsCopy.findIndex((decisionObj) => {
-      return decisionObj.decisionId == decisionId;
+      return decisionObj.decisionId === decisionId;
     });
 
     decisionsCopy.splice(spliceStart, 1);
@@ -59,11 +59,11 @@ class App extends Component {
 
     let decisionsCopy = this.state.decisions.slice();
     let targetDecision = decisionsCopy.filter((decision) => {
-      return decision.decisionId == decisionId;
+      return decision.decisionId === decisionId;
     })[0];
 
     let targetObjective = targetDecision.objectives.filter((objective) => {
-      return objective.id == objectiveId;
+      return objective.id === objectiveId;
     })[0];
 
     if (newTitle) {
@@ -71,14 +71,14 @@ class App extends Component {
     }
 
     let spliceStart = targetDecision.objectives.findIndex((objectiveObj) => {
-      return objectiveObj.id == objectiveId;
+      return objectiveObj.id === objectiveId;
     });
 
     targetDecision.objectives.splice(spliceStart, 1);
     targetDecision.objectives.splice(spliceStart, 0, targetObjective);
 
     spliceStart = decisionsCopy.findIndex((decisionObj) => {
-      return decisionObj.decisionId == decisionId;
+      return decisionObj.decisionId === decisionId;
     });
 
     decisionsCopy.splice(spliceStart, 1);
@@ -90,13 +90,13 @@ class App extends Component {
   handleAddObjective(decisionId, newObjective) {
     let decisionsCopy = this.state.decisions.slice();
     let targetDecision = decisionsCopy.filter((decision) => {
-      return decision.decisionId == decisionId;
+      return decision.decisionId === decisionId;
     })[0];
 
     targetDecision.objectives.push(newObjective);
 
     let spliceStart = decisionsCopy.findIndex((decisionObj) => {
-      return decisionObj.decisionId == decisionId;
+      return decisionObj.decisionId === decisionId;
     });
 
     decisionsCopy.splice(spliceStart, 1);
@@ -107,29 +107,17 @@ class App extends Component {
 
   handleRemoveObjective(decisionId, objectiveId) {
 
-    // let decisionsCopy = this.state.decisions.slice();
-    // let targetDecision = decisionsCopy.filter(d => d.decisionId == decisionId)[0];
-    // let spliceStart = targetDecision.objectives.findIndex(o => o.id == objectiveId);
-
-    // targetDecision.objectives.splice(spliceStart, 1);
-    // spliceStart = decisionsCopy.findIndex(d => d.decisionId == decisionId);
-
-    // decisionsCopy.splice(spliceStart, 1);
-    // decisionsCopy.splice(spliceStart, 0, targetDecision);
-
-    // this.setState({decisions: decisionsCopy});
     let decisionsCopy = this.state.decisions.slice();
     let targetDecision = decisionsCopy.filter((decision) => {
-      return decision.decisionId == decisionId;
+      return decision.decisionId === decisionId;
     })[0];
 
-    // targetDecision.objectives.push(newObjective);
-    console.log(targetDecision.objectives, objectiveId);
     targetDecision.objectives = targetDecision.objectives.filter((objective) => {
-      return objective.id != objectiveId;
+      return objective.id !== objectiveId;
     });
+
     let spliceStart = decisionsCopy.findIndex((decisionObj) => {
-      return decisionObj.decisionId == decisionId;
+      return decisionObj.decisionId === decisionId;
     });
 
     decisionsCopy.splice(spliceStart, 1);
@@ -142,11 +130,11 @@ class App extends Component {
 
     let decisionsCopy = this.state.decisions.slice();
     let targetDecision = decisionsCopy.filter((decision) => {
-      return decision.decisionId == decisionId;
+      return decision.decisionId === decisionId;
     })[0];
 
     let targetAlternative = targetDecision.alternatives.filter((alternative) => {
-      return alternative.id == alternativeId;
+      return alternative.id === alternativeId;
     })[0];
 
     if (newTitle) {
@@ -154,14 +142,14 @@ class App extends Component {
     }
 
     let spliceStart = targetDecision.alternatives.findIndex((alternative) => {
-      return alternative.id == alternativeId;
+      return alternative.id === alternativeId;
     });
 
     targetDecision.alternatives.splice(spliceStart, 1);
     targetDecision.alternatives.splice(spliceStart, 0, targetAlternative);
 
     spliceStart = decisionsCopy.findIndex((decisionObj) => {
-      return decisionObj.decisionId == decisionId;
+      return decisionObj.decisionId === decisionId;
     });
 
     decisionsCopy.splice(spliceStart, 1);
@@ -173,13 +161,13 @@ class App extends Component {
   handleAddAlternative(decisionId, newAlternative) {
     let decisionsCopy = this.state.decisions.slice();
     let targetDecision = decisionsCopy.filter((decision) => {
-      return decision.decisionId == decisionId;
+      return decision.decisionId === decisionId;
     })[0];
 
     targetDecision.alternatives.push(newAlternative);
 
     let spliceStart = decisionsCopy.findIndex((decisionObj) => {
-      return decisionObj.decisionId == decisionId;
+      return decisionObj.decisionId === decisionId;
     });
 
     decisionsCopy.splice(spliceStart, 1);
@@ -192,21 +180,15 @@ class App extends Component {
 
     let decisionsCopy = this.state.decisions.slice();
     let targetDecision = decisionsCopy.filter((decision) => {
-      return decision.decisionId == decisionId;
+      return decision.decisionId === decisionId;
     })[0];
 
-    let targetAlternative = targetDecision.alternatives.filter((alternative) => {
-      return alternative.id == alternativeId;
-    })[0];
-
-    let spliceStart = targetDecision.alternatives.findIndex((alternative) => {
-      return alternative.id == alternativeId;
+    targetDecision.alternatives = targetDecision.alternatives.filter((alternative) => {
+      return alternative.id !== alternativeId;
     });
 
-    targetDecision.alternatives.splice(spliceStart, 1);
-
-    spliceStart = decisionsCopy.findIndex((decisionObj) => {
-      return decisionObj.decisionId == decisionId;
+    let spliceStart = decisionsCopy.findIndex((decisionObj) => {
+      return decisionObj.decisionId === decisionId;
     });
 
     decisionsCopy.splice(spliceStart, 1);
@@ -216,7 +198,7 @@ class App extends Component {
   }
 
   renderChildren() {
-    let userDecisions = this.state.decisions.filter(d => d.uid == this.state.firebaseUser);
+
     return React.Children.map(this.props.children, child => {
       return React.cloneElement(child, {
         decisions: this.state.decisions,
