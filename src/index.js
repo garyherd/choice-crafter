@@ -16,6 +16,7 @@ import SignIn from './components/signin';
 import { ProbObjsAlts } from './components/prob-obj-alt';
 import { Consequences } from './components/consequences';
 import { TradeOffs } from './components/tradeoffs';
+import ListHolder from './components/listholder';
 
 // CSS & Other
 import './index.css';
@@ -49,6 +50,7 @@ ReactDOM.render((
       </Route>
     </Route>
     <Route path="signIn" component={SignIn}/>
+    <Route path="test-list" component={ListHolder}/>
   </Router>
 ), document.getElementById('root'));
 

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 
 import { Panel, Button, ListGroupItem, Form, FormControl, FormGroup } from 'react-bootstrap';
+import {SortableContainer, SortableElement, SortableHandle, arrayMove} from 'react-sortable-hoc';
 
 
 
-class EditableListBox extends Component {
+class ObjectiveGrade extends Component {
     constructor(props) {
         super(props);
         this.state = {mode: "view", title: this.props.listItem.title};
@@ -72,4 +73,4 @@ class EditableListBox extends Component {
     }
 }
 
-export default EditableListBox;
+export default ObjectiveGrade;

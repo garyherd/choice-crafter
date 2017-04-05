@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 
 import { Panel, Button, ListGroup, Form, FormControl, FormGroup } from 'react-bootstrap';
+import {SortableContainer, SortableElement, SortableHandle, arrayMove} from 'react-sortable-hoc';
 
 import uuid from 'uuid';
 
 import EditableListBox from './editable-listbox';
-import Objective from './objective';
+import ObjectiveGrade from './objective-grade';
 
-class EditableListBoxes extends Component {
+class Grades extends Component {
     constructor(props) {
         super(props);
         this.state = {newListItem: {title: "", description: ""} };
@@ -36,38 +37,36 @@ class EditableListBoxes extends Component {
     }
 
     render() {
-        let items = [];
+        /*let items = [];
 
         if (this.props.listItems) {
             items = this.props.listItems.map((item) => {
 
-                if (this.props.itemsType === "objectives") {
-                    return (
-                        <Objective key={item.id} 
-                            listItem={item} 
-                            update={this.props.updateListItem}
-                            remove={this.removeListItem.bind(this)}
-                            decisionId={this.props.decision.decisionId}/>
-                    );                   
-                } else {
-                     return (
-                        <EditableListBox key={item.id} 
-                            listItem={item} 
-                            update={this.props.updateListItem}
-                            remove={this.removeListItem.bind(this)}
-                            decisionId={this.props.decision.decisionId}/>
-                    );                     
-                }
+              return (
+                <ObjectiveGrade key={item.id} 
+                    listItem={item} 
+                    update={this.props.updateListItem}
+                    remove={this.removeListItem.bind(this)}
+                    decisionId={this.props.decision.decisionId}/>
+              );                     
             });
-        }
+        }*/
+
+        /*const sortableList = SortableContainer(({items}) => {
+          return (
+            <ListGroup>
+              {items.map((value, index) => (
+                <SortableItem key={`item-${index}`} index={index} value={value} />
+              ))}
+            </ListGroup>
+          )
+        });*/
 
         return (
             <Panel>
                 <h3>{this.props.panelTitle}</h3>
                 <p>{this.props.panelText}</p>
-                <ListGroup>
-                    {items}
-                </ListGroup>
+                {/*{sortableList}*/}
                 <Form onSubmit={this.handleSubmit}>
                     <FormGroup controlId="newObjective">
                         <FormControl
@@ -86,4 +85,21 @@ class EditableListBoxes extends Component {
     }
 }
 
-export default EditableListBoxes;
+class SortableGrades extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { grades: this.props.grades};
+  }
+
+  onSortEnd = ({oldIndex, newIndex}) => {
+    this.setState({
+      items: arrayMove(this.state.grades, oldIndex, newIndex),
+    });
+  };
+  render() {
+    return <Grades items={this.state.grades} onSortEnd={this.onSortEnd}/>;
+  }  
+
+}
+
+export default SortableGrades;
