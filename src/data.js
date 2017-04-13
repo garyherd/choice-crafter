@@ -8,22 +8,51 @@ const DECISIONS_Arr = [
     decisionShort: "Which job should I take?",
     decisionLong: "Planning to take time off from college to help relative recover from a serious illness",
     objectives: [
-      {id: uuid.v4(), title: "Monthly Salary", description: "", isNumericScale: true},
+      {
+        id: uuid.v4(), 
+        title: "Monthly Salary", 
+        description: "", 
+        isNumericScale: true},
       {
         id: uuid.v4(), 
         title: "Flexibility", 
         description: "need to able to deal with emergencies",
         isNumericScale: false,
         grades: [
-          {title: "High"},
-          {title: "Medium"},
-          {title: "Low"}
+          {id: uuid.v4(), title: "High"},
+          {id: uuid.v4(), title: "Medium"},
+          {id: uuid.v4(), title: "Low"}
         ]
       },
-      {id: uuid.v4(), title: "Business Skills Development", description: "gain some experience that will useful when I return school", isNumericScale: false},
-      {id: uuid.v4(), title: "Annual vacation days", description: "", isNumericScale: false},
-      {id: uuid.v4(), title: "Benefits", description: "", isNumericScale: false},
-      {id: uuid.v4(), title: "Enjoyment", description: "", isNumericScale: false}
+      {
+        id: uuid.v4(), 
+        title: "Business Skills Development", 
+        description: "gain some experience that will useful when I return school", 
+        isNumericScale: false,
+        grades: [
+          {id: uuid.v4(), title: "Many"},
+          {id: uuid.v4(), title: "Few"},
+          {id: uuid.v4(), title: "None"}
+        ]
+      },
+      {
+        id: uuid.v4(), 
+        title: "Annual vacation days", 
+        description: "", 
+        isNumericScale: true
+      },
+      {
+        id: uuid.v4(), 
+        title: "Benefits", 
+        description: "", 
+        isNumericScale: true
+      },
+      {
+        id: uuid.v4(), 
+        title: "Enjoyment",
+        description: "", 
+        isNumericScale: true
+      }
     ],
     alternatives: [
       {id: uuid.v4(), title: "Job A", description: ""},

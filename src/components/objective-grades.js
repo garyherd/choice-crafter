@@ -37,37 +37,11 @@ class Grades extends Component {
     }
 
     render() {
-        /*let items = [];
-
-        if (this.props.listItems) {
-            items = this.props.listItems.map((item) => {
-
-              return (
-                <ObjectiveGrade key={item.id} 
-                    listItem={item} 
-                    update={this.props.updateListItem}
-                    remove={this.removeListItem.bind(this)}
-                    decisionId={this.props.decision.decisionId}/>
-              );                     
-            });
-        }*/
-
-        /*const sortableList = SortableContainer(({items}) => {
-          return (
-            <ListGroup>
-              {items.map((value, index) => (
-                <SortableItem key={`item-${index}`} index={index} value={value} />
-              ))}
-            </ListGroup>
-          )
-        });*/
-
         return (
             <Panel>
                 <h3>{this.props.panelTitle}</h3>
                 <p>{this.props.panelText}</p>
                 {/*{sortableList}*/}
-                <Form onSubmit={this.handleSubmit}>
                     <FormGroup controlId="newObjective">
                         <FormControl
                             type="text"
@@ -77,29 +51,16 @@ class Grades extends Component {
                             value={this.state.newListItem.title || ''}
                         />
                     </FormGroup>
-                    <Button onClick={this.addItem} bsStyle="primary" bsSize="small">Add</Button>
-                </Form>                
+                    <Button 
+                        onClick={this.addItem} 
+                        bsStyle="primary" 
+                        bsSize="small">
+                        Add
+                    </Button>     
                 <br/>
             </Panel>
         );
     }
 }
 
-class SortableGrades extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { grades: this.props.grades};
-  }
-
-  onSortEnd = ({oldIndex, newIndex}) => {
-    this.setState({
-      items: arrayMove(this.state.grades, oldIndex, newIndex),
-    });
-  };
-  render() {
-    return <Grades items={this.state.grades} onSortEnd={this.onSortEnd}/>;
-  }  
-
-}
-
-export default SortableGrades;
+export default Grades;

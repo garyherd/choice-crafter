@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 // import { Navbar, Nav, NavItem} from 'react-bootstrap';
 
 import { browserHistory } from 'react-router';
+import uuid from 'uuid';
 
 import NavbarInstance from './components/navbar';
 import DECISIONS_Arr from './data.js';
@@ -88,6 +89,8 @@ class App extends Component {
   }
 
   handleAddObjective(decisionId, newObjective) {
+    newObjective.isNumericScale = true;
+    newObjective.grades = [];
     let decisionsCopy = this.state.decisions.slice();
     let targetDecision = decisionsCopy.filter((decision) => {
       return decision.decisionId === decisionId;

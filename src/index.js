@@ -16,7 +16,7 @@ import SignIn from './components/signin';
 import { ProbObjsAlts } from './components/prob-obj-alt';
 import { Consequences } from './components/consequences';
 import { TradeOffs } from './components/tradeoffs';
-import ListHolder from './components/listholder';
+import { ListHolder } from './components/listholder';
 
 // CSS & Other
 import './index.css';

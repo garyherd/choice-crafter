@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import { Row, Col, Panel, Button, ListGroupItem, Form, FormControl, FormGroup, Checkbox, ControlLabel } from 'react-bootstrap';
 import SortableGrades from './objective-grades';
+import { SortableList, SortableItem, SortableGradesComponent } from './listholder';
 
 class Objective extends Component {
     constructor(props) {
@@ -37,25 +38,30 @@ class Objective extends Component {
     }
 
     render() {
-        let listItem = null;
-        /*let grades = (
-            <EditableListBoxes
-                decision={decision} //this might need to be objective
-                updateListItem={} //this.props.updateGrades
-                addListItem={} //this.props.addGrade
-                removeListItem={} //this.props.removeGrade
-                panelTitle="Grades"
-                panelText=""
-                listItems={} //this.props.grades
-                itemsType="grades"/>
-        )*/
+        let grades = null;
+
+        if (!this.state.isNumericScale) {
+            grades = (
+                <Col xs={12}>
+                    {/*<p>Alternative scale in rank order</p>    */}
+                    <SortableGradesComponent items={this.props.listItem.grades}/>
+                </Col>
+            )
+        } else {
+            grades = (
+                <Col xs={12}>
+                </Col>
+            )
+        }
+
+        let objective = null;
 
         if (this.state.mode === "view") {
-            listItem = (
+            objective = (
                 <ListGroupItem onClick={this.handleClick}>{this.state.title}</ListGroupItem>
             );
         } else {
-            listItem = (
+            objective = (
                 <Panel>
                     <FormGroup controlId="editListItem">
                         <ControlLabel srOnly={true}>Objective Title</ControlLabel>
@@ -73,16 +79,7 @@ class Objective extends Component {
                         onChange={this.handleInputChange}>
                         Use a numeric scale
                     </Checkbox>
-                    <p>Alternative scale in rank order</p>                    
-                    <Row>
-                        <Col sm={6}>
-                            <ol>
-                                <li>A</li>
-                                <li>B</li>
-                                <li>C</li>
-                            </ol>
-                        </Col>
-                    </Row>
+                    <Row>{grades}</Row>
                     <Button bsStyle="primary" bsSize="small" onClick={this.handleClick}>Save</Button>
                     <Button bsStyle="danger" bsSize="small" onClick={this.handleRemoveItem.bind(this, this.props.listItem.id)} className="pull-right">Delete</Button>
 
@@ -91,7 +88,7 @@ class Objective extends Component {
         }
 
         return (
-            <div>{listItem}</div>
+            <div>{objective}</div>
         );
     }
 }

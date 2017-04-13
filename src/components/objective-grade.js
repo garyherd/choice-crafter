@@ -5,24 +5,17 @@ import {SortableContainer, SortableElement, SortableHandle, arrayMove} from 'rea
 
 
 
+
 class ObjectiveGrade extends Component {
     constructor(props) {
         super(props);
-        this.state = {mode: "view", title: this.props.listItem.title};
+        this.state = {mode: "view", title: this.props.title};
         this.handleClick = this.handleClick.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
-        // this.handleRemoveItem = this.handleRemoveItem.bind(this, this.props.listItem.id);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleClick() {
         this.state.mode === "view" ? this.setState({mode: "edit"}) : this.setState({mode: "view"});
-    }
-
-    handleSubmit(e) {
-      e.preventDefault();
-      
-      
     }
 
     handleInputChange(event) {
@@ -42,33 +35,46 @@ class ObjectiveGrade extends Component {
     }
 
     render() {
-        let listItem = null;
+        let grade = null;
+
+        let cursorStyle = {
+            cursor: 'ns-resize'
+        }
 
         if (this.state.mode === "view") {
-            listItem = (
-                <ListGroupItem onClick={this.handleClick}>{this.state.title}</ListGroupItem>
+            grade = (
+                <ListGroupItem><a onClick={this.handleClick}>{this.state.title}</a></ListGroupItem>
             );
         } else {
-            listItem = (
+            grade = (
                 <Panel>
-                    <Form onSubmit={this.handleSubmit}>
-                        <FormGroup controlId="editListItem">
-                            <FormControl
-                                type="text"
-                                name="title"
-                                placeholder={this.props.placeholderText}
-                                value={this.state.title}
-                                onChange={this.handleInputChange}
-                            />
-                        </FormGroup>
-                        <Button bsStyle="primary" bsSize="small" onClick={this.handleClick}>Save</Button>
-                        <Button bsStyle="danger" bsSize="small" onClick={this.handleRemoveItem.bind(this, this.props.listItem.id)} className="pull-right">Delete</Button>
-                    </Form>
+                    <FormGroup controlId="editListItem">
+                        <FormControl
+                            type="text"
+                            name="title"
+                            placeholder={this.props.placeholderText}
+                            value={this.state.title}
+                            onChange={this.handleInputChange}
+                        />
+                    </FormGroup>
+                    <Button 
+                        bsStyle="primary" 
+                        bsSize="xs" 
+                        onClick={this.handleClick}>
+                        Save
+                    </Button>
+                    <Button 
+                        bsStyle="danger" 
+                        bsSize="xs" 
+                        onClick={this.handleRemoveItem.bind(this, this.props.id)} 
+                        className="pull-right">
+                        Delete
+                    </Button>
                 </Panel>
             );
         }
         return (
-            <div>{listItem}</div>
+            <div>{grade}</div>
         );
     }
 }
