@@ -49,10 +49,15 @@ class SortableGradesComponent extends Component {
       items: arrayMove(this.state.items, oldIndex, newIndex),
     });
   };
+
+  addGrade () {
+    console.log('local addGrade executed');
+  }
+  
   render() {
 
     const addButton = (
-      <Button onClick={this.addItem} bsStyle="primary" bsSize="small">Add</Button> 
+      <Button onClick={this.addGrade} bsStyle="primary" bsSize="small">Add</Button> 
     );
 
     return (

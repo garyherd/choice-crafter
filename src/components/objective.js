@@ -43,7 +43,6 @@ class Objective extends Component {
         if (!this.state.isNumericScale) {
             grades = (
                 <Col xs={12}>
-                    {/*<p>Alternative scale in rank order</p>    */}
                     <SortableGradesComponent items={this.props.listItem.grades}/>
                 </Col>
             )
@@ -82,7 +81,6 @@ class Objective extends Component {
                     <Row>{grades}</Row>
                     <Button bsStyle="primary" bsSize="small" onClick={this.handleClick}>Save</Button>
                     <Button bsStyle="danger" bsSize="small" onClick={this.handleRemoveItem.bind(this, this.props.listItem.id)} className="pull-right">Delete</Button>
-
                 </Panel>
             );
         }
