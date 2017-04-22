@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 
 import { Row, Col, Panel, Button, ListGroupItem, Form, FormControl, FormGroup, Checkbox, ControlLabel } from 'react-bootstrap';
-import SortableGrades from './objective-grades';
-import { SortableList, SortableItem, SortableGradesComponent } from './listholder';
+
 
 class Objective extends Component {
     constructor(props) {
@@ -15,10 +14,6 @@ class Objective extends Component {
 
     handleClick() {
         this.state.mode === "view" ? this.setState({mode: "edit"}) : this.setState({mode: "view"});
-    }
-
-    handleSubmit(e) {
-      e.preventDefault();    
     }
 
     handleInputChange(event) {
@@ -38,20 +33,6 @@ class Objective extends Component {
     }
 
     render() {
-        let grades = null;
-
-        if (!this.state.isNumericScale) {
-            grades = (
-                <Col xs={12}>
-                    <SortableGradesComponent items={this.props.listItem.grades}/>
-                </Col>
-            )
-        } else {
-            grades = (
-                <Col xs={12}>
-                </Col>
-            )
-        }
 
         let objective = null;
 
@@ -71,14 +52,7 @@ class Objective extends Component {
                             value={this.state.title}
                             onChange={this.handleInputChange}
                         />
-                    </FormGroup>
-                    <Checkbox
-                        name="isNumericScale" 
-                        checked={this.state.isNumericScale} 
-                        onChange={this.handleInputChange}>
-                        Use a numeric scale
-                    </Checkbox>
-                    <Row>{grades}</Row>
+                    </FormGroup> 
                     <Button bsStyle="primary" bsSize="small" onClick={this.handleClick}>Save</Button>
                     <Button bsStyle="danger" bsSize="small" onClick={this.handleRemoveItem.bind(this, this.props.listItem.id)} className="pull-right">Delete</Button>
                 </Panel>
