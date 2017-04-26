@@ -9,7 +9,6 @@ class Objective extends Component {
         this.state = {mode: "view", title: this.props.listItem.title, isNumericScale: this.props.listItem.isNumericScale};
         this.handleClick = this.handleClick.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleClick() {
