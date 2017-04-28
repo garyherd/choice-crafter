@@ -1,6 +1,59 @@
 import React, { Component } from 'react';
 
-import { Row, Col, Table, FormControl } from 'react-bootstrap';
+import { Row, Col, Table, Form, FormControl, FormGroup, Button } from 'react-bootstrap';
+
+class EditableCell extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {mode: "view", data: this.props.cellData};
+        this.handleClick = this.handleClick.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    } 
+
+    handleClick() {
+        this.state.mode === "view" ? this.setState({mode: "edit"}) : this.setState({mode: "view"});
+    }
+
+    handleSubmit(e) {
+      e.preventDefault();  
+    }
+
+    handleInputChange(event) {
+        const target = event.target;
+        const name = target.name;
+        const value = target.value
+        this.setState({cellData: event.target.value});
+    }    
+
+    render() {
+
+        let data = null;
+
+        if (this.state.mode === "view") {
+            data = (<div onClick={this.handleClick}>{this.state.data}</div>);
+        } else {
+            data = (
+                <Form onSubmit={this.handleSubmit}>
+                    <FormGroup controlId="editCellData">
+                        <FormControl
+                            type="text"
+                            name="title"
+                            value={this.state.cellData}
+                            onChange={this.handleInputChange}
+                        />
+                    </FormGroup>
+                    <Button bsStyle="primary" bsSize="xsmall" onClick={this.handleClick}>Save</Button>
+                </Form>
+            );            
+        }
+
+        return (
+            <td>{data}</td>
+        );
+    }
+}
+
 
 class ConsequencesTable extends Component {
 
@@ -11,12 +64,13 @@ class ConsequencesTable extends Component {
         );
 
         let scales = this.props.objectives.map((objective) => 
-            <td key={objective.id}><input type="text" value={objective.scale} className="form-control"/></td>
+            // <td key={objective.id}><input type="text" value={objective.scale} className="form-control"/></td>
+            <EditableCell key={objective.id} cellData={objective.scale} />
         );
 
         let minsMaxs = this.props.objectives.map((objective) => 
             <td key={objective.id}>{objective.minMax}</td>
-        );  
+        );
 
         let units = this.props.objectives.map((objective) => 
             <td key={objective.id}>{objective.unit}</td>
