@@ -1,38 +1,68 @@
 import React, { Component } from 'react';
 
-import { Row, Col } from 'react-bootstrap';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import { Row, Col, Table, FormControl } from 'react-bootstrap';
 
-import Problem from './problem';
+class ConsequencesTable extends Component {
+
+    render() {
+
+        let headers = this.props.objectives.map((objective) => 
+            <th key={objective.id}>{objective.title}</th>
+        );
+
+        let scales = this.props.objectives.map((objective) => 
+            <td key={objective.id}><input type="text" value={objective.scale} className="form-control"/></td>
+        );
+
+        let minsMaxs = this.props.objectives.map((objective) => 
+            <td key={objective.id}>{objective.minMax}</td>
+        );  
+
+        let units = this.props.objectives.map((objective) => 
+            <td key={objective.id}>{objective.unit}</td>
+        );               
+
+        return (
+            <Table responsive>
+                <thead>
+                    <tr>
+                        <th></th>
+                        {headers}    
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    <tr>
+                        <td><strong>Scale</strong></td>
+                        {scales}
+                    </tr>
+                    <tr>
+                        <td><strong>Min/Max</strong></td>
+                        {minsMaxs}
+                    </tr>
+                    <tr>
+                        <td><strong>Unit</strong></td>
+                        {units}
+                    </tr>
+                </tbody>
+            </Table>
+        );
+    }
+}
+
 
 
 
 class Consequences extends Component {
 
-    products = [];
-
-    addProducts(quantity) {
-        const startId = this.products.length;
-        for (let i = 0; i < quantity; i++) {
-            const id = startId + i;
-            this.products.push({
-            id: id,
-            name: 'Item name ' + id,
-            price: 2100 + i
-            });
-        }
-    }
-
     render() {
 
-        this.addProducts(5);
+        let table = <ConsequencesTable objectives={this.props.decision.objectives} />;
 
         return (
-            <BootstrapTable data={ this.products }>
-                <TableHeaderColumn dataField='id' isKey={ true }>Product ID</TableHeaderColumn>
-                <TableHeaderColumn dataField='name'>Product Name</TableHeaderColumn>
-                <TableHeaderColumn dataField='price'>Product Price</TableHeaderColumn>
-            </BootstrapTable>
+            <div>
+                {table}
+            </div>
         );
     }
 }

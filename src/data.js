@@ -12,46 +12,49 @@ const DECISIONS_Arr = [
         id: uuid.v4(), 
         title: "Monthly Salary", 
         description: "", 
-        isNumericScale: true},
+        scale: "Continuous",
+        minMax: "Maximize",
+        unit: "$"
+      },
       {
         id: uuid.v4(), 
         title: "Flexibility", 
         description: "need to able to deal with emergencies",
-        isNumericScale: false,
-        grades: [
-          {id: uuid.v4(), title: "High"},
-          {id: uuid.v4(), title: "Medium"},
-          {id: uuid.v4(), title: "Low"}
-        ]
+        scale: "H/M/L",
+        minMax: "Maximize",
+        unit: ""
       },
       {
         id: uuid.v4(), 
         title: "Business Skills Development", 
         description: "gain some experience that will useful when I return school", 
-        isNumericScale: false,
-        grades: [
-          {id: uuid.v4(), title: "Many"},
-          {id: uuid.v4(), title: "Few"},
-          {id: uuid.v4(), title: "None"}
-        ]
+        scale: "H/M/L",
+        minMax: "Maximize",
+        unit: ""
       },
       {
         id: uuid.v4(), 
         title: "Annual vacation days", 
         description: "", 
-        isNumericScale: true
+        scale: "Continous",
+        minMax: "Maximize",
+        unit: "days"
       },
       {
         id: uuid.v4(), 
         title: "Benefits", 
         description: "", 
-        isNumericScale: true
+        scale: "H/M/L",
+        minMax: "Maximize",
+        unit: ""
       },
       {
         id: uuid.v4(), 
         title: "Enjoyment",
         description: "", 
-        isNumericScale: true
+        scale: "H/M/L",
+        minMax: "Maximize",
+        unit: ""
       }
     ],
     alternatives: [

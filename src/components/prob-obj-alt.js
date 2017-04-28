@@ -5,27 +5,6 @@ import { Row, Col } from 'react-bootstrap';
 import Problem from './problem';
 import EditableListBoxes from './editable-listboxes';
 
-class Consequences extends Component {
-    render() {
-        return (
-            <div>
-                This will be the Consequences tab
-            </div>
-        );
-    }
-}
-
-class TradeOffs extends Component {
-    render() {
-        return (
-            <div>
-                This will be the TradeOffs tab
-            </div>
-        );
-    }
-}
-
-
 class ProbObjsAlts extends Component {
 
     render() {
@@ -86,4 +65,4 @@ class ProbObjsAlts extends Component {
     }
 }
 
-export { ProbObjsAlts, Consequences, TradeOffs };
+export { ProbObjsAlts };
