@@ -20,10 +20,10 @@ class EditableCell extends Component {
     }
 
     handleInputChange(event) {
-        const target = event.target;
-        const name = target.name;
-        const value = target.value
-        this.setState({cellData: event.target.value});
+        // const target = event.target;
+        // const name = target.name;
+        // const value = target.value
+        this.setState({data: event.target.value});
     }    
 
     render() {
@@ -31,15 +31,17 @@ class EditableCell extends Component {
         let data = null;
 
         if (this.state.mode === "view") {
-            data = (<div onClick={this.handleClick}>{this.state.data}</div>);
+            data = (
+                <div onClick={this.handleClick}>{this.state.data}</div>
+            );
         } else {
             data = (
-                <Form onSubmit={this.handleSubmit}>
+                <Form inline onSubmit={this.handleSubmit}>
                     <FormGroup controlId="editCellData">
                         <FormControl
                             type="text"
                             name="title"
-                            value={this.state.cellData}
+                            value={this.state.data}
                             onChange={this.handleInputChange}
                         />
                     </FormGroup>
