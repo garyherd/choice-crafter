@@ -33,6 +33,11 @@ class DecisionDetail extends Component {
     this.props.updateProblem(decision.decisionId, title, description);
   }
 
+  updateAlternative(alternativeId, title) {
+    let decision = this.getDecision();
+    this.props.updateAlternative(decision.decisionId, alternativeId, title);    
+  }
+
   renderChildren() {
 
     return React.Children.map(this.props.children, child => {
@@ -42,7 +47,7 @@ class DecisionDetail extends Component {
         updateObjective: this.props.updateObjective,
         addObjective: this.props.addObjective,
         removeObjective: this.props.removeObjective,
-        updateAlternative: this.props.updateAlternative,
+        updateAlternative: this.updateAlternative,
         addAlternative: this.props.addAlternative,
         removeAlternative: this.props.removeAlternative
       });
