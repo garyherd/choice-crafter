@@ -10,6 +10,7 @@ class DecisionDetail extends Component {
     super(props);
     this.renderChildren = this.renderChildren.bind(this);
     this.getDecision = this.getDecision.bind(this);
+    this.updateProblem = this.updateProblem.bind(this);
   }
 
   getDecision() {
@@ -24,8 +25,12 @@ class DecisionDetail extends Component {
       return decision.decisionId == this.props.params.decisionId
     })[0];
 
-
     return userDecision;
+  }
+
+  updateProblem(title, description) {
+    let decision = this.getDecision();
+    this.props.updateProblem(decision.decisionId, title, description);
   }
 
   renderChildren() {
@@ -33,7 +38,7 @@ class DecisionDetail extends Component {
     return React.Children.map(this.props.children, child => {
       return React.cloneElement(child, {
         decision: this.getDecision(),
-        updateProblem: this.props.updateProblem,
+        updateProblem: this.updateProblem,
         updateObjective: this.props.updateObjective,
         addObjective: this.props.addObjective,
         removeObjective: this.props.removeObjective,

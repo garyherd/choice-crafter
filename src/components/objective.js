@@ -1,3 +1,5 @@
+//TODO: No longer used; delete this before deployment
+
 import React, { Component } from 'react';
 
 import { Row, Col, Panel, Button, ListGroupItem, Form, FormControl, FormGroup, Checkbox, ControlLabel } from 'react-bootstrap';

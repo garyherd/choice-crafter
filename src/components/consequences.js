@@ -19,36 +19,61 @@ class EditableCell extends Component {
       e.preventDefault();  
     }
 
+    // handleInputChange(event) {
+    //     this.setState({data: event.target.value});
+    // }
+
     handleInputChange(event) {
-        // const target = event.target;
-        // const name = target.name;
-        // const value = target.value
-        this.setState({data: event.target.value});
-    }    
+        const target = event.target;
+        const name = target.name;
+        const value = target.value
+        this.setState({data: value}, () => {
+            this.props.update(this.props.decisionId, this.props.id, { [name]:this.state.data});
+        });
+    }   
 
     render() {
 
         let data = null;
+        let formControl = null;
 
         if (this.state.mode === "view") {
-            data = (
-                <div onClick={this.handleClick}>{this.state.data}</div>
-            );
+
+            if (this.state.data === "") {
+                data = (
+                    <Form inline onSubmit={this.handleSubmit}>
+                        <FormGroup controlId="editCellData">
+                            <FormControl
+                                type="text"
+                                name={this.props.updateField}
+                                placeholder = "Enter scale"
+                                onChange={this.handleInputChange}
+                            />
+                        </FormGroup>
+                        <Button bsStyle="primary" bsSize="xsmall" onClick={this.handleClick}>Save</Button>
+                    </Form>
+                );                 
+            } else {
+                data = (
+                    <div onClick={this.handleClick}>{this.state.data}</div>
+                );               
+            }
+
         } else {
             data = (
                 <Form inline onSubmit={this.handleSubmit}>
                     <FormGroup controlId="editCellData">
-                        <FormControl
-                            type="text"
-                            name="title"
-                            value={this.state.data}
-                            onChange={this.handleInputChange}
-                        />
+                            <FormControl
+                                type="text"
+                                name={this.props.updateField}
+                                value={this.state.data}
+                                onChange={this.handleInputChange}
+                            />
                     </FormGroup>
                     <Button bsStyle="primary" bsSize="xsmall" onClick={this.handleClick}>Save</Button>
                 </Form>
             );            
-        }
+        }   
 
         return (
             <td>{data}</td>
@@ -67,7 +92,7 @@ class ConsequencesTable extends Component {
 
         let scales = this.props.objectives.map((objective) => 
             // <td key={objective.id}><input type="text" value={objective.scale} className="form-control"/></td>
-            <EditableCell key={objective.id} cellData={objective.scale} />
+            <EditableCell decisionId ={this.props.decisionId} key={objective.id} id={objective.id} cellData={objective.scale} updateField="scale" update={this.props.update} />
         );
 
         let minsMaxs = this.props.objectives.map((objective) => 
@@ -113,7 +138,7 @@ class Consequences extends Component {
 
     render() {
 
-        let table = <ConsequencesTable objectives={this.props.decision.objectives} />;
+        let table = <ConsequencesTable decisionId={this.props.decision.decisionId} objectives={this.props.decision.objectives} update={this.props.updateObjective} />;
 
         return (
             <div>

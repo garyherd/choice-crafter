@@ -56,7 +56,7 @@ class App extends Component {
   }
  
 
-  handleUpdateObjective(decisionId, objectiveId, newTitle) {
+  handleUpdateObjective(decisionId, objectiveId, newItem) {
 
     let decisionsCopy = this.state.decisions.slice();
     let targetDecision = decisionsCopy.filter((decision) => {
@@ -67,8 +67,9 @@ class App extends Component {
       return objective.id === objectiveId;
     })[0];
 
-    if (newTitle) {
-      targetObjective.title = newTitle;
+    if (newItem) {
+      let key = Object.keys(newItem)[0];
+      targetObjective[key] = newItem[key];
     }
 
     let spliceStart = targetDecision.objectives.findIndex((objectiveObj) => {
@@ -89,8 +90,9 @@ class App extends Component {
   }
 
   handleAddObjective(decisionId, newObjective) {
-    newObjective.isNumericScale = true;
-    newObjective.grades = [];
+    newObjective.scale = "";
+    newObjective.minMax = "";
+    newObjective.unit = " ";
     let decisionsCopy = this.state.decisions.slice();
     let targetDecision = decisionsCopy.filter((decision) => {
       return decision.decisionId === decisionId;
@@ -162,6 +164,7 @@ class App extends Component {
   } 
 
   handleAddAlternative(decisionId, newAlternative) {
+
     let decisionsCopy = this.state.decisions.slice();
     let targetDecision = decisionsCopy.filter((decision) => {
       return decision.decisionId === decisionId;

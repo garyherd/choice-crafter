@@ -3,14 +3,12 @@ import React, { Component } from 'react';
 import { Panel, Button, ListGroupItem, Form, FormControl, FormGroup } from 'react-bootstrap';
 
 
-
 class EditableListBox extends Component {
     constructor(props) {
         super(props);
         this.state = {mode: "view", title: this.props.listItem.title};
         this.handleClick = this.handleClick.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
-        // this.handleRemoveItem = this.handleRemoveItem.bind(this, this.props.listItem.id);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -29,7 +27,7 @@ class EditableListBox extends Component {
         const name = target.name;
         const value = target.value
         this.setState({[name]: value}, () => {
-            this.props.update(this.props.decisionId, this.props.listItem.id, this.state[name]);
+            this.props.update(this.props.decisionId, this.props.listItem.id, { [name]:this.state[name]});
         });
     }
 

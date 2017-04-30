@@ -5,7 +5,6 @@ import { Panel, Button, ListGroup, Form, FormControl, FormGroup } from 'react-bo
 import uuid from 'uuid';
 
 import EditableListBox from './editable-listbox';
-import Objective from './objective';
 
 class EditableListBoxes extends Component {
     constructor(props) {
@@ -40,24 +39,13 @@ class EditableListBoxes extends Component {
 
         if (this.props.listItems) {
             items = this.props.listItems.map((item) => {
-
-                if (this.props.itemsType === "objectives") {
-                    return (
-                        <Objective key={item.id} 
-                            listItem={item} 
-                            update={this.props.updateListItem}
-                            remove={this.removeListItem.bind(this)}
-                            decisionId={this.props.decision.decisionId}/>
-                    );                   
-                } else {
-                     return (
-                        <EditableListBox key={item.id} 
-                            listItem={item} 
-                            update={this.props.updateListItem}
-                            remove={this.removeListItem.bind(this)}
-                            decisionId={this.props.decision.decisionId}/>
-                    );                     
-                }
+                return (
+                    <EditableListBox key={item.id} 
+                        listItem={item} 
+                        update={this.props.updateListItem}
+                        remove={this.removeListItem.bind(this)}
+                        decisionId={this.props.decision.decisionId}/>
+                );                     
             });
         }
 
