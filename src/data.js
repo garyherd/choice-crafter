@@ -3,7 +3,7 @@ import uuid from 'uuid';
 
 const DECISIONS_Arr = [
   {
-    decisionId: 0,
+    decisionId: uuid.v4(),
     uid: 'Fg7D7hAan5QHE3jcdo6n64QYS4a2', 
     decisionShort: "Which job should I take?",
     decisionLong: "Planning to take time off from college to help relative recover from a serious illness",
@@ -100,7 +100,7 @@ const DECISIONS_Arr = [
     createdDate: "3/10/2017",
   },
   {
-    decisionId: 1,
+    decisionId: uuid.v4(),
     uid: '4', 
     decisionShort: "Which job should I take?",
     decisionLong: "Planning to take time off from college to help relative recover from a serious illness",

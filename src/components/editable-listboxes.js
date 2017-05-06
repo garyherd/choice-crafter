@@ -25,7 +25,6 @@ class EditableListBoxes extends Component {
 
     handleInputChange(event) {
         const target = event.target;
-        const name = target.name;
         const value = target.value
         this.setState({newListItem: {id: uuid.v4(), title: value, description: ""}});
     }

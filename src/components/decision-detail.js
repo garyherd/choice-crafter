@@ -11,6 +11,7 @@ class DecisionDetail extends Component {
     this.renderChildren = this.renderChildren.bind(this);
     this.getDecision = this.getDecision.bind(this);
     this.updateProblem = this.updateProblem.bind(this);
+    this.updateAlternative = this.updateProblem.bind(this);
   }
 
   getDecision() {
@@ -18,11 +19,11 @@ class DecisionDetail extends Component {
     let userDecision = {};
 
     userDecisions = this.props.decisions.filter((decision) => {
-      return decision.uid == this.props.params.userId
+      return decision.uid === this.props.params.userId
     });
 
     userDecision = userDecisions.filter((decision) => {
-      return decision.decisionId == this.props.params.decisionId
+      return decision.decisionId === this.props.params.decisionId
     })[0];
 
     return userDecision;
@@ -31,11 +32,6 @@ class DecisionDetail extends Component {
   updateProblem(title, description) {
     let decision = this.getDecision();
     this.props.updateProblem(decision.decisionId, title, description);
-  }
-
-  updateAlternative(alternativeId, title) {
-    let decision = this.getDecision();
-    this.props.updateAlternative(decision.decisionId, alternativeId, title);    
   }
 
   renderChildren() {
@@ -47,7 +43,7 @@ class DecisionDetail extends Component {
         updateObjective: this.props.updateObjective,
         addObjective: this.props.addObjective,
         removeObjective: this.props.removeObjective,
-        updateAlternative: this.updateAlternative,
+        updateAlternative: this.props.updateAlternative,
         addAlternative: this.props.addAlternative,
         removeAlternative: this.props.removeAlternative
       });

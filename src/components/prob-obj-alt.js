@@ -12,7 +12,6 @@ class ProbObjsAlts extends Component {
 
         let problem = (
             <Problem
-                uid={decision.uid}
                 title={decision.decisionShort} 
                 description={decision.decisionLong}
                 updateProblem={this.props.updateProblem}

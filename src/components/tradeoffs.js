@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 
-import { Row, Col } from 'react-bootstrap';
+//import { Row, Col } from 'react-bootstrap';
 
-import Problem from './problem';
 
 
 class TradeOffs extends Component {

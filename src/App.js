@@ -90,9 +90,10 @@ class App extends Component {
   }
 
   handleAddObjective(decisionId, newObjective) {
-    newObjective.scale = "";
-    newObjective.minMax = "";
-    newObjective.unit = " ";
+    newObjective.id = uuid.v4();
+    newObjective.scale = "(required)";
+    newObjective.minMax = "(required)";
+    newObjective.unit = "(required)";
     let decisionsCopy = this.state.decisions.slice();
     let targetDecision = decisionsCopy.filter((decision) => {
       return decision.decisionId === decisionId;
@@ -107,7 +108,7 @@ class App extends Component {
     decisionsCopy.splice(spliceStart, 1);
     decisionsCopy.splice(spliceStart, 0, targetDecision);
 
-    this.setState({decisions: decisionsCopy});       
+    this.setState({decisions: decisionsCopy});
   }
 
   handleRemoveObjective(decisionId, objectiveId) {
@@ -131,7 +132,7 @@ class App extends Component {
     this.setState({decisions: decisionsCopy});              
   }
 
-  handleUpdateAlternative(decisionId, alternativeId, newTitle) {
+  handleUpdateAlternative(decisionId, alternativeId, newItem) {
 
     let decisionsCopy = this.state.decisions.slice();
     let targetDecision = decisionsCopy.filter((decision) => {
@@ -142,8 +143,9 @@ class App extends Component {
       return alternative.id === alternativeId;
     })[0];
 
-    if (newTitle) {
-      targetAlternative.title = newTitle;
+    if (newItem) {
+      let key = Object.keys(newItem)[0];
+      targetAlternative[key] = newItem[key];
     }
 
     let spliceStart = targetDecision.alternatives.findIndex((alternative) => {
@@ -222,7 +224,7 @@ class App extends Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged(firebaseUser => {
       firebaseUser ? this.setState({ isLoggedIn: true, firebaseUser: firebaseUser, decisions: DECISIONS_Arr }) 
-      : this.setState({ isLoggedIn: false, firebaseUser: firebaseUser, decisions: DECISIONS_Arr });
+      : this.setState({ isLoggedIn: false, firebaseUser: firebaseUser, decisions: [] });
     });
   } 
 

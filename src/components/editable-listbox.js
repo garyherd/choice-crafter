@@ -6,7 +6,8 @@ import { Panel, Button, ListGroupItem, Form, FormControl, FormGroup } from 'reac
 class EditableListBox extends Component {
     constructor(props) {
         super(props);
-        this.state = {mode: "view", title: this.props.listItem.title};
+        // this.state = {mode: "view", title: this.props.listItem.title};
+        this.state = {mode: "view"};
         this.handleClick = this.handleClick.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -27,7 +28,7 @@ class EditableListBox extends Component {
         const name = target.name;
         const value = target.value
         this.setState({[name]: value}, () => {
-            this.props.update(this.props.decisionId, this.props.listItem.id, { [name]:this.state[name]});
+            this.props.update(this.props.decisionId, this.props.listItem.id, { [name]:value});
         });
     }
 
@@ -43,7 +44,7 @@ class EditableListBox extends Component {
 
         if (this.state.mode === "view") {
             listItem = (
-                <ListGroupItem onClick={this.handleClick}>{this.state.title}</ListGroupItem>
+                <ListGroupItem onClick={this.handleClick}>{this.props.listItem.title}</ListGroupItem>
             );
         } else {
             listItem = (
@@ -54,7 +55,7 @@ class EditableListBox extends Component {
                                 type="text"
                                 name="title"
                                 placeholder={this.props.placeholderText}
-                                value={this.state.title}
+                                value={this.props.listItem.title}
                                 onChange={this.handleInputChange}
                             />
                         </FormGroup>

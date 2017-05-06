@@ -25,8 +25,8 @@ class Decisions extends Component {
           </Col>
         </Row>
         <Row>
-          {userDecisions.map((decision, index) =>
-            <Col sm={12} key={index}>
+          {userDecisions.map((decision) =>
+            <Col sm={12} key={decision.decisionId}>
               <DecisionPanel decision={decision} />
             </Col>
           )}
