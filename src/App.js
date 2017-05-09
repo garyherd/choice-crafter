@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router';
 import uuid from 'uuid';
 
 import NavbarInstance from './components/navbar';
-import { DECISIONS_Arr, openDatabase } from './data.js';
+import { DECISIONS_Arr, openDatabase, getDecisions, db, output } from './data.js';
 
 import * as firebase from 'firebase';
 
@@ -228,6 +228,7 @@ class App extends Component {
     });
 
     openDatabase();
+
   } 
 
   handleFireBaseSignOut() {

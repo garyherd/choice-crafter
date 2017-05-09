@@ -102,6 +102,11 @@ const dbSeed = [
     decisionId: uuid.v4(),
     uid: 'Fg7D7hAan5QHE3jcdo6n64QYS4a2',
     decisionShort: "This is another decision"
+  },
+    {
+    decisionId: uuid.v4(),
+    uid: 'userNotLoggedIn',
+    decisionShort: "should I be an astronaut"
   }
 ];
 
@@ -260,7 +265,11 @@ const DECISIONS_Arr = [
   },  
 ]
 
+let db = null;
+let output = [];
+
 function openDatabase() {
+ 
 
   if (!indexedDB) {
     alert("Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available.");
@@ -270,8 +279,9 @@ function openDatabase() {
   let request = indexedDB.open("decisions", 1);
 
   request.onsuccess = (event) => {
-    console.log('Success: Opened database');
-    let db = event.target.result;
+    db = event.target.result;
+    getDecisions();
+
   }
 
   request.onerror = (event) => console.log('Error: Couldn\'t open database', event.error);
@@ -279,22 +289,43 @@ function openDatabase() {
 
   // Create an object store in the database.
   request.onupgradeneeded = (event) => {
-    let db = event.target.result;
+    db = event.target.result;
 
     let objectStore = db.createObjectStore("decisions", {keyPath: "decisionId", autoIncrement:false});
+    objectStore.createIndex("userDecisions", "uid", {unique: false});
 
     objectStore.transaction.oncomplete = (event) => {
       let decisionsObjectStore = db.transaction("decisions", "readwrite").objectStore("decisions");
       dbSeed.forEach(function(element) {
         decisionsObjectStore.add(element);
-        console.log(element);
-      }, this);
-        
+      }, this);      
     }
   }
+}
+
+function getDecisions(event) {
+  let transaction = db.transaction("decisions", "readonly");
+  console.log(db);
+  console.log(transaction);
+  // Ask for ObjectStore
+  let store = transaction.objectStore("decisions");
+  let index = store.index('userDecisions');
+  let singleKeyRange = IDBKeyRange.only('Fg7D7hAan5QHE3jcdo6n64QYS4a2');
+
+  index.openCursor(singleKeyRange).onsuccess = (event) => {
+    let cursor = event.target.result;
+    if (cursor) {
+      output.push(cursor.value);
+      cursor.continue();
+    }
+  }
+
+  console.log(output);
+
+}
+
   // Start a transaction and make a request to do some database operation, like adding or retrieving data.
   // Wait for the operation to complete by listening to the right kind of DOM event.
   // Do something with the results (which can be found on the request object).
-}
 
-export {DECISIONS_Arr, openDatabase };
+export {DECISIONS_Arr, openDatabase, getDecisions, db, output };
