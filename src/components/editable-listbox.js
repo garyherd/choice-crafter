@@ -40,7 +40,38 @@ class EditableListBox extends Component {
     }
 
     render() {
-        let listItem = null;
+
+        let viewState = (
+            <ListGroupItem onClick={this.handleClick}>{this.props.listItem.title}</ListGroupItem>
+        );
+
+        let editState = (
+            <Panel>
+                <Form onSubmit={this.handleSubmit}>
+                    <FormGroup controlId="editListItem">
+                        <FormControl
+                            type="text"
+                            name="title"
+                            placeholder={this.props.placeholderText}
+                            value={this.props.listItem.title}
+                            onChange={this.handleInputChange}
+                        />
+                    </FormGroup>
+                    <Button bsStyle="primary" bsSize="small" onClick={this.handleClick}>Save</Button>
+                    <Button bsStyle="danger" bsSize="small" onClick={this.handleRemoveItem.bind(this, this.props.listItem.id)} className="pull-right">Delete</Button>
+                </Form>
+            </Panel>            
+        );
+
+        let renderTypes = {
+            "view": viewState,
+            "edit": editState,
+            "default": editState
+        };
+
+        return renderTypes[this.state.mode] || renderTypes["default"];
+
+        /*let listItem = null;
 
         if (this.state.mode === "view") {
             listItem = (
@@ -67,7 +98,7 @@ class EditableListBox extends Component {
         }
         return (
             <div>{listItem}</div>
-        );
+        );*/
     }
 }
 

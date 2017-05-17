@@ -31,53 +31,34 @@ class EditableCell extends Component {
 
     render() {
 
-        let data = null;
-
         let viewState = (
-          <div onClick={this.handleClick}>{this.props.cellData}</div>
+          <td onClick={this.handleClick}>{this.props.cellData || "(required)"}</td>
         );
 
-        let newObjEditState = (
-          <Form inline onSubmit={this.handleSubmit}>
-              <FormGroup controlId="editCellData">
-                      <FormControl
-                          type="text"
-                          name={this.props.updateField}
-                          placeholder="required"
-                          value=""
-                          onChange={this.handleInputChange}
-                      />
-              </FormGroup>
-              <Button bsStyle="primary" bsSize="xsmall" onClick={this.handleClick}>Save</Button>
-          </Form>          
+        let editState = (
+          <td>
+              <Form inline onSubmit={this.handleSubmit}>
+                <FormGroup controlId="editCellData">
+                        <FormControl
+                            type="text"
+                            name={this.props.updateField}
+                            value={this.props.cellData}
+                            onChange={this.handleInputChange}
+                            placeholder="required"
+                        />
+                </FormGroup>
+                <Button bsStyle="primary" bsSize="xsmall" onClick={this.handleClick}>Save</Button>
+            </Form>
+          </td>
         );
 
-        let existingObjEditState = (
-          <Form inline onSubmit={this.handleSubmit}>
-            <FormGroup controlId="editCellData">
-                    <FormControl
-                        type="text"
-                        name={this.props.updateField}
-                        value={this.props.cellData}
-                        onChange={this.handleInputChange}
-                        placeholder="required"
-                    />
-            </FormGroup>
-            <Button bsStyle="primary" bsSize="xsmall" onClick={this.handleClick}>Save</Button>
-        </Form>         
-        )
+        let renderTypes = {
+            "view": viewState,
+            "edit": editState,
+            "default": editState
+        };
 
-        if (this.state.mode === "view") { data = viewState };
-
-        if (this.state.mode === "edit") {
-          this.props.cellData === "(required)" ? data = newObjEditState : data = existingObjEditState;
-        } else {
-          data = viewState
-        }
-
-        return (
-            <td>{data}</td>
-        );
+        return renderTypes[this.state.mode] || renderTypes["default"];
     }
 }
 
