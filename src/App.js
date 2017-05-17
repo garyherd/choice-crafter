@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router';
 import uuid from 'uuid';
 
 import NavbarInstance from './components/navbar';
-import { DECISIONS_Arr, openDatabase, getDecisions, db, output } from './data.js';
+import { DECISIONS_Arr, decisionsDB, refreshDecisions } from './data.js';
 
 import * as firebase from 'firebase';
 
@@ -28,6 +28,8 @@ class App extends Component {
     this.handleAddAlternative = this.handleAddAlternative.bind(this);
     this.handleRemoveObjective = this.handleRemoveObjective.bind(this);
     this.handleRemoveAlternative = this.handleRemoveAlternative.bind(this);
+    this.handleUpdateConsequence = this.handleUpdateConsequence.bind(this);
+    this.handleAddConsequence = this.handleAddConsequence.bind(this);
   }
 
   handleUpdateProblem(decisionId, newShortDesc, newLongDesc) {
@@ -205,6 +207,57 @@ class App extends Component {
     this.setState({decisions: decisionsCopy});    
   }
 
+  handleUpdateConsequence(decisionId, consequenceId, newItem) {
+    let decisionsCopy = this.state.decisions.slice();
+    let targetDecision = decisionsCopy.filter((decision) => {
+      return decision.decisionId === decisionId;
+    })[0];
+
+    let targetConsequence = targetDecision.consequences.filter((consequence) => {
+      return consequence.id === consequenceId;
+    })[0];
+
+    if (newItem) {
+      let key = Object.keys(newItem)[0];
+      targetConsequence[key] = newItem[key];
+    }
+
+    let spliceStart = targetDecision.consequences.findIndex((consequenceObj) => {
+      return consequenceObj.id === consequenceId;
+    });
+
+    targetDecision.consequences.splice(spliceStart, 1);
+    targetDecision.consequences.splice(spliceStart, 0, targetConsequence);
+
+    spliceStart = decisionsCopy.findIndex((decisionObj) => {
+      return decisionObj.decisionId === decisionId;
+    });
+
+    decisionsCopy.splice(spliceStart, 1);
+    decisionsCopy.splice(spliceStart, 0, targetDecision);
+
+    this.setState({decisions: decisionsCopy});        
+  }
+
+  handleAddConsequence(decisionId, newConsequence) {
+
+    let decisionsCopy = this.state.decisions.slice();
+    let targetDecision = decisionsCopy.filter((decision) => {
+      return decision.decisionId === decisionId;
+    })[0];
+
+    targetDecision.consequences.push(newConsequence);
+
+    let spliceStart = decisionsCopy.findIndex((decisionObj) => {
+      return decisionObj.decisionId === decisionId;
+    });
+
+    decisionsCopy.splice(spliceStart, 1);
+    decisionsCopy.splice(spliceStart, 0, targetDecision);
+
+    this.setState({decisions: decisionsCopy});  
+  }
+
   renderChildren() {
 
     return React.Children.map(this.props.children, child => {
@@ -216,7 +269,9 @@ class App extends Component {
         removeObjective: this.handleRemoveObjective,
         updateAlternative: this.handleUpdateAlternative,
         addAlternative: this.handleAddAlternative,
-        removeAlternative: this.handleRemoveAlternative
+        removeAlternative: this.handleRemoveAlternative,
+        updateConsequence: this.handleUpdateConsequence,
+        addConsequence: this.handleAddConsequence,
       });
     });
   }
@@ -227,7 +282,7 @@ class App extends Component {
       : this.setState({ isLoggedIn: false, firebaseUser: firebaseUser, decisions: [] });
     });
 
-    openDatabase();
+    decisionsDB.open(refreshDecisions);
 
   } 
 

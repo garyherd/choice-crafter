@@ -20,10 +20,6 @@ class EditableCell extends Component {
       e.preventDefault();  
     }
 
-    // handleInputChange(event) {
-    //     this.setState({data: event.target.value});
-    // }
-
     handleInputChange(event) {
         const target = event.target;
         const name = target.name;
@@ -31,7 +27,6 @@ class EditableCell extends Component {
         this.setState({[name]: value}, () => {
             this.props.update(this.props.decisionId, this.props.id, { [name]:value});
         });
-        //this.setState({data: value});
     }   
 
     render() {
@@ -79,25 +74,6 @@ class EditableCell extends Component {
         } else {
           data = viewState
         }
-
-        
-
-
-        /*} else {
-            data = (
-                <Form inline onSubmit={this.handleSubmit}>
-                    <FormGroup controlId="editCellData">
-                            <FormControl
-                                type="text"
-                                name={this.props.updateField}
-                                value={this.props.cellData}
-                                onChange={this.handleInputChange}
-                            />
-                    </FormGroup>
-                    <Button bsStyle="primary" bsSize="xsmall" onClick={this.handleClick}>Save</Button>
-                </Form>
-            );            
-        }   */
 
         return (
             <td>{data}</td>

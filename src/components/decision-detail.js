@@ -11,7 +11,7 @@ class DecisionDetail extends Component {
     this.renderChildren = this.renderChildren.bind(this);
     this.getDecision = this.getDecision.bind(this);
     this.updateProblem = this.updateProblem.bind(this);
-    this.updateAlternative = this.updateProblem.bind(this);
+    //this.updateAlternative = this.updateProblem.bind(this);
   }
 
   getDecision() {
@@ -45,7 +45,9 @@ class DecisionDetail extends Component {
         removeObjective: this.props.removeObjective,
         updateAlternative: this.props.updateAlternative,
         addAlternative: this.props.addAlternative,
-        removeAlternative: this.props.removeAlternative
+        removeAlternative: this.props.removeAlternative,
+        updateConsequence: this.props.updateConsequence,
+        addConsequence: this.props.addConsequence,
       });
     });
   }

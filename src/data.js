@@ -174,36 +174,37 @@ const DECISIONS_Arr = [
       {id: uuid.v4(), title: "Job E", description: ""},
     ],
     consequences: [
-      {objId: 0, altId: 0, title: 2000, description: ""},
-      {objId: 0, altId: 1, title: 2400, description: ""},
-      {objId: 0, altId: 2, title: 1800, description: ""},
-      {objId: 0, altId: 3, title: 1900, description: ""},
-      {objId: 0, altId: 4, title: 2200, description: ""},
-      {objId: 1, altId: 0, title: "moderate", description: ""},
-      {objId: 1, altId: 1, title: "low", description: ""},
-      {objId: 1, altId: 2, title: "high", description: ""},
-      {objId: 1, altId: 3, title: "moderate", description: ""},
-      {objId: 1, altId: 4, title: "none", description: ""},
-      {objId: 2, altId: 0, title: "computer", description: ""},
-      {objId: 2, altId: 1, title: "people management, computer", description: ""},
-      {objId: 2, altId: 2, title: "operations, computer", description: ""},
-      {objId: 2, altId: 3, title: "organization", description: ""},
-      {objId: 2, altId: 4, title: "time management, multitasking", description: ""}, 
-      {objId: 3, altId: 0, title: 14, description: ""},
-      {objId: 3, altId: 1, title: 12, description: ""},
-      {objId: 3, altId: 2, title: 10, description: ""},
-      {objId: 3, altId: 3, title: 15, description: ""},
-      {objId: 3, altId: 4, title: 12, description: ""},   
-      {objId: 4, altId: 0, title: "health, dental, retirement", description: ""},
-      {objId: 4, altId: 1, title: "health, dental", description: ""},
-      {objId: 4, altId: 2, title: "health", description: ""},
-      {objId: 4, altId: 3, title: "health, retirement", description: ""},
-      {objId: 4, altId: 4, title: "health, dental", description: ""}, 
-      {objId: 5, altId: 0, title: "great", description: ""},
-      {objId: 5, altId: 1, title: "good", description: ""},
-      {objId: 5, altId: 2, title: "good", description: ""},
-      {objId: 5, altId: 3, title: "great", description: ""},
-      {objId: 5, altId: 4, title: "boring", description: ""},                           
+      {id: uuid.v4(), objTitle: "Monthly Salary", altTitle: "Job A", score: 2000, description: ""},
+      {id: uuid.v4(), objTitle: "Monthly Salary", altTitle: "Job B", score: 2400, description: ""},
+      {id: uuid.v4(), objTitle: "Monthly Salary", altTitle: "Job C", score: 1800, description: ""},
+      {id: uuid.v4(), objTitle: "Monthly Salary", altTitle: "Job D", score: 1900, description: ""},
+      {id: uuid.v4(), objTitle: "Monthly Salary", altTitle: "Job E", score: 2200, description: ""},
+      {id: uuid.v4(), objTitle: "Flexibility", altTitle: "Job A", score: "none", description: ""},
+      {id: uuid.v4(), objTitle: "Flexibility", altTitle: "Job B", score: "none", description: ""},
+      {id: uuid.v4(), objTitle: "Flexibility", altTitle: "Job C", score: "none", description: ""},
+      {id: uuid.v4(), objTitle: "Flexibility", altTitle: "Job D", score: "none", description: ""},
+      {id: uuid.v4(), objTitle: "Flexibility", altTitle: "Job E", score: "none", description: ""},
+      {id: uuid.v4(), objTitle: "Business Skills Development", altTitle: "Job A", score: "none", description: ""},
+      {id: uuid.v4(), objTitle: "Business Skills Development", altTitle: "Job B", score: "none", description: ""},
+      {id: uuid.v4(), objTitle: "Business Skills Development", altTitle: "Job C", score: "none", description: ""},
+      {id: uuid.v4(), objTitle: "Business Skills Development", altTitle: "Job D", score: "none", description: ""},
+      {id: uuid.v4(), objTitle: "Business Skills Development", altTitle: "Job E", score: "none", description: ""},
+      {id: uuid.v4(), objTitle: "Business Skills Development", altTitle: "Job F", score: "none", description: ""},
+      {id: uuid.v4(), objTitle: "Annual vacation days", altTitle: "Job A", score: "none", description: ""},
+      {id: uuid.v4(), objTitle: "Annual vacation days", altTitle: "Job B", score: "none", description: ""},
+      {id: uuid.v4(), objTitle: "Annual vacation days", altTitle: "Job C", score: "none", description: ""},
+      {id: uuid.v4(), objTitle: "Annual vacation days", altTitle: "Job D", score: "none", description: ""},
+      {id: uuid.v4(), objTitle: "Annual vacation days", altTitle: "Job E", score: "none", description: ""},  
+      {id: uuid.v4(), objTitle: "Benefits", altTitle: "Job A", score: "none", description: ""}, 
+      {id: uuid.v4(), objTitle: "Benefits", altTitle: "Job B", score: "none", description: ""}, 
+      {id: uuid.v4(), objTitle: "Benefits", altTitle: "Job C", score: "none", description: ""}, 
+      {id: uuid.v4(), objTitle: "Benefits", altTitle: "Job D", score: "none", description: ""}, 
+      {id: uuid.v4(), objTitle: "Benefits", altTitle: "Job E", score: "none", description: ""},  
+      {id: uuid.v4(), objTitle: "Enjoyment", altTitle: "Job A", score: "none", description: ""},  
+      {id: uuid.v4(), objTitle: "Enjoyment", altTitle: "Job B", score: "none", description: ""},  
+      {id: uuid.v4(), objTitle: "Enjoyment", altTitle: "Job C", score: "none", description: ""},  
+      {id: uuid.v4(), objTitle: "Enjoyment", altTitle: "Job D", score: "none", description: ""},  
+      {id: uuid.v4(), objTitle: "Enjoyment", altTitle: "Job E", score: "none", description: ""},                            
     ],
     isActive: true,
     createdDate: "3/10/2017",
@@ -262,70 +263,116 @@ const DECISIONS_Arr = [
     ],
     isActive: true,
     createdDate: "3/10/2017",
-  },  
+  },
+    {
+    decisionId: uuid.v4(),
+    uid: 'Fg7D7hAan5QHE3jcdo6n64QYS4a2', 
+    decisionShort: "Should I get a tatoo?",
+    decisionLong: "Just filling up space, and for something reason, this popped in my head",
+    objectives: [
+
+    ],
+    alternatives: [
+    ],
+    consequences: [
+                      
+    ],
+    isActive: true,
+    createdDate: "5/16/2017",
+  },
 ]
 
-let db = null;
-let output = [];
+var decisionsDB = (function() {
+  var localDB = {}
+  var datastore = null;
 
-function openDatabase() {
- 
+  /**
+   * Open a connection to the datastore
+   */
 
-  if (!indexedDB) {
-    alert("Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available.");
-    return;
+  localDB.open = (callback) => {
+    // Database version
+    var version = 1;
+
+    // Open a connection to the datastore.
+    var request = indexedDB.open('decisions', version);
+
+    // Handle datastore upgrades
+    request.onupgradeneeded = (event) => {
+      var db = event.target.result;
+
+      event.target.transaction.onerror = localDB.onerror;
+
+      // Delete the old datastore.
+      if (db.objectStoreNames.contains('decisions')) {
+        db.deleteObjectStore('decisions');
+      }
+
+      // Create a new datastore
+      var store = db.createObjectStore('decisions', {keyPath: "decisionId", autoIncrement:false});
+      store.createIndex("userDecisions", "uid", { unique: false });
+    };
+
+    // Handle successful datastore access.
+    request.onsuccess = (event) => {
+      // Get a reference to the DB.
+      datastore = event.target.result;
+
+      // Execute the callback.
+      callback();
+    };
+
+    // Handle errors when opening the datastore.
+    request.onerror = localDB.onerror;
   }
-  // Open a database.
-  let request = indexedDB.open("decisions", 1);
+   // TODO: Add methods for interacting with the database here.
 
-  request.onsuccess = (event) => {
-    db = event.target.result;
-    getDecisions();
+  localDB.getDecisionsByUser = (userId, callback) => {
+    var db = datastore;
+    var transaction = db.transaction('decisions', 'readwrite');
+    var objStore = transaction.objectStore('decisions');
+    var index = objStore.index('userDecisions');
 
-  }
+    var keyRange = IDBKeyRange.only('Fg7D7hAan5QHE3jcdo6n64QYS4a2');
+    var cursorRequest = index.openCursor(keyRange);
 
-  request.onerror = (event) => console.log('Error: Couldn\'t open database', event.error);
+    var decisions = [];
 
+    transaction.oncomplete = (event) => {
+      //Execute the callback function.
+      callback(decisions);
+    };
 
-  // Create an object store in the database.
-  request.onupgradeneeded = (event) => {
-    db = event.target.result;
+    cursorRequest.onsuccess = (event) => {
+      var result = event.target.result;
 
-    let objectStore = db.createObjectStore("decisions", {keyPath: "decisionId", autoIncrement:false});
-    objectStore.createIndex("userDecisions", "uid", {unique: false});
+      if (!!result == false) {
+        return;
+      }
 
-    objectStore.transaction.oncomplete = (event) => {
-      let decisionsObjectStore = db.transaction("decisions", "readwrite").objectStore("decisions");
-      dbSeed.forEach(function(element) {
-        decisionsObjectStore.add(element);
-      }, this);      
-    }
-  }
+      decisions.push(result.value);
+      result.continue();
+    };
+
+    cursorRequest.onerror = localDB.onerror;
+  };
+
+  
+
+  // Export the localDB object
+  return localDB;
+}());
+
+function refreshDecisions() {
+  decisionsDB.getDecisionsByUser("abc", (decisions) => {
+  });
 }
 
-function getDecisions(event) {
-  let transaction = db.transaction("decisions", "readonly");
-  console.log(db);
-  console.log(transaction);
-  // Ask for ObjectStore
-  let store = transaction.objectStore("decisions");
-  let index = store.index('userDecisions');
-  let singleKeyRange = IDBKeyRange.only('Fg7D7hAan5QHE3jcdo6n64QYS4a2');
 
-  index.openCursor(singleKeyRange).onsuccess = (event) => {
-    let cursor = event.target.result;
-    if (cursor) {
-      output.push(cursor.value);
-      cursor.continue();
-    }
-  }
 
-  console.log(output);
-
-}
 
   // Start a transaction and make a request to do some database operation, like adding or retrieving data.
   // Wait for the operation to complete by listening to the right kind of DOM event.
   // Do something with the results (which can be found on the request object).
 
-export {DECISIONS_Arr, openDatabase, getDecisions, db, output };
+export {DECISIONS_Arr, decisionsDB, refreshDecisions };
