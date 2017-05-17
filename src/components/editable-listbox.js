@@ -71,34 +71,6 @@ class EditableListBox extends Component {
 
         return renderTypes[this.state.mode] || renderTypes["default"];
 
-        /*let listItem = null;
-
-        if (this.state.mode === "view") {
-            listItem = (
-                <ListGroupItem onClick={this.handleClick}>{this.props.listItem.title}</ListGroupItem>
-            );
-        } else {
-            listItem = (
-                <Panel>
-                    <Form onSubmit={this.handleSubmit}>
-                        <FormGroup controlId="editListItem">
-                            <FormControl
-                                type="text"
-                                name="title"
-                                placeholder={this.props.placeholderText}
-                                value={this.props.listItem.title}
-                                onChange={this.handleInputChange}
-                            />
-                        </FormGroup>
-                        <Button bsStyle="primary" bsSize="small" onClick={this.handleClick}>Save</Button>
-                        <Button bsStyle="danger" bsSize="small" onClick={this.handleRemoveItem.bind(this, this.props.listItem.id)} className="pull-right">Delete</Button>
-                    </Form>
-                </Panel>
-            );
-        }
-        return (
-            <div>{listItem}</div>
-        );*/
     }
 }
 
