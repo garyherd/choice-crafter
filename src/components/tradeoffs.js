@@ -1,30 +1,43 @@
 import React, { Component } from 'react';
 
-import { Row, Col, Panel } from 'react-bootstrap';
+import { Row, Col, Panel, ButtonToolbar, Button } from 'react-bootstrap';
+
+import { TradeOffsTable } from './tradeoffs-table';
 
 
 
 class TradeOffs extends Component {
     render() {
+        let table = <TradeOffsTable>This will be the consequences grid</TradeOffsTable>
         return (
-            /*<div>
-                This will be the TradeOffs tab
-            </div>*/
             <section>
                 <Row>
                     <Col sm={6}>
                         <Panel>
-                            <h5>To make and Even Swap trade-off:</h5>
+                            <p><strong>To make and Even Swap trade-off:</strong></p>
                             <ol>
-                                <li>choose three cells from the consequences table</li>
-                                <li>when ready, press the Even Swap button below</li>
+                                <li>Choose three cells from the consequences table</li>
+                                <li>When ready, press the Even Swap button below</li>
                             </ol>
                         </Panel>
                     </Col>
-                    <Col sm={6}>This will be the tradeoff status/action section</Col>
+                    <Col sm={6}>
+                        <Panel>
+                            <p><strong>Alternative:&nbsp;</strong>Job A</p>
+                            <hr/>
+                            <p><strong>The change in&nbsp;</strong>Monthly Salary</p>
+                            <p><strong>From&nbsp;</strong>1700<strong>&nbsp;To&nbsp;</strong>1500</p>
+                            <p><strong>can be compensated for by a change in&nbsp;</strong>Benefits</p>
+                            <p><strong>From&nbsp;</strong>A<strong>&nbsp;To&nbsp;</strong><input type="text" name="newConsequence" value="B"/></p>
+                            <ButtonToolbar>
+                                <Button bsStyle="primary" type="button">OK</Button>
+                                <Button type="button" className="pull-right">Cancel</Button>
+                            </ButtonToolbar>
+                        </Panel>
+                    </Col>
                 </Row>
                 <Row>
-                    <Col xs={12}>This will be the consequences grid</Col>
+                    <Col xs={12}>{table}</Col>
                 </Row>
             </section>
         );
