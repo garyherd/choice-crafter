@@ -8,7 +8,13 @@ import { TradeOffsTable } from './tradeoffs-table';
 
 class TradeOffs extends Component {
     render() {
-        let table = <TradeOffsTable>This will be the consequences grid</TradeOffsTable>
+
+        let table = <TradeOffsTable
+                        decisionId={this.props.decision.decisionId} 
+                        objectives={this.props.decision.objectives}
+                        alternatives={this.props.decision.alternatives}
+                        consequences={this.props.decision.consequences}/>;
+
         return (
             <section>
                 <Row>

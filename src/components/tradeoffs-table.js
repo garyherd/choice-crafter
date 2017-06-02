@@ -9,16 +9,16 @@ class TradeOffsTable extends Component {
     }
 
     render() {
+
+        let headers = this.props.objectives.map((objective) => 
+            <th key={objective.id}>{objective.title}</th>
+        );
         return (
             <Table responsive bordered>
                 <thead>
                     <tr>
                         <th></th>
-                        <th>Objective 1</th>
-                        <th>Objective 2</th>
-                        <th>Objective 3</th>
-                        <th>Objective 4</th>
-                        <th>Objective 5</th>
+                        {headers}    
                     </tr>
                 </thead>
                 

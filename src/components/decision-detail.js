@@ -47,7 +47,6 @@ class DecisionDetail extends Component {
         addAlternative: this.props.addAlternative,
         removeAlternative: this.props.removeAlternative,
         updateConsequence: this.props.updateConsequence,
-        addConsequence: this.props.addConsequence,
       });
     });
   }

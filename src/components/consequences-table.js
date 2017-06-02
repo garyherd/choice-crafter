@@ -61,20 +61,19 @@ class ConsequencesTable extends Component {
 
             if (foundItem.length > 0) {
                 return foundItem[0]
-            } else {
-                return {id: dummyId.toString(), score: "none found"}; // TODO: change this to insert a new consequence
-                // this.props.addConsequence(this.props.decisionId, this.state.newItem);
-                // this.setState({newItem: {id: uuid.v4(), objTitle: objTitle, altTitle: altTitle, score: "none", description: ""}});
-            }
+            } 
+            
+            // else {
+            //     // return {id: dummyId.toString(), score: "(required)"}; // TODO: change this to insert a new consequence
+            //     this.props.addConsequence(this.props.decisionId, this.state.newItem);
+            //     this.setState({newItem: {id: uuid.v4(), objTitle: objTitle, altTitle: altTitle, score: "(required)", description: ""}});
+            //     return this.state.newItem;
+            // }
         };
 
         let scores = this.props.alternatives.map((alternative) => 
             <tr key={alternative.id}>
                 <td><strong>{alternative.title}</strong></td>
-                {/*{this.props.objectives.map((objective) => {
-                    return (<td key={consequence(objective.title, alternative.title).id}>
-                        {consequence(objective.title, alternative.title).score}</td>);
-                })}*/}
                 {this.props.objectives.map((objective) =>
                     <EditableCell
                         decisionId={this.props.decisionId}

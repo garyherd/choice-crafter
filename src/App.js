@@ -29,7 +29,7 @@ class App extends Component {
     this.handleRemoveObjective = this.handleRemoveObjective.bind(this);
     this.handleRemoveAlternative = this.handleRemoveAlternative.bind(this);
     this.handleUpdateConsequence = this.handleUpdateConsequence.bind(this);
-    this.handleAddConsequence = this.handleAddConsequence.bind(this);
+    this.createNewConsequences = this.createNewConsequences.bind(this);
   }
 
   handleUpdateProblem(decisionId, newShortDesc, newLongDesc) {
@@ -103,6 +103,10 @@ class App extends Component {
 
     targetDecision.objectives.push(newObjective);
 
+    let newObjConsequences = this.createNewConsequences(newObjective.title, targetDecision.alternatives, "objective");
+    let newDecisionConsequences = targetDecision.consequences.concat(newObjConsequences);
+    targetDecision.consequences = newDecisionConsequences;
+
     let spliceStart = decisionsCopy.findIndex((decisionObj) => {
       return decisionObj.decisionId === decisionId;
     });
@@ -111,6 +115,26 @@ class App extends Component {
     decisionsCopy.splice(spliceStart, 0, targetDecision);
 
     this.setState({decisions: decisionsCopy});
+  }
+
+  createNewConsequences(newObjectTitle, altsOrobjectives, objectStr) {
+    let consequences = [];
+    let processor = {
+      "objective": () => {
+        altsOrobjectives.forEach((item) => {
+          consequences.push({id: uuid.v4(), objTitle: newObjectTitle, altTitle: item.title, score: '(required)', description: ""});
+        })
+      },
+      "alternative": () => {
+        altsOrobjectives.forEach((item) => {
+          consequences.push({id: uuid.v4(), objTitle: item.title, altTitle: newObjectTitle, score: '(required)', description: ""});
+        })        
+      }
+    };
+
+    processor[objectStr]();
+
+    return consequences;
   }
 
   handleRemoveObjective(decisionId, objectiveId) {
@@ -176,6 +200,10 @@ class App extends Component {
 
     targetDecision.alternatives.push(newAlternative);
 
+    let newObjConsequences = this.createNewConsequences(newAlternative.title, targetDecision.objectives, "alternative");
+    let newDecisionConsequences = targetDecision.consequences.concat(newObjConsequences);
+    targetDecision.consequences = newDecisionConsequences;
+
     let spliceStart = decisionsCopy.findIndex((decisionObj) => {
       return decisionObj.decisionId === decisionId;
     });
@@ -239,25 +267,6 @@ class App extends Component {
     this.setState({decisions: decisionsCopy});        
   }
 
-  handleAddConsequence(decisionId, newConsequence) {
-
-    let decisionsCopy = this.state.decisions.slice();
-    let targetDecision = decisionsCopy.filter((decision) => {
-      return decision.decisionId === decisionId;
-    })[0];
-
-    targetDecision.consequences.push(newConsequence);
-
-    let spliceStart = decisionsCopy.findIndex((decisionObj) => {
-      return decisionObj.decisionId === decisionId;
-    });
-
-    decisionsCopy.splice(spliceStart, 1);
-    decisionsCopy.splice(spliceStart, 0, targetDecision);
-
-    this.setState({decisions: decisionsCopy});  
-  }
-
   renderChildren() {
 
     return React.Children.map(this.props.children, child => {
@@ -271,7 +280,6 @@ class App extends Component {
         addAlternative: this.handleAddAlternative,
         removeAlternative: this.handleRemoveAlternative,
         updateConsequence: this.handleUpdateConsequence,
-        addConsequence: this.handleAddConsequence,
       });
     });
   }
