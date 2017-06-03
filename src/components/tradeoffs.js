@@ -32,9 +32,9 @@ class TradeOffs extends Component {
                             <p><strong>Alternative:&nbsp;</strong>Job A</p>
                             <hr/>
                             <p><strong>The change in&nbsp;</strong>Monthly Salary</p>
-                            <p><strong>From&nbsp;</strong>1700<strong>&nbsp;To&nbsp;</strong>1500</p>
+                            <p><strong>From&nbsp;</strong>1700<strong>&nbsp;To&nbsp;</strong><input type="text" name="newSwapFront" value={1500}/></p>
                             <p><strong>can be compensated for by a change in&nbsp;</strong>Benefits</p>
-                            <p><strong>From&nbsp;</strong>A<strong>&nbsp;To&nbsp;</strong><input type="text" name="newConsequence" value="B"/></p>
+                            <p><strong>From&nbsp;</strong>A<strong>&nbsp;To&nbsp;</strong><input type="text" name="newSwapBack" value="B"/></p>
                             <ButtonToolbar>
                                 <Button bsStyle="primary" type="button">OK</Button>
                                 <Button type="button" className="pull-right">Cancel</Button>

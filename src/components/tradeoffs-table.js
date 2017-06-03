@@ -13,6 +13,28 @@ class TradeOffsTable extends Component {
         let headers = this.props.objectives.map((objective) => 
             <th key={objective.id}>{objective.title}</th>
         );
+
+        let consequence = (objTitle, altTitle) => {
+            let result = {};
+            let dummyId = Math.random() * Math.random();
+            let foundItem = this.props.consequences.filter((item) => {
+                return ((item.objTitle === objTitle) && (item.altTitle === altTitle))
+            });
+            
+            foundItem.length > 0 ? result = foundItem[0] : result = {};
+
+            return result;
+
+        };
+
+        let scores = this.props.alternatives.map((alternative) => 
+            <tr key={alternative.id}>
+                <td><strong>{alternative.title}</strong></td>
+                {this.props.objectives.map((objective) =>
+                    <td>{consequence(objective.title, alternative.title).score}</td>
+                )}
+            </tr>
+        )
         return (
             <Table responsive bordered>
                 <thead>
@@ -23,30 +45,7 @@ class TradeOffsTable extends Component {
                 </thead>
                 
                 <tbody>
-                    <tr>
-                        <td>Alternative 1</td>
-                        <td>
-                            <div>Consequence</div>
-                            <div>
-                                <label><input type="checkbox" name="cons" value="" />Select</label>
-                            </div>
-                        </td>
-                        <td>
-                            <div>Consequence</div>
-                            <div>
-                                <label>
-                                    <input type="checkbox" name="cons" value="" />
-                                    Select
-                                </label>
-                            </div>
-                        </td>
-                        <td>
-                            <div>Consequence</div>
-                            <div>
-                                <label><input type="checkbox" name="cons" value=""/>Select</label>
-                            </div>
-                        </td>
-                    </tr>
+                    {scores}
                 </tbody>
             </Table>)
     }

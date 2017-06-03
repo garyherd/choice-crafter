@@ -54,21 +54,16 @@ class ConsequencesTable extends Component {
         );
 
         let consequence = (objTitle, altTitle) => {
+            let result = {};
             let dummyId = Math.random() * Math.random();
             let foundItem = this.props.consequences.filter((item) => {
                 return ((item.objTitle === objTitle) && (item.altTitle === altTitle))
             });
-
-            if (foundItem.length > 0) {
-                return foundItem[0]
-            } 
             
-            // else {
-            //     // return {id: dummyId.toString(), score: "(required)"}; // TODO: change this to insert a new consequence
-            //     this.props.addConsequence(this.props.decisionId, this.state.newItem);
-            //     this.setState({newItem: {id: uuid.v4(), objTitle: objTitle, altTitle: altTitle, score: "(required)", description: ""}});
-            //     return this.state.newItem;
-            // }
+            foundItem.length > 0 ? result = foundItem[0] : result = {};
+
+            return result;
+
         };
 
         let scores = this.props.alternatives.map((alternative) => 
