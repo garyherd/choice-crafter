@@ -2,116 +2,94 @@ import React, { Component } from 'react';
 
 import { Table } from 'react-bootstrap';
 
-import uuid from 'uuid';
+import { TableHeaders } from './table-parts'
 
 import { EditableCell } from './editable-cell';
 
 class ConsequencesTable extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {newItem: {} };
-    }
+  constructor(props) {
+    super(props);
+    this.state = { newItem: {} };
+  }
 
 
-    render() {
+  render() {
 
-        let headers = this.props.objectives.map((objective) => 
-            <th key={objective.id}>{objective.title}</th>
-        );
+    const scales = this.props.objectives.map(objective =>
+      <EditableCell
+        decisionId={this.props.decisionId}
+        key={objective.id}
+        id={objective.id}
+        cellData={objective.scale}
+        updateField="scale"
+        update={this.props.update} />
+    );
 
-        let scales = this.props.objectives.map((objective) => 
-            <EditableCell 
-                decisionId={this.props.decisionId} 
-                key={objective.id} 
-                id={objective.id} 
-                cellData={objective.scale} 
-                updateField="scale" 
-                update={this.props.update} />
-        );
+    const minsMaxs = this.props.objectives.map(objective =>
+      <EditableCell
+        decisionId={this.props.decisionId}
+        key={objective.id}
+        id={objective.id}
+        cellData={objective.minMax}
+        updateField="minMax"
+        update={this.props.update} />
+    );
 
-        let minsMaxs = this.props.objectives.map((objective) => 
-            <EditableCell 
-                decisionId={this.props.decisionId} 
-                key={objective.id} 
-                id={objective.id} 
-                cellData={objective.minMax} 
-                updateField="minMax" 
-                update={this.props.update} />
-        );
+    const units = this.props.objectives.map(objective =>
+      <EditableCell
+        decisionId={this.props.decisionId}
+        key={objective.id}
+        id={objective.id}
+        cellData={objective.unit}
+        updateField="unit"
+        update={this.props.update} />
+    );
 
-        let units = this.props.objectives.map((objective) => 
-            <EditableCell 
-                decisionId={this.props.decisionId} 
-                key={objective.id} 
-                id={objective.id} 
-                cellData={objective.unit} 
-                updateField="unit" 
-                update={this.props.update} />            
-        );
+    const dividerRow = this.props.objectives.map(objective =>
+      <td key={objective.id}>-----</td>
+    );
 
-        let dividerRow = this.props.objectives.map((objective) => 
-            <td key={objective.id}>-----</td>
-        );
+    const scores = this.props.alternatives.map(alternative =>
+      <tr key={alternative.id}>
+        <td><strong>{alternative.title}</strong></td>
+        {this.props.objectives.map(objective =>
+          <EditableCell
+            decisionId={this.props.decisionId}
+            key={this.props.getConsequence(objective.title, alternative.title).id}
+            id={this.props.getConsequence(objective.title, alternative.title).id}
+            cellData={this.props.getConsequence(objective.title, alternative.title).score}
+            updateField="score"
+            update={this.props.updateConsequence} />
+        )}
+      </tr>
+    );
 
-        let consequence = (objTitle, altTitle) => {
-            let result = {};
-            let dummyId = Math.random() * Math.random();
-            let foundItem = this.props.consequences.filter((item) => {
-                return ((item.objTitle === objTitle) && (item.altTitle === altTitle))
-            });
-            
-            foundItem.length > 0 ? result = foundItem[0] : result = {};
+    return (
+      <Table responsive>
+        <TableHeaders objectArray={this.props.objectives} />
 
-            return result;
-
-        };
-
-        let scores = this.props.alternatives.map((alternative) => 
-            <tr key={alternative.id}>
-                <td><strong>{alternative.title}</strong></td>
-                {this.props.objectives.map((objective) =>
-                    <EditableCell
-                        decisionId={this.props.decisionId}
-                        key={consequence(objective.title, alternative.title).id}
-                        id={consequence(objective.title, alternative.title).id}
-                        cellData={consequence(objective.title, alternative.title).score}
-                        updateField="score"
-                        update={this.props.updateConsequence} />
-                )}
-            </tr>
-        )   
-
-        return (
-            <Table responsive>
-                <thead>
-                    <tr>
-                        <th></th>
-                        {headers}    
-                    </tr>
-                </thead>
-                
-                <tbody>
-                    <tr>
-                        <td><strong>Scale</strong></td>
-                        {scales}
-                    </tr>
-                    <tr>
-                        <td><strong>Min/Max</strong></td>
-                        {minsMaxs}
-                    </tr>
-                    <tr>
-                        <td><strong>Unit</strong></td>
-                        {units}
-                    </tr>
-                    <tr>
-                        <td>-----</td>
-                        {dividerRow}
-                    </tr>
-                    {scores}
-                </tbody>
-            </Table>
-        );
-    }
+        <tbody>
+          <tr>
+            <td><strong>Scale</strong></td>
+            {scales}
+          </tr>
+          <tr>
+            <td><strong>Min/Max</strong></td>
+            {minsMaxs}
+          </tr>
+          <tr>
+            <td><strong>Unit</strong></td>
+            {units}
+          </tr>
+          <tr>
+            <td>-----</td>
+            {dividerRow}
+          </tr>
+          {scores}
+        </tbody>
+      </Table>
+    );
+  }
 }
 
 export { ConsequencesTable };

@@ -11,7 +11,7 @@ class DecisionDetail extends Component {
     this.renderChildren = this.renderChildren.bind(this);
     this.getDecision = this.getDecision.bind(this);
     this.updateProblem = this.updateProblem.bind(this);
-    //this.updateAlternative = this.updateProblem.bind(this);
+    this.getConsequence = this.getConsequence.bind(this);
   }
 
   getDecision() {
@@ -34,6 +34,15 @@ class DecisionDetail extends Component {
     this.props.updateProblem(decision.decisionId, title, description);
   }
 
+  getConsequence(objTitle, altTitle) {
+    let decision = this.getDecision();
+    let foundItem = decision.consequences.filter(consequence => {
+      return ((consequence.objTitle === objTitle) && (consequence.altTitle === altTitle))
+    });
+
+    return (foundItem.length > 0 ? foundItem[0] : {});
+  }
+
   renderChildren() {
 
     return React.Children.map(this.props.children, child => {
@@ -47,6 +56,7 @@ class DecisionDetail extends Component {
         addAlternative: this.props.addAlternative,
         removeAlternative: this.props.removeAlternative,
         updateConsequence: this.props.updateConsequence,
+        getConsequence: this.getConsequence,
       });
     });
   }
@@ -54,14 +64,14 @@ class DecisionDetail extends Component {
   render() {
 
     return (
-        <Grid>
-          <Row>
-            <Col xs={12}>
-                <NavTabs userDecision={this.getDecision()}/>
-            </Col>
-          </Row>
-            <Col xs={12}>{this.renderChildren()}</Col>
-        </Grid>
+      <Grid>
+        <Row>
+          <Col xs={12}>
+            <NavTabs userDecision={this.getDecision()} />
+          </Col>
+        </Row>
+        <Col xs={12}>{this.renderChildren()}</Col>
+      </Grid>
     );
   }
 }

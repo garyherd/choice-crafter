@@ -43,42 +43,41 @@ const DecisionPanel = (props) => {
 
   return (
     <div>
-      <Panel>        
+      <Panel>
         <Row>
           <Col sm={6}>
             <h3>{props.decision.decisionShort}</h3>
             <Row>
-              <Col sm={6}><Link to={decisionDetailUrl}><Glyphicon glyph="folder-open"/>&nbsp;&nbsp;Open decision</Link></Col>
-              <Col sm={6}><Glyphicon glyph="trash"/>&nbsp;Archive decision</Col>
-            </Row>         
+              <Col sm={6}><Link to={decisionDetailUrl}><Glyphicon glyph="folder-open" />&nbsp;&nbsp;Open decision</Link></Col>
+              <Col sm={6}><Glyphicon glyph="trash" />&nbsp;Archive decision</Col>
+            </Row>
           </Col>
           <Col sm={6}>
             <Row>
               <Col xs={5}><strong>Created:</strong></Col>
-              <Col xs={7}>{props.decision.createdDate}</Col>                
+              <Col xs={7}>{props.decision.createdDate}</Col>
             </Row>
             <Row>
               <Col xs={5}><strong>Objectives:</strong></Col>
-              <Col xs={7}>{props.decision.objectives.length}</Col>                
-            </Row>              
+              <Col xs={7}>{props.decision.objectives.length}</Col>
+            </Row>
             <Row>
               <Col xs={5}><strong>Alternatives:</strong></Col>
-              <Col xs={7}>{props.decision.alternatives.length}</Col>                
+              <Col xs={7}>{props.decision.alternatives.length}</Col>
             </Row>
             <Row>
               <Col xs={5}><strong>Consequences:</strong></Col>
-              <Col xs={7}>In Progress</Col>                
+              <Col xs={7}>In Progress</Col>
             </Row>
             <Row>
               <Col xs={5}><strong>Trade offs:</strong></Col>
-              <Col xs={7}>Not Started</Col>                
-            </Row>                               
-          </Col>            
+              <Col xs={7}>Not Started</Col>
+            </Row>
+          </Col>
         </Row>
       </Panel>
     </div>
   );
 }
 
-
-    export { Decisions, DecisionPanel};
+export { Decisions, DecisionPanel };

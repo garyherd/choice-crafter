@@ -4,23 +4,24 @@ import { ConsequencesTable } from './consequences-table';
 
 class Consequences extends Component {
 
-    render() {
+  render() {
 
-        let table = <ConsequencesTable 
-                        decisionId={this.props.decision.decisionId} 
-                        objectives={this.props.decision.objectives}
-                        alternatives={this.props.decision.alternatives}
-                        consequences={this.props.decision.consequences}
-                        update={this.props.updateObjective}
-                        updateConsequence={this.props.updateConsequence}
-                        addConsequence={this.props.addConsequence} />;
+    let table = <ConsequencesTable
+      decisionId={this.props.decision.decisionId}
+      objectives={this.props.decision.objectives}
+      alternatives={this.props.decision.alternatives}
+      consequences={this.props.decision.consequences}
+      update={this.props.updateObjective}
+      updateConsequence={this.props.updateConsequence}
+      addConsequence={this.props.addConsequence}
+      getConsequence={this.props.getConsequence} />;
 
-        return (
-            <div>
-                {table}
-            </div>
-        );
-    }
+    return (
+      <div>
+        {table}
+      </div>
+    );
+  }
 }
 
 export { Consequences };
