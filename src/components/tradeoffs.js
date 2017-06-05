@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-import { Row, Col, Panel, ButtonToolbar, Button } from 'react-bootstrap';
+import { Row, Col, Panel, ButtonToolbar, Button, Table, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 
 import { TradeOffsTable } from './tradeoffs-table';
 
-class SwapPane extends Component {
+class SwapPanel extends Component {
   render() {
     return (
       <Panel>
@@ -23,18 +23,108 @@ class SwapPane extends Component {
   }
 }
 
+class RemoveAlternativePanel extends Component {
+
+
+
+  render() {
+    const labelStyle = {
+      marginTop: '0.7em'
+    };
+
+    return (
+      <Panel>
+        <Row>
+          <Col sm={5}>
+            <FormGroup controlId="alternativeDominates">
+              <FormControl componentClass="select" placeholder="Job A">
+                <option value="jobA_id">Job A</option>
+                <option value="jobB_id">Job B</option>
+                <option value="jobCid">Job C</option>
+              </FormControl>
+            </FormGroup>
+          </Col>
+
+          <Col sm={2} className="text-center" style={labelStyle}>dominates</Col>
+
+          <Col sm={5}>
+            <FormGroup controlId="alternativeDominated">
+              <FormControl componentClass="select" placeholder="Job A">
+                <option value="jobA_id">Job A</option>
+                <option value="jobB_id">Job B</option>
+                <option value="jobCid">Job C</option>
+              </FormControl>
+            </FormGroup>
+          </Col>
+        </Row>
+
+        <Table responsive>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Job A</th>
+              <th>Job B</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Alt 1</td>
+              <td>Score</td>
+              <td>Score</td>
+            </tr>
+              <tr>
+              <td>Alt 2</td>
+              <td>Score</td>
+              <td>Score</td>
+            </tr>
+              <tr>
+              <td>Alt 3</td>
+              <td>Score</td>
+              <td>Score</td>
+            </tr>
+          </tbody>
+        </Table>
+        <Button bsStyle="primary" bsSize="small">Remove Alternative</Button>
+      </Panel>
+    );
+  }
+}
+
 
 class TradeOffs extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {mode: "removeAlternative"}
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    if (this.state.mode === "evenSwap") {
+      this.setState({mode: "removeAlternative"});
+    } else {
+      this.setState({mode: "evenSwap"});
+    }
+  }
+
   render() {
 
-    let table = <TradeOffsTable
+    const table = <TradeOffsTable
       decisionId={this.props.decision.decisionId}
       objectives={this.props.decision.objectives}
       alternatives={this.props.decision.alternatives}
       consequences={this.props.decision.consequences}
       getConsequence={this.props.getConsequence} />;
 
-    let dominatedPane = <div>dominated pane here</div>;
+    const renderTypes = {
+      "evenSwap": <SwapPanel/>,
+      "removeAlternative": <RemoveAlternativePanel/>,
+      "default": <SwapPanel/>
+    };
+
+    const buttonTextOptions = {
+      "evenSwap": "Remove dominated alternative",
+      "removeAlternative": "Make even swap",
+    };
 
     return (
       <section>
@@ -47,13 +137,12 @@ class TradeOffs extends Component {
                 <li>Making objectives irrelevant through even swaps</li>
               </ol>
               <ButtonToolbar>
-                <Button bsStyle="primary" type="button">Remove dominated alternative</Button>
-                <Button bsStyle="primary" type="button" className="pull-right">Make even swap</Button>
+                <Button bsStyle="primary" type="button" onClick={this.handleClick}>{buttonTextOptions[this.state.mode]}</Button>
               </ButtonToolbar>
             </Panel>
           </Col>
           <Col sm={6}>
-            <SwapPane />
+            {renderTypes[this.state.mode]}
           </Col>
         </Row>
         <Row>

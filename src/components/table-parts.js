@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 class TableHeaders extends Component {
     render() {
         const headers = this.props.objectArray.map(_object => {
-            let title = _object.title ? _object.title : "No title";
-            return <th key={_object.id}>{title}</th>;
+            return <th key={_object.id}>{_object.title || "No title"}</th>;
         });
 
         return (

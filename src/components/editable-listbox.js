@@ -63,7 +63,7 @@ class EditableListBox extends Component {
             </Panel>            
         );
 
-        let renderTypes = {
+        const renderTypes = {
             "view": viewState,
             "edit": editState,
             "default": editState

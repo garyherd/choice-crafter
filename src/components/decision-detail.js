@@ -70,7 +70,10 @@ class DecisionDetail extends Component {
             <NavTabs userDecision={this.getDecision()} />
           </Col>
         </Row>
-        <Col xs={12}>{this.renderChildren()}</Col>
+        <Row>
+          <Col xs={12}>{this.renderChildren()}</Col>
+        </Row>
+
       </Grid>
     );
   }
