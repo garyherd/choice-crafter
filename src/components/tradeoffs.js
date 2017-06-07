@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 
-import { Row, Col, Panel, ButtonToolbar, Button, Table, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
+import { Row, Col, Panel, ButtonToolbar, Button } from 'react-bootstrap';
 
 import { TradeOffsTable } from './tradeoffs-table';
+import { RemoveAlternativePanel } from './tradeoffs-remove-alt-panel';
 
 class SwapPanel extends Component {
   render() {
@@ -22,74 +23,6 @@ class SwapPanel extends Component {
     );
   }
 }
-
-class RemoveAlternativePanel extends Component {
-
-
-
-  render() {
-    const labelStyle = {
-      marginTop: '0.7em'
-    };
-
-    return (
-      <Panel>
-        <Row>
-          <Col sm={5}>
-            <FormGroup controlId="alternativeDominates">
-              <FormControl componentClass="select" placeholder="Job A">
-                <option value="jobA_id">Job A</option>
-                <option value="jobB_id">Job B</option>
-                <option value="jobCid">Job C</option>
-              </FormControl>
-            </FormGroup>
-          </Col>
-
-          <Col sm={2} className="text-center" style={labelStyle}>dominates</Col>
-
-          <Col sm={5}>
-            <FormGroup controlId="alternativeDominated">
-              <FormControl componentClass="select" placeholder="Job A">
-                <option value="jobA_id">Job A</option>
-                <option value="jobB_id">Job B</option>
-                <option value="jobCid">Job C</option>
-              </FormControl>
-            </FormGroup>
-          </Col>
-        </Row>
-
-        <Table responsive>
-          <thead>
-            <tr>
-              <th></th>
-              <th>Job A</th>
-              <th>Job B</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Alt 1</td>
-              <td>Score</td>
-              <td>Score</td>
-            </tr>
-              <tr>
-              <td>Alt 2</td>
-              <td>Score</td>
-              <td>Score</td>
-            </tr>
-              <tr>
-              <td>Alt 3</td>
-              <td>Score</td>
-              <td>Score</td>
-            </tr>
-          </tbody>
-        </Table>
-        <Button bsStyle="primary" bsSize="small">Remove Alternative</Button>
-      </Panel>
-    );
-  }
-}
-
 
 class TradeOffs extends Component {
   constructor(props) {
@@ -117,7 +50,11 @@ class TradeOffs extends Component {
 
     const renderTypes = {
       "evenSwap": <SwapPanel/>,
-      "removeAlternative": <RemoveAlternativePanel/>,
+      "removeAlternative": <RemoveAlternativePanel 
+                              alternatives={this.props.decision.alternatives} 
+                              consequences={this.props.decision.consequences}
+                              objectives={this.props.decision.objectives}
+                              getConsequence={this.props.getConsequence} />,
       "default": <SwapPanel/>
     };
 
