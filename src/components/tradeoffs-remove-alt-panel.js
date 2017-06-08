@@ -9,14 +9,36 @@ class RemoveAlternativePanel extends Component {
     this.state = {currentDominatesSelection: 'None selected', currentDominatedSelection: 'None selected'};
     this.handleDominatedChange = this.handleDominatedChange.bind(this);
     this.handleDominatesChange = this.handleDominatesChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.findDominatedAlternativeByTitle = this.findDominatedAlternativeByTitle.bind(this);
   }
 
   handleDominatesChange(event) {
-    this.setState({currentDominatesSelection: event.target.value});
+    this.setState({ currentDominatesSelection: event.target.value });
   }
 
   handleDominatedChange(event) {
-    this.setState({currentDominatedSelection: event.target.value});
+    this.setState({ currentDominatedSelection: event.target.value });
+
+  }
+
+  findDominatedAlternativeByTitle = (title) => {
+    
+    const foundAlternative = this.props.decision.alternatives.filter(
+      (alternative) => alternative.title === title
+    );
+
+    return foundAlternative[0];
+  };
+
+  handleClick(event) {
+    const title = this.state.currentDominatedSelection;
+    this.setState(
+      { currentDominatesSelection: 'None selected', currentDominatedSelection: 'None selected' },
+      () => {
+        const foundAlternative = this.findDominatedAlternativeByTitle(title);
+        this.props.updateAlternative(this.props.decision.decisionId, foundAlternative.id, { enabled: false });
+      });
   }
 
   render() {
@@ -24,15 +46,15 @@ class RemoveAlternativePanel extends Component {
       marginTop: '0.7em'
     };
 
-    const alternativesSelectOptions = this.props.alternatives.map(alternative =>
+    const alternativesSelectOptions = this.props.decision.alternatives.map(alternative =>
       <option key={alternative.id}>{alternative.title}</option>
     );
 
-    const scores = this.props.objectives.map(objective =>
+    const scores = this.props.decision.objectives.map(objective =>
       <tr key={objective.id}>
         <td><strong>{objective.title}</strong></td>
-        <td key={"0_domiantes"}>{this.props.getConsequence(objective.title, this.state.currentDominatesSelection).score}</td>
-        <td key={"1_dominated"}>{this.props.getConsequence(objective.title, this.state.currentDominatedSelection).score}</td>
+        <td key={objective.title + "0_dominates"}>{this.props.getConsequence(objective.title, this.state.currentDominatesSelection).score}</td>
+        <td key={objective.title + "1_dominated"}>{this.props.getConsequence(objective.title, this.state.currentDominatedSelection).score}</td>
       </tr>
     );
 
@@ -42,7 +64,8 @@ class RemoveAlternativePanel extends Component {
           <Col md={5} sm={7}>
             <FormGroup controlId="alternativeDominates">
               <FormControl 
-                componentClass="select" 
+                componentClass="select"
+                data-alt-id="someId" 
                 value={this.state.currentDominatesSelection}
                 onChange={this.handleDominatesChange}>
                 <option>Select</option>
@@ -78,7 +101,13 @@ class RemoveAlternativePanel extends Component {
               {scores}
             </tbody>
         </Table>
-        <Button bsStyle="primary" bsSize="small">Remove&nbsp;{this.state.currentDominatedSelection}</Button>
+        <Button 
+          bsStyle="primary" 
+          bsSize="small" 
+          onClick={this.handleClick} 
+          disabled={this.state.currentDominatedSelection === 'None selected' || this.state.currentDominatedSelection === 'Select'}>
+          Remove&nbsp;{this.state.currentDominatedSelection}
+        </Button>
       </Panel>
     );
   }

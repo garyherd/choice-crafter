@@ -69,7 +69,9 @@ class App extends Component {
       return objective.id === objectiveId;
     })[0];
 
+
     if (newItem) {
+      targetObjective["enabled"] = true;
       let key = Object.keys(newItem)[0];
       targetObjective[key] = newItem[key];
     }
@@ -170,9 +172,12 @@ class App extends Component {
     })[0];
 
     if (newItem) {
+      targetAlternative["enabled"] = true;
       let key = Object.keys(newItem)[0];
       targetAlternative[key] = newItem[key];
     }
+
+    
 
     let spliceStart = targetDecision.alternatives.findIndex((alternative) => {
       return alternative.id === alternativeId;
@@ -197,6 +202,8 @@ class App extends Component {
     let targetDecision = decisionsCopy.filter((decision) => {
       return decision.decisionId === decisionId;
     })[0];
+
+    newAlternative["enabled"] = true;
 
     targetDecision.alternatives.push(newAlternative);
 

@@ -123,7 +123,8 @@ const DECISIONS_Arr = [
         description: "", 
         scale: "Continuous",
         minMax: "Maximize",
-        unit: "$"
+        unit: "$",
+        enabled: true
       },
       {
         id: uuid.v4(), 
@@ -131,7 +132,8 @@ const DECISIONS_Arr = [
         description: "need to able to deal with emergencies",
         scale: "H/M/L",
         minMax: "Maximize",
-        unit: ""
+        unit: "",
+        enabled: true
       },
       {
         id: uuid.v4(), 
@@ -139,7 +141,8 @@ const DECISIONS_Arr = [
         description: "gain some experience that will useful when I return school", 
         scale: "H/M/L",
         minMax: "Maximize",
-        unit: ""
+        unit: "",
+        enabled: true
       },
       {
         id: uuid.v4(), 
@@ -147,7 +150,8 @@ const DECISIONS_Arr = [
         description: "", 
         scale: "Continous",
         minMax: "Maximize",
-        unit: "days"
+        unit: "days",
+        enabled: true
       },
       {
         id: uuid.v4(), 
@@ -155,7 +159,8 @@ const DECISIONS_Arr = [
         description: "", 
         scale: "H/M/L",
         minMax: "Maximize",
-        unit: ""
+        unit: "",
+        enabled: true
       },
       {
         id: uuid.v4(), 
@@ -163,15 +168,16 @@ const DECISIONS_Arr = [
         description: "", 
         scale: "H/M/L",
         minMax: "Maximize",
-        unit: ""
+        unit: "",
+        enabled: true
       }
     ],
     alternatives: [
-      {id: uuid.v4(), title: "Job A", description: ""},
-      {id: uuid.v4(), title: "Job B", description: ""},
-      {id: uuid.v4(), title: "Job C", description: ""},
-      {id: uuid.v4(), title: "Job D", description: ""},
-      {id: uuid.v4(), title: "Job E", description: ""},
+      {id: uuid.v4(), title: "Job A", description: "", enabled: true},
+      {id: uuid.v4(), title: "Job B", description: "", enabled: true},
+      {id: uuid.v4(), title: "Job C", description: "", enabled: true},
+      {id: uuid.v4(), title: "Job D", description: "", enabled: true},
+      {id: uuid.v4(), title: "Job E", description: "", enabled: true},
     ],
     consequences: [
       {id: uuid.v4(), objTitle: "Monthly Salary", altTitle: "Job A", score: 2000, description: ""},

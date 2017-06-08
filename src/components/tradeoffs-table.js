@@ -7,7 +7,9 @@ import { TableHeaders } from './table-parts'
 class TradeOffsTable extends Component {
     constructor(props) {
         super(props);
-        this.state = {view: "changeCell" };
+        this.state = {
+            view: "changeCell",
+        };
     }
 
     render() {
