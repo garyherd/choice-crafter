@@ -4,25 +4,9 @@ import { Row, Col, Panel, ButtonToolbar, Button } from 'react-bootstrap';
 
 import { TradeOffsTable } from './tradeoffs-table';
 import { RemoveAlternativePanel } from './tradeoffs-remove-alt-panel';
+import { SwapPanel } from './tradeoffs-swap-panel';
 
-class SwapPanel extends Component {
-  render() {
-    return (
-      <Panel>
-        <p><strong>Alternative:&nbsp;</strong>Job A</p>
-        <hr />
-        <p><strong>The change in&nbsp;</strong>Monthly Salary</p>
-        <p><strong>From&nbsp;</strong>1700<strong>&nbsp;To&nbsp;</strong><input type="text" name="newSwapFront" value={1500} /></p>
-        <p><strong>can be compensated for by a change in&nbsp;</strong>Benefits</p>
-        <p><strong>From&nbsp;</strong>A<strong>&nbsp;To&nbsp;</strong><input type="text" name="newSwapBack" value="B" /></p>
-        <ButtonToolbar>
-          <Button bsStyle="primary" type="button">OK</Button>
-          <Button type="button" className="pull-right">Cancel</Button>
-        </ButtonToolbar>
-      </Panel>
-    );
-  }
-}
+
 
 class TradeOffs extends Component {
   constructor(props) {
@@ -45,20 +29,20 @@ class TradeOffs extends Component {
     );
 
     const table = <TradeOffsTable
-      decisionId={this.props.decision.decisionId}
-      objectives={this.props.decision.objectives}
       alternatives={enabledAlternatives}
-      consequences={this.props.decision.consequences}
-      getConsequence={this.props.getConsequence} />;
+      getConsequence={this.props.getConsequence}
+      decision={this.props.decision} />;
 
     const renderTypes = {
-      "evenSwap": <SwapPanel/>,
+      "evenSwap": <SwapPanel alternatives={enabledAlternatives}/>,
       "removeAlternative": <RemoveAlternativePanel
                               getConsequence={this.props.getConsequence}
                               updateObjective={this.props.updateObjective}
                               updateAlternative={this.props.updateAlternative}
+                              alternatives={enabledAlternatives}
                               decision={this.props.decision} />,
-      "default": <SwapPanel/>
+      "default": <SwapPanel
+        alternatives={enabledAlternatives}/>
     };
 
     const buttonTextOptions = {

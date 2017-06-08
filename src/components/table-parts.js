@@ -33,9 +33,6 @@ class TableRows extends Component {
 
      return <tbody>{rows}</tbody>
   }
-
- 
-
 }
 
 export { TableHeaders, TableRows };

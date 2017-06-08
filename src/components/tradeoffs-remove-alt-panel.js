@@ -46,8 +46,8 @@ class RemoveAlternativePanel extends Component {
       marginTop: '0.7em'
     };
 
-    const alternativesSelectOptions = this.props.decision.alternatives.map(alternative =>
-      <option key={alternative.id}>{alternative.title}</option>
+    const alternativesSelectOptions = this.props.alternatives.map(alternative =>
+      <option value={alternative.title} key={alternative.id}>{alternative.title}</option>
     );
 
     const scores = this.props.decision.objectives.map(objective =>
@@ -65,7 +65,6 @@ class RemoveAlternativePanel extends Component {
             <FormGroup controlId="alternativeDominates">
               <FormControl 
                 componentClass="select"
-                data-alt-id="someId" 
                 value={this.state.currentDominatesSelection}
                 onChange={this.handleDominatesChange}>
                 <option>Select</option>
