@@ -103,6 +103,8 @@ class App extends Component {
       return decision.decisionId === decisionId;
     })[0];
 
+    newObjective["enabled"] = true;
+
     targetDecision.objectives.push(newObjective);
 
     let newObjConsequences = this.createNewConsequences(newObjective.title, targetDecision.alternatives, "objective");

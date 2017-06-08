@@ -28,13 +28,21 @@ class TradeOffs extends Component {
       (alternative) => alternative.enabled === true
     );
 
+    const enabledObjectives = this.props.decision.objectives.filter(
+      (objective) => objective.enabled === true
+    );
+
     const table = <TradeOffsTable
       alternatives={enabledAlternatives}
       getConsequence={this.props.getConsequence}
       decision={this.props.decision} />;
 
     const renderTypes = {
-      "evenSwap": <SwapPanel alternatives={enabledAlternatives}/>,
+      "evenSwap": <SwapPanel 
+                    alternatives={enabledAlternatives}
+                    objectives={enabledObjectives}
+                    getConsequence={this.props.getConsequence}
+                    decision={this.props.decision}/>,
       "removeAlternative": <RemoveAlternativePanel
                               getConsequence={this.props.getConsequence}
                               updateObjective={this.props.updateObjective}
