@@ -13,6 +13,7 @@ class DecisionDetail extends Component {
     this.updateProblem = this.updateProblem.bind(this);
     this.getActiveConsequence = this.getActiveConsequence.bind(this);
     this.getInactiveConsequences = this.getInactiveConsequences.bind(this);
+    this.getInitialConsequence = this.getInitialConsequence.bind(this);
   }
 
   getDecision() {
@@ -20,7 +21,7 @@ class DecisionDetail extends Component {
     let userDecision = {};
 
     userDecisions = this.props.decisions.filter((decision) => {
-      return decision.uid === this.props.params.userId
+      return decision.uid === this.props.params.userId //is this right?
     });
 
     userDecision = userDecisions.filter((decision) => {
@@ -33,6 +34,15 @@ class DecisionDetail extends Component {
   updateProblem(title, description) {
     let decision = this.getDecision();
     this.props.updateProblem(decision.decisionId, title, description);
+  }
+
+  getInitialConsequence(objTitle, altTitle) {
+    let decision = this.getDecision();
+    let foundItem = decision.consequences.filter(consequence => {
+      return ((consequence.objTitle === objTitle) && (consequence.altTitle === altTitle) && (consequence.isInitial === true))
+    });
+
+    return (foundItem.length > 0 ? foundItem[0] : {});    
   }
 
   getActiveConsequence(objTitle, altTitle) {
@@ -68,7 +78,8 @@ class DecisionDetail extends Component {
         updateConsequence: this.props.updateConsequence,
         addVirtualConsequence: this.props.addVirtualConsequence,
         getActiveConsequence: this.getActiveConsequence,
-        getInactiveConsequences: this.getInactiveConsequences
+        getInactiveConsequences: this.getInactiveConsequences,
+        getInitialConsequence: this.getInitialConsequence
       });
     });
   }

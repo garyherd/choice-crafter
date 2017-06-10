@@ -19,13 +19,9 @@ class TradeOffsTable extends Component {
       textDecoration: 'line-through'
     };
 
-    const hideDiv = {
-      display: 'none'
-    };
-
     const scores = this.props.alternatives.map(alternative =>
       <tr key={alternative.id}>
-        
+
         <td><strong>{alternative.title}</strong></td>
 
         {this.props.decision.objectives.map(objective =>

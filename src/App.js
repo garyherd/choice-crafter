@@ -266,7 +266,7 @@ class App extends Component {
     })[0];
 
     let targetConsequence = targetDecision.consequences.filter((consequence) => {
-      return consequence.id === consequenceId;
+      return (consequence.id === consequenceId && consequence.isActive === true);
     })[0];
 
     if (newItem) {
@@ -325,7 +325,7 @@ class App extends Component {
         addAlternative: this.handleAddAlternative,
         removeAlternative: this.handleRemoveAlternative,
         updateConsequence: this.handleUpdateConsequence,
-        addVirtualConsequence: this.addVirtualConsequence
+        addVirtualConsequence: this.handleAddVirtualConsequence
       });
     });
   }

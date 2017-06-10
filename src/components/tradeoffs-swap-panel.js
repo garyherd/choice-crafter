@@ -11,20 +11,20 @@ class SwapPanel extends Component {
       currentSelectedSwapChoice: 'Select',
       currentSelectedSecondSwapChoice: 'Select',
       newSwapFront: '',
-      newSwapBack: ''
+      newSwapBack: '',
+      okayToSwap: false
     };
     this.handleSelectedAlternativeChange = this.handleSelectedAlternativeChange.bind(this);
     this.handleSelectedSwapChoiceChange = this.handleSelectedSwapChoiceChange.bind(this);
     this.handleSelectedSecondSwapChoiceChange = this.handleSelectedSecondSwapChoiceChange.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.processSwap = this.processSwap.bind(this);
+    this.cloneConsequence = this.cloneConsequence.bind(this);
   }
 
   handleSelectedAlternativeChange(event) {
-    this.setState(
-      {
-        currentSelectedAlternative: event.target.value,
-      });
+    this.setState({ currentSelectedAlternative: event.target.value });
   }
 
   handleSelectedSwapChoiceChange(event) {
@@ -39,24 +39,50 @@ class SwapPanel extends Component {
     const target = event.target;
     const name = target.name;
     const value = target.value
-    this.setState({ [name]: value }, () => {
-      //this.props.update(this.props.decisionId, this.props.id, { [name]: value });
-      console.log("name: " + name + '; new score: ' + value);
-    });
+    this.setState({ [name]: value });
+  }
+
+  cloneConsequence(consequence) {
+    const newObj = {};
+    newObj.objTitle = consequence.objTitle;
+    newObj.altTitle = consequence.altTitle;
+    newObj.description = consequence.description;
+    newObj.isActive = true;
+    newObj.isInitial = false;
+
+    return newObj;
+  }
+
+  processSwap() {
+    const firstConsequence = this.props.getActiveConsequence(this.state.currentSelectedSwapChoice, this.state.currentSelectedAlternative);
+    const secondConsequence = this.props.getActiveConsequence(this.state.currentSelectedSecondSwapChoice, this.state.currentSelectedAlternative);
+    const copyOfFirst = this.cloneConsequence(this.props.getActiveConsequence(this.state.currentSelectedSwapChoice, this.state.currentSelectedAlternative));
+    const copyOfSecond = this.cloneConsequence(this.props.getActiveConsequence(this.state.currentSelectedSecondSwapChoice, this.state.currentSelectedAlternative));
+
+    this.props.updateConsequence(this.props.decision.decisionId, firstConsequence.id, {isActive: false});
+    this.props.updateConsequence(this.props.decision.decisionId, secondConsequence.id, {isActive: false});
+
+    copyOfFirst.score = this.state.newSwapFront;
+    copyOfSecond.score = this.state.newSwapBack;
+
+    this.props.addVirtualConsequence(this.props.decision.decisionId, copyOfFirst);
+    this.props.addVirtualConsequence(this.props.decision.decisionId, copyOfSecond);
   }
 
   handleClick(event) {
-    console.log("update front swap to: " + this.state.newSwapFront);
-    console.log("updating back swap to: " + this.state.newSwapBack);
-    const updatedScores = {
-      firstTitle: this.state.currentSelectedSwapChoice,
-      secondTitle: this.state.currentSelectedSecondSwapChoice,
-      newSwapFront: this.state.newSwapFront,
-      newSwapBack: this.state.newSwapBack
-    };
 
-    this.props.updateTable(updatedScores);
+    this.processSwap();
+
+    this.setState({
+      currentSelectedAlternative: 'Select', 
+      currentSelectedSwapChoice: 'Select',
+      currentSelectedSecondSwapChoice: 'Select',
+      newSwapFront: '',
+      newSwapBack: ''
+    });
+
   }
+
 
   render() {
 
@@ -69,6 +95,8 @@ class SwapPanel extends Component {
     const objectivesSelectOptions = this.props.objectives.map(objective =>
       <option value={objective.title} key={objective.id}>{objective.title}</option>
     );
+
+    let noFieldsBlank = (this.state.currentSelectedAlternative !== 'Select' && this.state.newSwapBack.length > 0 && this.state.newSwapFront.length > 0);
 
     let firstScore = this.props.getActiveConsequence(this.state.currentSelectedSwapChoice, this.state.currentSelectedAlternative).score;
 
@@ -128,7 +156,13 @@ class SwapPanel extends Component {
             onChange={this.handleInputChange}/>
           </p>
         <ButtonToolbar>
-          <Button bsStyle="primary" type="button" onClick={this.handleClick}>OK</Button>
+          <Button 
+            bsStyle="primary" 
+            type="button" 
+            onClick={noFieldsBlank ? this.handleClick : null} 
+            disabled={!noFieldsBlank}>
+            OK
+            </Button>
           <Button type="button" className="pull-right">Cancel</Button>
         </ButtonToolbar>
       </Panel>

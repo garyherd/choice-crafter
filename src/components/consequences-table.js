@@ -55,9 +55,9 @@ class ConsequencesTable extends Component {
         {this.props.objectives.map(objective =>
           <EditableCell
             decisionId={this.props.decisionId}
-            key={this.props.getActiveConsequence(objective.title, alternative.title).id}
-            id={this.props.getActiveConsequence(objective.title, alternative.title).id}
-            cellData={this.props.getActiveConsequence(objective.title, alternative.title).score}
+            key={this.props.getInitialConsequence(objective.title, alternative.title).id}
+            id={this.props.getInitialConsequence(objective.title, alternative.title).id}
+            cellData={this.props.getInitialConsequence(objective.title, alternative.title).score}
             updateField="score"
             update={this.props.updateConsequence} />
         )}
