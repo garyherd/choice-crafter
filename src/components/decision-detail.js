@@ -11,7 +11,8 @@ class DecisionDetail extends Component {
     this.renderChildren = this.renderChildren.bind(this);
     this.getDecision = this.getDecision.bind(this);
     this.updateProblem = this.updateProblem.bind(this);
-    this.getConsequence = this.getConsequence.bind(this);
+    this.getActiveConsequence = this.getActiveConsequence.bind(this);
+    this.getInactiveConsequences = this.getInactiveConsequences.bind(this);
   }
 
   getDecision() {
@@ -34,13 +35,22 @@ class DecisionDetail extends Component {
     this.props.updateProblem(decision.decisionId, title, description);
   }
 
-  getConsequence(objTitle, altTitle) {
+  getActiveConsequence(objTitle, altTitle) {
     let decision = this.getDecision();
     let foundItem = decision.consequences.filter(consequence => {
-      return ((consequence.objTitle === objTitle) && (consequence.altTitle === altTitle))
+      return ((consequence.objTitle === objTitle) && (consequence.altTitle === altTitle) && (consequence.isActive === true))
     });
 
     return (foundItem.length > 0 ? foundItem[0] : {});
+  }
+
+  getInactiveConsequences(objTitle, altTitle) {
+    let decision = this.getDecision();
+    let foundItems = decision.consequences.filter(consequence => {
+      return ((consequence.objTitle === objTitle) && (consequence.altTitle === altTitle) && (consequence.isActive === false))
+    });
+
+    return (foundItems.length > 0 ? foundItems : []);    
   }
 
   renderChildren() {
@@ -56,7 +66,9 @@ class DecisionDetail extends Component {
         addAlternative: this.props.addAlternative,
         removeAlternative: this.props.removeAlternative,
         updateConsequence: this.props.updateConsequence,
-        getConsequence: this.getConsequence,
+        addVirtualConsequence: this.props.addVirtualConsequence,
+        getActiveConsequence: this.getActiveConsequence,
+        getInactiveConsequences: this.getInactiveConsequences
       });
     });
   }

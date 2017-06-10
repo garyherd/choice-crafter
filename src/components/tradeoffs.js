@@ -23,6 +23,11 @@ class TradeOffs extends Component {
     }
   }
 
+  updateTable(updateObject) {
+    //not sure yet if this goes here
+    console.log(updateObject);
+  }
+
   render() {
     const enabledAlternatives = this.props.decision.alternatives.filter(
       (alternative) => alternative.enabled === true
@@ -34,17 +39,21 @@ class TradeOffs extends Component {
 
     const table = <TradeOffsTable
       alternatives={enabledAlternatives}
-      getConsequence={this.props.getConsequence}
+      getActiveConsequence={this.props.getActiveConsequence}
+      getInactiveConsequences={this.props.getInactiveConsequences}
       decision={this.props.decision} />;
 
     const renderTypes = {
       "evenSwap": <SwapPanel 
                     alternatives={enabledAlternatives}
                     objectives={enabledObjectives}
-                    getConsequence={this.props.getConsequence}
-                    decision={this.props.decision}/>,
+                    getActiveConsequence={this.props.getActiveConsequence}
+                    addVirtualConsequence={this.props.addVirtualConsequence}
+                    updateConsequence={this.props.updateConsequence}
+                    decision={this.props.decision}
+                    updateTable={this.updateTable}/>,
       "removeAlternative": <RemoveAlternativePanel
-                              getConsequence={this.props.getConsequence}
+                              getActiveConsequence={this.props.getActiveConsequence}
                               updateObjective={this.props.updateObjective}
                               updateAlternative={this.props.updateAlternative}
                               alternatives={enabledAlternatives}

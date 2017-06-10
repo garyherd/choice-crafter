@@ -30,6 +30,7 @@ class App extends Component {
     this.handleRemoveAlternative = this.handleRemoveAlternative.bind(this);
     this.handleUpdateConsequence = this.handleUpdateConsequence.bind(this);
     this.createNewConsequences = this.createNewConsequences.bind(this);
+    this.handleAddVirtualConsequence = this.handleAddVirtualConsequence.bind(this);
   }
 
   handleUpdateProblem(decisionId, newShortDesc, newLongDesc) {
@@ -126,13 +127,27 @@ class App extends Component {
     let processor = {
       "objective": () => {
         altsOrobjectives.forEach((item) => {
-          consequences.push({id: uuid.v4(), objTitle: newObjectTitle, altTitle: item.title, score: '(required)', description: ""});
+          consequences.push({
+            id: uuid.v4(),
+            objTitle: newObjectTitle,
+            altTitle: item.title,
+            score: '(required)',
+            description: "",
+            isActive: true
+          });
         })
       },
       "alternative": () => {
         altsOrobjectives.forEach((item) => {
-          consequences.push({id: uuid.v4(), objTitle: item.title, altTitle: newObjectTitle, score: '(required)', description: ""});
-        })        
+          consequences.push({
+            id: uuid.v4(),
+            objTitle: item.title,
+            altTitle: newObjectTitle,
+            score: '(required)',
+            description: "",
+            isActive: true
+          });
+        })
       }
     };
 
@@ -276,6 +291,27 @@ class App extends Component {
     this.setState({decisions: decisionsCopy});        
   }
 
+  handleAddVirtualConsequence(decisionId, newConsequence) {
+    let decisionsCopy = this.state.decisions.slice();
+    let targetDecision = decisionsCopy.filter((decision) => {
+      return decision.decisionId === decisionId;
+    })[0];
+
+    newConsequence["isActive"] = true;
+    newConsequence.id = uuid.v4();
+
+    targetDecision.consequences.push(newConsequence);
+
+    let spliceStart = decisionsCopy.findIndex((decisionObj) => {
+      return decisionObj.decisionId === decisionId;
+    });
+
+    decisionsCopy.splice(spliceStart, 1);
+    decisionsCopy.splice(spliceStart, 0, targetDecision);
+
+    this.setState({decisions: decisionsCopy});      
+  }
+
   renderChildren() {
 
     return React.Children.map(this.props.children, child => {
@@ -289,6 +325,7 @@ class App extends Component {
         addAlternative: this.handleAddAlternative,
         removeAlternative: this.handleRemoveAlternative,
         updateConsequence: this.handleUpdateConsequence,
+        addVirtualConsequence: this.addVirtualConsequence
       });
     });
   }

@@ -9,16 +9,36 @@ class TradeOffsTable extends Component {
     super(props);
     this.state = {
       view: "changeCell",
+      initialTableScores: this.props.decision.consequences
     };
   }
 
   render() {
 
+    const lineThru = {
+      textDecoration: 'line-through'
+    };
+
+    const hideDiv = {
+      display: 'none'
+    };
+
     const scores = this.props.alternatives.map(alternative =>
       <tr key={alternative.id}>
+        
         <td><strong>{alternative.title}</strong></td>
+
         {this.props.decision.objectives.map(objective =>
-          <td key={objective.id}>{this.props.getConsequence(objective.title, alternative.title).score}</td>
+          <td key={objective.id}>
+
+            {this.props.getInactiveConsequences(objective.title, alternative.title).map(
+              consequence => <div key={consequence.id} style={lineThru}>{consequence.score}</div>)}
+
+            <div key={this.props.getActiveConsequence(objective.title, alternative.title).id}>
+              {this.props.getActiveConsequence(objective.title, alternative.title).score}
+            </div>
+
+          </td>
         )}
       </tr>
     )

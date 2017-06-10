@@ -53,8 +53,8 @@ class RemoveAlternativePanel extends Component {
     const scores = this.props.decision.objectives.map(objective =>
       <tr key={objective.id}>
         <td><strong>{objective.title}</strong></td>
-        <td key={objective.title + "0_dominates"}>{this.props.getConsequence(objective.title, this.state.currentDominatesSelection).score}</td>
-        <td key={objective.title + "1_dominated"}>{this.props.getConsequence(objective.title, this.state.currentDominatedSelection).score}</td>
+        <td key={objective.title + "0_dominates"}>{this.props.getActiveConsequence(objective.title, this.state.currentDominatesSelection).score}</td>
+        <td key={objective.title + "1_dominated"}>{this.props.getActiveConsequence(objective.title, this.state.currentDominatedSelection).score}</td>
       </tr>
     );
 

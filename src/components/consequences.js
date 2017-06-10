@@ -14,7 +14,7 @@ class Consequences extends Component {
       update={this.props.updateObjective}
       updateConsequence={this.props.updateConsequence}
       addConsequence={this.props.addConsequence}
-      getConsequence={this.props.getConsequence} />;
+      getActiveConsequence={this.props.getActiveConsequence} />;
 
     return (
       <div>
