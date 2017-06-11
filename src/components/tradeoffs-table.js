@@ -5,13 +5,6 @@ import { Table } from 'react-bootstrap';
 import { TableHeaders } from './table-parts'
 
 class TradeOffsTable extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      view: "changeCell",
-      initialTableScores: this.props.decision.consequences
-    };
-  }
 
   render() {
 
@@ -24,7 +17,7 @@ class TradeOffsTable extends Component {
 
         <td><strong>{alternative.title}</strong></td>
 
-        {this.props.decision.objectives.map(objective =>
+        {this.props.objectives.map(objective =>
           <td key={objective.id}>
 
             {this.props.getInactiveConsequences(objective.title, alternative.title).map(
@@ -40,7 +33,7 @@ class TradeOffsTable extends Component {
     )
     return (
       <Table responsive bordered>
-        <TableHeaders objectArray={this.props.decision.objectives} />
+        <TableHeaders objectArray={this.props.objectives} />
 
         <tbody>
           {scores}

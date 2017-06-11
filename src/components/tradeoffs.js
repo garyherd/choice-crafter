@@ -4,6 +4,7 @@ import { Row, Col, Panel, ButtonToolbar, Button } from 'react-bootstrap';
 
 import { TradeOffsTable } from './tradeoffs-table';
 import { RemoveAlternativePanel } from './tradeoffs-remove-alt-panel';
+import { RemoveObjectivePanel } from './tradeoffs-remove-obj-panel';
 import { SwapPanel } from './tradeoffs-swap-panel';
 
 
@@ -15,12 +16,14 @@ class TradeOffs extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick() {
-    if (this.state.mode === "evenSwap") {
-      this.setState({mode: "removeAlternative"});
-    } else {
-      this.setState({mode: "evenSwap"});
-    }
+  handleClick(msg) {
+    const options = {
+      "evenSwap": () => this.setState({ mode: "evenSwap" }),
+      "removeAlternative": () => this.setState({ mode: "removeAlternative" }),
+      "removeObjective": () => this.setState({ mode: "removeObjective" })
+    };
+
+    options[msg]();
   }
 
   updateTable(updateObject) {
@@ -39,6 +42,7 @@ class TradeOffs extends Component {
 
     const table = <TradeOffsTable
       alternatives={enabledAlternatives}
+      objectives={enabledObjectives}
       getActiveConsequence={this.props.getActiveConsequence}
       getInactiveConsequences={this.props.getInactiveConsequences}
       decision={this.props.decision} />;
@@ -58,13 +62,13 @@ class TradeOffs extends Component {
                               updateAlternative={this.props.updateAlternative}
                               alternatives={enabledAlternatives}
                               decision={this.props.decision} />,
+      "removeObjective": <RemoveObjectivePanel
+                              getActiveConsequence={this.props.getActiveConsequence}
+                              updateObjective={this.props.updateObjective}
+                              objectives={enabledObjectives}
+                              decision={this.props.decision} />,
       "default": <SwapPanel
         alternatives={enabledAlternatives}/>
-    };
-
-    const buttonTextOptions = {
-      "evenSwap": "Remove dominated alternative",
-      "removeAlternative": "Make even swap",
     };
 
     return (
@@ -77,9 +81,9 @@ class TradeOffs extends Component {
                 <li>Removing alternatives dominated by at least one other.</li>
                 <li>Making objectives irrelevant through even swaps</li>
               </ol>
-              <ButtonToolbar>
-                <Button bsStyle="primary" type="button" onClick={this.handleClick}>{buttonTextOptions[this.state.mode]}</Button>
-              </ButtonToolbar>
+              <div className="form-group"><Button bsStyle="primary" type="button" onClick={() => this.handleClick("evenSwap")}>Make Even Swap</Button></div>
+              <div className="form-group"><Button bsStyle="primary" type="button" onClick={() => this.handleClick("removeObjective")}>Remove Irrelevant Objective</Button></div>
+              <div className="form-group"><Button bsStyle="primary" type="button" onClick={() => this.handleClick("removeAlternative")}>Remove Dominated Alternative</Button></div>
             </Panel>
           </Col>
           <Col sm={6}>
