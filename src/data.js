@@ -13,7 +13,8 @@ const dbSeed = [
         description: "", 
         scale: "Continuous",
         minMax: "Maximize",
-        unit: "$"
+        unit: "$",
+        enabled: true
       },
       {
         id: uuid.v4(), 
@@ -21,7 +22,8 @@ const dbSeed = [
         description: "need to able to deal with emergencies",
         scale: "H/M/L",
         minMax: "Maximize",
-        unit: ""
+        unit: "n/a",
+        enabled: true
       },
       {
         id: uuid.v4(), 
@@ -29,7 +31,8 @@ const dbSeed = [
         description: "gain some experience that will useful when I return school", 
         scale: "H/M/L",
         minMax: "Maximize",
-        unit: ""
+        unit: "n/a",
+        enabled: true
       },
       {
         id: uuid.v4(), 
@@ -37,7 +40,8 @@ const dbSeed = [
         description: "", 
         scale: "Continous",
         minMax: "Maximize",
-        unit: "days"
+        unit: "days",
+        enabled: true
       },
       {
         id: uuid.v4(), 
@@ -45,7 +49,8 @@ const dbSeed = [
         description: "", 
         scale: "H/M/L",
         minMax: "Maximize",
-        unit: ""
+        unit: "n/a",
+        enabled: true
       },
       {
         id: uuid.v4(), 
@@ -53,61 +58,53 @@ const dbSeed = [
         description: "", 
         scale: "H/M/L",
         minMax: "Maximize",
-        unit: ""
+        unit: "n/a",
+        enabled: true
       }
     ],
     alternatives: [
-      {id: uuid.v4(), title: "Job A", description: ""},
-      {id: uuid.v4(), title: "Job B", description: ""},
-      {id: uuid.v4(), title: "Job C", description: ""},
-      {id: uuid.v4(), title: "Job D", description: ""},
-      {id: uuid.v4(), title: "Job E", description: ""},
+      {id: uuid.v4(), title: "Job A", description: "", enabled: true},
+      {id: uuid.v4(), title: "Job B", description: "", enabled: true},
+      {id: uuid.v4(), title: "Job C", description: "", enabled: true},
+      {id: uuid.v4(), title: "Job D", description: "", enabled: true},
+      {id: uuid.v4(), title: "Job E", description: "", enabled: true},
     ],
-    // consequences: [
-    //   {objId: 0, altId: 0, title: 2000, description: ""},
-    //   {objId: 0, altId: 1, title: 2400, description: ""},
-    //   {objId: 0, altId: 2, title: 1800, description: ""},
-    //   {objId: 0, altId: 3, title: 1900, description: ""},
-    //   {objId: 0, altId: 4, title: 2200, description: ""},
-    //   {objId: 1, altId: 0, title: "moderate", description: ""},
-    //   {objId: 1, altId: 1, title: "low", description: ""},
-    //   {objId: 1, altId: 2, title: "high", description: ""},
-    //   {objId: 1, altId: 3, title: "moderate", description: ""},
-    //   {objId: 1, altId: 4, title: "none", description: ""},
-    //   {objId: 2, altId: 0, title: "computer", description: ""},
-    //   {objId: 2, altId: 1, title: "people management, computer", description: ""},
-    //   {objId: 2, altId: 2, title: "operations, computer", description: ""},
-    //   {objId: 2, altId: 3, title: "organization", description: ""},
-    //   {objId: 2, altId: 4, title: "time management, multitasking", description: ""}, 
-    //   {objId: 3, altId: 0, title: 14, description: ""},
-    //   {objId: 3, altId: 1, title: 12, description: ""},
-    //   {objId: 3, altId: 2, title: 10, description: ""},
-    //   {objId: 3, altId: 3, title: 15, description: ""},
-    //   {objId: 3, altId: 4, title: 12, description: ""},   
-    //   {objId: 4, altId: 0, title: "health, dental, retirement", description: ""},
-    //   {objId: 4, altId: 1, title: "health, dental", description: ""},
-    //   {objId: 4, altId: 2, title: "health", description: ""},
-    //   {objId: 4, altId: 3, title: "health, retirement", description: ""},
-    //   {objId: 4, altId: 4, title: "health, dental", description: ""}, 
-    //   {objId: 5, altId: 0, title: "great", description: ""},
-    //   {objId: 5, altId: 1, title: "good", description: ""},
-    //   {objId: 5, altId: 2, title: "good", description: ""},
-    //   {objId: 5, altId: 3, title: "great", description: ""},
-    //   {objId: 5, altId: 4, title: "boring", description: ""},                           
-    // ],
+    consequences: [
+      {id: uuid.v4(), objTitle: "Monthly Salary", altTitle: "Job A", score: 2000, description: "", isActive: true, isInitial: true},
+      {id: uuid.v4(), objTitle: "Monthly Salary", altTitle: "Job B", score: 2400, description: "", isActive: true, isInitial: true},
+      {id: uuid.v4(), objTitle: "Monthly Salary", altTitle: "Job C", score: 1800, description: "", isActive: true, isInitial: true},
+      {id: uuid.v4(), objTitle: "Monthly Salary", altTitle: "Job D", score: 1900, description: "", isActive: true, isInitial: true},
+      {id: uuid.v4(), objTitle: "Monthly Salary", altTitle: "Job E", score: 2200, description: "", isActive: true, isInitial: true},
+      {id: uuid.v4(), objTitle: "Flexibility", altTitle: "Job A", score: "moderate", description: "", isActive: true, isInitial: true},
+      {id: uuid.v4(), objTitle: "Flexibility", altTitle: "Job B", score: "low", description: "", isActive: true, isInitial: true},
+      {id: uuid.v4(), objTitle: "Flexibility", altTitle: "Job C", score: "high", description: "", isActive: true, isInitial: true},
+      {id: uuid.v4(), objTitle: "Flexibility", altTitle: "Job D", score: "moderate", description: "", isActive: true, isInitial: true},
+      {id: uuid.v4(), objTitle: "Flexibility", altTitle: "Job E", score: "none", description: "", isActive: true, isInitial: true},
+      {id: uuid.v4(), objTitle: "Business Skills Development", altTitle: "Job A", score: "computer", description: "", isActive: true, isInitial: true },
+      {id: uuid.v4(), objTitle: "Business Skills Development", altTitle: "Job B", score: "people management, computer", description: "", isActive: true, isInitial: true},
+      {id: uuid.v4(), objTitle: "Business Skills Development", altTitle: "Job C", score: "operations, computer", description: "", isActive: true, isInitial: true},
+      {id: uuid.v4(), objTitle: "Business Skills Development", altTitle: "Job D", score: "organiztion", description: "", isActive: true, isInitial: true},
+      {id: uuid.v4(), objTitle: "Business Skills Development", altTitle: "Job E", score: "time management, multitasking", description: "", isActive: true, isInitial: true},
+      {id: uuid.v4(), objTitle: "Business Skills Development", altTitle: "Job F", score: "(required)", description: "", isActive: true, isInitial: true},
+      {id: uuid.v4(), objTitle: "Annual vacation days", altTitle: "Job A", score: 14, description: "", isActive: true, isInitial: true},
+      {id: uuid.v4(), objTitle: "Annual vacation days", altTitle: "Job B", score: 12, description: "", isActive: true, isInitial: true},
+      {id: uuid.v4(), objTitle: "Annual vacation days", altTitle: "Job C", score: 10, description: "", isActive: true, isInitial: true},
+      {id: uuid.v4(), objTitle: "Annual vacation days", altTitle: "Job D", score: 15, description: "", isActive: true, isInitial: true},
+      {id: uuid.v4(), objTitle: "Annual vacation days", altTitle: "Job E", score: 12, description: "", isActive: true, isInitial: true},  
+      {id: uuid.v4(), objTitle: "Benefits", altTitle: "Job A", score: "health, dental, retirement", description: "", isActive: true, isInitial: true}, 
+      {id: uuid.v4(), objTitle: "Benefits", altTitle: "Job B", score: "health, dental", description: "", isActive: true, isInitial: true}, 
+      {id: uuid.v4(), objTitle: "Benefits", altTitle: "Job C", score: "health", description: "", isActive: true, isInitial: true}, 
+      {id: uuid.v4(), objTitle: "Benefits", altTitle: "Job D", score: "health, retirement", description: "", isActive: true, isInitial: true}, 
+      {id: uuid.v4(), objTitle: "Benefits", altTitle: "Job E", score: "health, dental", description: "", isActive: true, isInitial: true},  
+      {id: uuid.v4(), objTitle: "Enjoyment", altTitle: "Job A", score: "great", description: "", isActive: true, isInitial: true},  
+      {id: uuid.v4(), objTitle: "Enjoyment", altTitle: "Job B", score: "good", description: "", isActive: true, isInitial: true},  
+      {id: uuid.v4(), objTitle: "Enjoyment", altTitle: "Job C", score: "good", description: "", isActive: true, isInitial: true},  
+      {id: uuid.v4(), objTitle: "Enjoyment", altTitle: "Job D", score: "great", description: "", isActive: true, isInitial: true},  
+      {id: uuid.v4(), objTitle: "Enjoyment", altTitle: "Job E", score: "boring", description: "", isActive: true, isInitial: true},                            
+    ],
     isActive: true,
     createdDate: "3/10/2017",
   },
-  {
-    decisionId: uuid.v4(),
-    uid: 'Fg7D7hAan5QHE3jcdo6n64QYS4a2',
-    decisionShort: "This is another decision"
-  },
-    {
-    decisionId: uuid.v4(),
-    uid: 'userNotLoggedIn',
-    decisionShort: "should I be an astronaut"
-  }
 ];
 
 const DECISIONS_Arr = [
@@ -369,16 +366,53 @@ var decisionsDB = (function() {
   return localDB;
 }());
 
-function refreshDecisions() {
-  decisionsDB.getDecisionsByUser("abc", (decisions) => {
-  });
+// new version of db
+let choiceCrafterDb = {};
+let datastore = null;
+
+choiceCrafterDb.open = (callback) => {
+  const version = 1;
+  const request = indexedDB.open("ChoiceCrafterDatabase", version);
+
+  request.onupgradeneeded = (event) => { 
+    let db = event.target.result;
+    event.target.transaction.onerror = choiceCrafterDb.onerror;
+
+    if (db.objectStoreNames.contains('decisions')) {
+      db.deleteObjectStore('decisions');
+    }
+
+    const store = db.createObjectStore('decisions', {keyPath: "decisionId"});
+  };
+
+  request.onsuccess = (event) => {
+    datastore = event.target.result;
+    callback();
+  };
+
+  request.onerror = choiceCrafterDb.onerror;
+};
+
+choiceCrafterDb.fetchDecisions = (event) => {
+  const db = datastore;
+  const transaction = "";
 }
 
+const initializeDatabase = () => {
+  const request = indexedDB.open("ChoiceCrafterDatabase", 1);
+  request.onerror = (event) => alert("Why didn't you allow my web app to use IndexDB?!");
+  request.onsuccess = (event) => {
+    choiceCrafterDb = event.target.result;
+  };
+  request.onupgradeneeded = (event) => {
+    const db = event.target.result;
+    const objectStore = db.createObjectStore("decisions", { keyPath: 'decisionId' });
+    objectStore.transaction.oncomplete = (event) => {
+      const decisionsObjectStore = db.transaction("decisions", "readwrite").objectStore("decisions");
+      decisionsObjectStore.add(dbSeed[0]);
+    };
+  };
+};
 
 
-
-  // Start a transaction and make a request to do some database operation, like adding or retrieving data.
-  // Wait for the operation to complete by listening to the right kind of DOM event.
-  // Do something with the results (which can be found on the request object).
-
-export {DECISIONS_Arr, decisionsDB, refreshDecisions };
+export {DECISIONS_Arr, initializeDatabase };

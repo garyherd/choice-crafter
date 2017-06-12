@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router';
 import uuid from 'uuid';
 
 import NavbarInstance from './components/navbar';
-import { DECISIONS_Arr, decisionsDB, refreshDecisions } from './data.js';
+import { DECISIONS_Arr, initializeDatabase } from './data.js';
 
 import * as firebase from 'firebase';
 
@@ -332,11 +332,11 @@ class App extends Component {
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(firebaseUser => {
-      firebaseUser ? this.setState({ isLoggedIn: true, firebaseUser: firebaseUser, decisions: DECISIONS_Arr }) 
+      firebaseUser ? this.setState({ isLoggedIn: true, firebaseUser: firebaseUser, decisions: DECISIONS_Arr }, () => initializeDatabase()) 
       : this.setState({ isLoggedIn: false, firebaseUser: firebaseUser, decisions: [] });
     });
 
-    decisionsDB.open(refreshDecisions);
+    //decisionsDB.open(refreshDecisions);
 
   } 
 
