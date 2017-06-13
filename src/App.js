@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router';
 import uuid from 'uuid';
 
 import NavbarInstance from './components/navbar';
-import { DECISIONS_Arr, initializeDatabase } from './data.js';
+import { choiceCrafterDb } from './data.js';
 
 import * as firebase from 'firebase';
 
@@ -31,6 +31,8 @@ class App extends Component {
     this.handleUpdateConsequence = this.handleUpdateConsequence.bind(this);
     this.createNewConsequences = this.createNewConsequences.bind(this);
     this.handleAddVirtualConsequence = this.handleAddVirtualConsequence.bind(this);
+    this.refreshDecisions = this.refreshDecisions.bind(this);
+    this.loadDatabase = this.loadDatabase.bind(this);
   }
 
   handleUpdateProblem(decisionId, newShortDesc, newLongDesc) {
@@ -330,14 +332,30 @@ class App extends Component {
     });
   }
 
+  refreshDecisions() {
+    choiceCrafterDb.fetchDecisions(decisions => this.setState({decisions: decisions}))
+  }
+
+  loadDatabase() {
+    choiceCrafterDb.open(() => {
+      choiceCrafterDb.getRecordCount(
+        count => {
+          if (count === 0) {
+            choiceCrafterDb.loadExampleDecision(this.refreshDecisions);
+          } else {
+            this.refreshDecisions();
+          }
+        }
+      )
+    });
+  }
+
   componentDidMount() {
+ 
     firebase.auth().onAuthStateChanged(firebaseUser => {
-      firebaseUser ? this.setState({ isLoggedIn: true, firebaseUser: firebaseUser, decisions: DECISIONS_Arr }, () => initializeDatabase()) 
+      firebaseUser ? this.setState({ isLoggedIn: true, firebaseUser: firebaseUser }, () => this.loadDatabase()) 
       : this.setState({ isLoggedIn: false, firebaseUser: firebaseUser, decisions: [] });
     });
-
-    //decisionsDB.open(refreshDecisions);
-
   } 
 
   handleFireBaseSignOut() {

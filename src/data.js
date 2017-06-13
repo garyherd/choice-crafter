@@ -368,13 +368,14 @@ var decisionsDB = (function() {
 
 // new version of db
 let choiceCrafterDb = {};
-let datastore = null;
+choiceCrafterDb.datastore = null;
 
 choiceCrafterDb.open = (callback) => {
   const version = 1;
   const request = indexedDB.open("ChoiceCrafterDatabase", version);
 
   request.onupgradeneeded = (event) => { 
+    alert("onupgrad needed reached");
     let db = event.target.result;
     event.target.transaction.onerror = choiceCrafterDb.onerror;
 
@@ -386,33 +387,64 @@ choiceCrafterDb.open = (callback) => {
   };
 
   request.onsuccess = (event) => {
-    datastore = event.target.result;
+    choiceCrafterDb.datastore = event.target.result;
+    alert("open onsuccess reached");
     callback();
   };
 
   request.onerror = choiceCrafterDb.onerror;
 };
 
-choiceCrafterDb.fetchDecisions = (event) => {
-  const db = datastore;
-  const transaction = "";
+choiceCrafterDb.fetchDecisions = (callback) => {
+  const db = choiceCrafterDb.datastore;
+  const transaction = db.transaction(['decisions'], 'readwrite');
+  const objStore = transaction.objectStore('decisions');
+
+  const cursorRequest = objStore.openCursor();
+
+  let decisions = [];
+
+  transaction.oncomplete = (event) => {
+    callback(decisions);
+  };
+
+  cursorRequest.onsuccess = event => {
+    const result = event.target.result;
+
+    if (!!result == false) {
+      return;
+    }
+
+    decisions.push(result.value);
+
+    result.continue();
+  };
+
+  cursorRequest.onerror = choiceCrafterDb.onerror;
+
 }
 
-const initializeDatabase = () => {
-  const request = indexedDB.open("ChoiceCrafterDatabase", 1);
-  request.onerror = (event) => alert("Why didn't you allow my web app to use IndexDB?!");
-  request.onsuccess = (event) => {
-    choiceCrafterDb = event.target.result;
-  };
-  request.onupgradeneeded = (event) => {
-    const db = event.target.result;
-    const objectStore = db.createObjectStore("decisions", { keyPath: 'decisionId' });
-    objectStore.transaction.oncomplete = (event) => {
-      const decisionsObjectStore = db.transaction("decisions", "readwrite").objectStore("decisions");
-      decisionsObjectStore.add(dbSeed[0]);
-    };
-  };
-};
+choiceCrafterDb.loadExampleDecision = callback => {
+  const db = choiceCrafterDb.datastore;
+  const transaction = db.transaction(['decisions'], 'readwrite');
+  const objStore = transaction.objectStore('decisions');
+  const request = objStore.add(dbSeed[0]);
+
+  request.onsuccess = event => {
+    callback()
+  }
+}
+
+choiceCrafterDb.getRecordCount = callback => {
+  const db = choiceCrafterDb.datastore;
+  const transaction = db.transaction(['decisions'], 'readonly');
+  const objStore = transaction.objectStore('decisions');
+  const request = objStore.count();
+
+  request.onsuccess = event => {
+    callback(request.result);
+  }
+}
 
 
-export {DECISIONS_Arr, initializeDatabase };
+export { choiceCrafterDb };
