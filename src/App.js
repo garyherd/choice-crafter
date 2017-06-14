@@ -36,28 +36,7 @@ class App extends Component {
   }
 
   handleUpdateProblem(decisionId, newShortDesc, newLongDesc) {
-
-    let decisionsCopy = this.state.decisions.slice();
-    let targetDecision = decisionsCopy.filter((decision) => {
-      return decision.decisionId === decisionId
-    })[0];
-
-    if (newShortDesc) {
-      targetDecision.decisionShort = newShortDesc;   
-    }
-
-    if (newLongDesc) {
-      targetDecision.decisionLong = newLongDesc;   
-    }
-     
-    let spliceStart = decisionsCopy.findIndex((decisionObj) => {
-      return decisionObj.decisionId === decisionId;
-    });
-
-    decisionsCopy.splice(spliceStart, 1);
-    decisionsCopy.splice(spliceStart, 0, targetDecision);
-
-    this.setState({decisions: decisionsCopy});
+    choiceCrafterDb.updateDecision(decisionId, newShortDesc, newLongDesc, this.refreshDecisions)
   }
  
 

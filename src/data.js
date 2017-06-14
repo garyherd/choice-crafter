@@ -285,87 +285,6 @@ const DECISIONS_Arr = [
   },
 ]
 
-var decisionsDB = (function() {
-  var localDB = {}
-  var datastore = null;
-
-  /**
-   * Open a connection to the datastore
-   */
-
-  localDB.open = (callback) => {
-    // Database version
-    var version = 1;
-
-    // Open a connection to the datastore.
-    var request = indexedDB.open('decisions', version);
-
-    // Handle datastore upgrades
-    request.onupgradeneeded = (event) => {
-      var db = event.target.result;
-
-      event.target.transaction.onerror = localDB.onerror;
-
-      // Delete the old datastore.
-      if (db.objectStoreNames.contains('decisions')) {
-        db.deleteObjectStore('decisions');
-      }
-
-      // Create a new datastore
-      var store = db.createObjectStore('decisions', {keyPath: "decisionId", autoIncrement:false});
-      store.createIndex("userDecisions", "uid", { unique: false });
-    };
-
-    // Handle successful datastore access.
-    request.onsuccess = (event) => {
-      // Get a reference to the DB.
-      datastore = event.target.result;
-
-      // Execute the callback.
-      callback();
-    };
-
-    // Handle errors when opening the datastore.
-    request.onerror = localDB.onerror;
-  }
-   // TODO: Add methods for interacting with the database here.
-
-  localDB.getDecisionsByUser = (userId, callback) => {
-    var db = datastore;
-    var transaction = db.transaction('decisions', 'readwrite');
-    var objStore = transaction.objectStore('decisions');
-    var index = objStore.index('userDecisions');
-
-    var keyRange = IDBKeyRange.only('Fg7D7hAan5QHE3jcdo6n64QYS4a2');
-    var cursorRequest = index.openCursor(keyRange);
-
-    var decisions = [];
-
-    transaction.oncomplete = (event) => {
-      //Execute the callback function.
-      callback(decisions);
-    };
-
-    cursorRequest.onsuccess = (event) => {
-      var result = event.target.result;
-
-      if (!!result == false) {
-        return;
-      }
-
-      decisions.push(result.value);
-      result.continue();
-    };
-
-    cursorRequest.onerror = localDB.onerror;
-  };
-
-  
-
-  // Export the localDB object
-  return localDB;
-}());
-
 // new version of db
 let choiceCrafterDb = {};
 choiceCrafterDb.datastore = null;
@@ -375,7 +294,6 @@ choiceCrafterDb.open = (callback) => {
   const request = indexedDB.open("ChoiceCrafterDatabase", version);
 
   request.onupgradeneeded = (event) => { 
-    alert("onupgrad needed reached");
     let db = event.target.result;
     event.target.transaction.onerror = choiceCrafterDb.onerror;
 
@@ -388,7 +306,6 @@ choiceCrafterDb.open = (callback) => {
 
   request.onsuccess = (event) => {
     choiceCrafterDb.datastore = event.target.result;
-    alert("open onsuccess reached");
     callback();
   };
 
@@ -433,6 +350,8 @@ choiceCrafterDb.loadExampleDecision = callback => {
   request.onsuccess = event => {
     callback()
   }
+
+  request.onerror = choiceCrafterDb.onerror;
 }
 
 choiceCrafterDb.getRecordCount = callback => {
@@ -443,8 +362,34 @@ choiceCrafterDb.getRecordCount = callback => {
 
   request.onsuccess = event => {
     callback(request.result);
-  }
-}
+  };
+};
+
+choiceCrafterDb.updateDecision = (id, newShortDesc, newLongDesc, callback) => {
+  const db = choiceCrafterDb.datastore;
+  const transaction = db.transaction(['decisions'], 'readwrite');
+  const objStore = transaction.objectStore('decisions');
+  const getRequest = objStore.get(id);
+
+  getRequest.onsuccess = event => {
+    const data = getRequest.result;
+
+    if (newShortDesc) {
+      data.decisionShort = newShortDesc;
+    }
+
+    if (newLongDesc) {
+      data.decisionLong = newLongDesc;
+    }
+
+    const putRequest = objStore.put(data);
+    putRequest.onsuccess = event => {
+      callback();
+    };
+  };
+};
+
+choiceCrafterDb.error = () => alert("There was a problem with the database. Contact customer support");
 
 
 export { choiceCrafterDb };
