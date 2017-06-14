@@ -442,6 +442,26 @@ choiceCrafterDb.addObjective = (decisionId, newObjective, createNewConsequences,
   };
 }
 
+choiceCrafterDb.removeObjective = (decisionId, objectiveId, callback) => {
+  const db = choiceCrafterDb.datastore;
+  const transaction = db.transaction(['decisions'], 'readwrite');
+  const objStore = transaction.objectStore('decisions');
+  const getRequest = objStore.get(decisionId);
+
+  getRequest.onsuccess = event => {
+    const decision = getRequest.result;
+    
+    decision.objectives = decision.objectives.filter(objective => objective.id !== objectiveId);
+
+    const putRequest = objStore.put(decision);
+
+    putRequest.onsuccess = event => {
+      callback();
+    };
+  }
+
+}
+
 choiceCrafterDb.error = () => alert("There was a problem with the database. Contact customer support");
 
 

@@ -86,23 +86,24 @@ class App extends Component {
 
   handleRemoveObjective(decisionId, objectiveId) {
 
-    let decisionsCopy = this.state.decisions.slice();
-    let targetDecision = decisionsCopy.filter((decision) => {
-      return decision.decisionId === decisionId;
-    })[0];
+    // let decisionsCopy = this.state.decisions.slice();
+    // let targetDecision = decisionsCopy.filter((decision) => {
+    //   return decision.decisionId === decisionId;
+    // })[0];
 
-    targetDecision.objectives = targetDecision.objectives.filter((objective) => {
-      return objective.id !== objectiveId;
-    });
+    // targetDecision.objectives = targetDecision.objectives.filter((objective) => {
+    //   return objective.id !== objectiveId;
+    // });
 
-    let spliceStart = decisionsCopy.findIndex((decisionObj) => {
-      return decisionObj.decisionId === decisionId;
-    });
+    // let spliceStart = decisionsCopy.findIndex((decisionObj) => {
+    //   return decisionObj.decisionId === decisionId;
+    // });
 
-    decisionsCopy.splice(spliceStart, 1);
-    decisionsCopy.splice(spliceStart, 0, targetDecision);
+    // decisionsCopy.splice(spliceStart, 1);
+    // decisionsCopy.splice(spliceStart, 0, targetDecision);
 
-    this.setState({decisions: decisionsCopy});              
+    // this.setState({decisions: decisionsCopy});
+    choiceCrafterDb.removeObjective(decisionId, objectiveId, this.refreshDecisions); 
   }
 
   handleUpdateAlternative(decisionId, alternativeId, newItem) {
