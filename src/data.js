@@ -365,11 +365,11 @@ choiceCrafterDb.getRecordCount = callback => {
   };
 };
 
-choiceCrafterDb.updateDecision = (id, newShortDesc, newLongDesc, callback) => {
+choiceCrafterDb.updateProblem = (decisionId, newShortDesc, newLongDesc, callback) => {
   const db = choiceCrafterDb.datastore;
   const transaction = db.transaction(['decisions'], 'readwrite');
   const objStore = transaction.objectStore('decisions');
-  const getRequest = objStore.get(id);
+  const getRequest = objStore.get(decisionId);
 
   getRequest.onsuccess = event => {
     const data = getRequest.result;
@@ -388,6 +388,39 @@ choiceCrafterDb.updateDecision = (id, newShortDesc, newLongDesc, callback) => {
     };
   };
 };
+
+choiceCrafterDb.updateObjective = (decisionId, objectiveId, newItem, callback) => {
+  const db = choiceCrafterDb.datastore;
+  const transaction = db.transaction(['decisions'], 'readwrite');
+  const objStore = transaction.objectStore('decisions');
+  const getRequest = objStore.get(decisionId);
+
+  getRequest.onsuccess = event => {
+    const decision = getRequest.result;
+
+    let targetObjective = decision.objectives.filter((objective) => {
+      return objective.id === objectiveId;
+    })[0];
+
+    //targetObjective = decision.objectives.find(objective => objective.id === objectiveId);
+
+    const targetObjectIndex = decision.objectives.findIndex(objective => objective.id === objectiveId);
+
+    console.log(targetObjective);
+
+    if (newItem) {
+      //targetObjective["enabled"] = true;
+      decision.objectives[targetObjectIndex]["enabled"] = true;
+      const key = Object.keys(newItem)[0];
+      decision.objectives[targetObjectIndex][key] = newItem[key];
+    }
+
+    const putRequest = objStore.put(decision);
+    putRequest.onsuccess = event => {
+      callback();
+    };
+  }
+}
 
 choiceCrafterDb.error = () => alert("There was a problem with the database. Contact customer support");
 

@@ -36,43 +36,12 @@ class App extends Component {
   }
 
   handleUpdateProblem(decisionId, newShortDesc, newLongDesc) {
-    choiceCrafterDb.updateDecision(decisionId, newShortDesc, newLongDesc, this.refreshDecisions)
+    choiceCrafterDb.updateProblem(decisionId, newShortDesc, newLongDesc, this.refreshDecisions)
   }
  
 
-  handleUpdateObjective(decisionId, objectiveId, newItem) {
-
-    let decisionsCopy = this.state.decisions.slice();
-    let targetDecision = decisionsCopy.filter((decision) => {
-      return decision.decisionId === decisionId;
-    })[0];
-
-    let targetObjective = targetDecision.objectives.filter((objective) => {
-      return objective.id === objectiveId;
-    })[0];
-
-
-    if (newItem) {
-      targetObjective["enabled"] = true;
-      let key = Object.keys(newItem)[0];
-      targetObjective[key] = newItem[key];
-    }
-
-    let spliceStart = targetDecision.objectives.findIndex((objectiveObj) => {
-      return objectiveObj.id === objectiveId;
-    });
-
-    targetDecision.objectives.splice(spliceStart, 1);
-    targetDecision.objectives.splice(spliceStart, 0, targetObjective);
-
-    spliceStart = decisionsCopy.findIndex((decisionObj) => {
-      return decisionObj.decisionId === decisionId;
-    });
-
-    decisionsCopy.splice(spliceStart, 1);
-    decisionsCopy.splice(spliceStart, 0, targetDecision);
-
-    this.setState({decisions: decisionsCopy});     
+  handleUpdateObjective(decisionId, objectiveId, newItem) {   
+    choiceCrafterDb.updateObjective(decisionId, objectiveId, newItem, this.refreshDecisions)
   }
 
   handleAddObjective(decisionId, newObjective) {
