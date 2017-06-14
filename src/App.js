@@ -45,31 +45,7 @@ class App extends Component {
   }
 
   handleAddObjective(decisionId, newObjective) {
-    newObjective.id = uuid.v4();
-    newObjective.scale = "(required)";
-    newObjective.minMax = "(required)";
-    newObjective.unit = "(required)";
-    let decisionsCopy = this.state.decisions.slice();
-    let targetDecision = decisionsCopy.filter((decision) => {
-      return decision.decisionId === decisionId;
-    })[0];
-
-    newObjective["enabled"] = true;
-
-    targetDecision.objectives.push(newObjective);
-
-    let newObjConsequences = this.createNewConsequences(newObjective.title, targetDecision.alternatives, "objective");
-    let newDecisionConsequences = targetDecision.consequences.concat(newObjConsequences);
-    targetDecision.consequences = newDecisionConsequences;
-
-    let spliceStart = decisionsCopy.findIndex((decisionObj) => {
-      return decisionObj.decisionId === decisionId;
-    });
-
-    decisionsCopy.splice(spliceStart, 1);
-    decisionsCopy.splice(spliceStart, 0, targetDecision);
-
-    this.setState({decisions: decisionsCopy});
+    choiceCrafterDb.addObjective(decisionId, newObjective, this.createNewConsequences, this.refreshDecisions);
   }
 
   createNewConsequences(newObjectTitle, altsOrobjectives, objectStr) {
@@ -83,7 +59,8 @@ class App extends Component {
             altTitle: item.title,
             score: '(required)',
             description: "",
-            isActive: true
+            isActive: true,
+            isInitial: true
           });
         })
       },
@@ -95,7 +72,8 @@ class App extends Component {
             altTitle: newObjectTitle,
             score: '(required)',
             description: "",
-            isActive: true
+            isActive: true,
+            isInitial: true
           });
         })
       }

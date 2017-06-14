@@ -398,18 +398,9 @@ choiceCrafterDb.updateObjective = (decisionId, objectiveId, newItem, callback) =
   getRequest.onsuccess = event => {
     const decision = getRequest.result;
 
-    let targetObjective = decision.objectives.filter((objective) => {
-      return objective.id === objectiveId;
-    })[0];
-
-    //targetObjective = decision.objectives.find(objective => objective.id === objectiveId);
-
     const targetObjectIndex = decision.objectives.findIndex(objective => objective.id === objectiveId);
 
-    console.log(targetObjective);
-
     if (newItem) {
-      //targetObjective["enabled"] = true;
       decision.objectives[targetObjectIndex]["enabled"] = true;
       const key = Object.keys(newItem)[0];
       decision.objectives[targetObjectIndex][key] = newItem[key];
@@ -420,6 +411,35 @@ choiceCrafterDb.updateObjective = (decisionId, objectiveId, newItem, callback) =
       callback();
     };
   }
+}
+
+choiceCrafterDb.addObjective = (decisionId, newObjective, createNewConsequences, callback) => {
+  const db = choiceCrafterDb.datastore;
+  const transaction = db.transaction(['decisions'], 'readwrite');
+  const objStore = transaction.objectStore('decisions');
+  const getRequest = objStore.get(decisionId);
+
+  getRequest.onsuccess = event => {
+
+    const decision = getRequest.result;
+
+    newObjective["enabled"] = true;
+    newObjective.id = uuid.v4();
+    newObjective.scale = "(required)";
+    newObjective.minMax = "(required)";
+    newObjective.unit = "(required)";
+
+    decision.objectives.push(newObjective);
+
+    const newObjConsequences = createNewConsequences(newObjective.title, decision.alternatives, "objective");
+    const newDecisionConsequences = decision.consequences.concat(newObjConsequences);
+    decision.consequences = newDecisionConsequences;
+
+    const putRequest = objStore.put(decision);
+    putRequest.onsuccess = event => {
+      callback();
+    }
+  };
 }
 
 choiceCrafterDb.error = () => alert("There was a problem with the database. Contact customer support");
