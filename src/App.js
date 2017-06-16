@@ -29,7 +29,7 @@ class App extends Component {
     this.handleRemoveObjective = this.handleRemoveObjective.bind(this);
     this.handleRemoveAlternative = this.handleRemoveAlternative.bind(this);
     this.handleUpdateConsequence = this.handleUpdateConsequence.bind(this);
-    this.createNewConsequences = this.createNewConsequences.bind(this);
+    //this.createNewConsequences = this.createNewConsequences.bind(this);
     this.handleAddVirtualConsequence = this.handleAddVirtualConsequence.bind(this);
     this.refreshDecisions = this.refreshDecisions.bind(this);
     this.loadDatabase = this.loadDatabase.bind(this);
@@ -53,42 +53,89 @@ class App extends Component {
   }
 
   handleUpdateAlternative(decisionId, alternativeId, newItem) {
-    choiceCrafterDb.updateAlternative(decisionId, alternativeId, newItem, this.refreshDecisions);
+    const updater = {
+      decisionId: decisionId,
+      alternativeId: alternativeId,
+      newItem: newItem,
+      successCallback: this.refreshDecisions,
+      itemUpdater: (decision) => {
+        const alternativeIndex = decision.alternatives.findIndex(alternative => alternative.id === alternativeId);
+
+        if (newItem) {
+          decision.alternatives[alternativeIndex]["enabled"] = true;
+          const key = Object.keys(newItem)[0];
+          decision.alternatives[alternativeIndex][key] = newItem[key];
+        };
+      }
+    }
+    //choiceCrafterDb.updateAlternative(decisionId, alternativeId, newItem, this.refreshDecisions);
+    choiceCrafterDb.decisionUpdater(updater);
   } 
 
   handleAddAlternative(decisionId, newAlternative) {
-    choiceCrafterDb.addAlternative(decisionId, newAlternative, this.createNewConsequences, this.refreshDecisions);
+    const updater = {
+      decisionId: decisionId,
+      newAlternative: newAlternative,
+      successCallback: this.refreshDecisions,
+      createNewConsequences: this.createNewConsequences,
+      itemUpdater: (decision) => {
+        newAlternative["enabled"] = true;
+        decision.alternatives.push(newAlternative);
+        const newObjConsequences = this.createNewConsequences(newAlternative.title, decision.objectives, "alternative");
+        const newDecisionConsequences = decision.consequences.concat(newObjConsequences);
+        decision.consequences = newDecisionConsequences;
+      }     
+    }
+    //choiceCrafterDb.addAlternative(decisionId, newAlternative, this.createNewConsequences, this.refreshDecisions);
+    choiceCrafterDb.decisionUpdater(updater);
   }
 
   handleRemoveAlternative(decisionId, alternativeId) {
-    choiceCrafterDb.removeAlternative(decisionId, alternativeId, this.refreshDecisions);
+    const updater = {
+      decisionId: decisionId,
+      alternativeId: alternativeId,
+      successCallback: this.refreshDecisions,
+      itemUpdater: (decision) => {
+        decision.alternatives = decision.alternatives.filter(alternative => alternative.id !== alternativeId);
+      }
+    }
+    //choiceCrafterDb.removeAlternative(decisionId, alternativeId, this.refreshDecisions);
+    choiceCrafterDb.decisionUpdater(updater);
   }
 
   handleUpdateConsequence(decisionId, consequenceId, newItem) {
-    choiceCrafterDb.updateConsequence(decisionId, consequenceId, newItem, this.refreshDecisions);     
+    const updater = {
+      decisionId: decisionId,
+      consequenceId: consequenceId,
+      newItem: newItem,
+      successCallback: this.refreshDecisions,
+      itemUpdater: (decision) => {
+        const consequenceIndex = decision.consequences.findIndex(consequence => (consequence.id === consequenceId && consequence.isActive === true));
+
+        if (newItem) {
+          const key = Object.keys(newItem)[0];
+          decision.consequences[consequenceIndex][key] = newItem[key];
+        };
+      }
+    }
+    //choiceCrafterDb.updateConsequence(decisionId, consequenceId, newItem, this.refreshDecisions);
+    choiceCrafterDb.decisionUpdater(updater);    
   }
 
   handleAddVirtualConsequence(decisionId, newConsequence) {
-    // let decisionsCopy = this.state.decisions.slice();
-    // let targetDecision = decisionsCopy.filter((decision) => {
-    //   return decision.decisionId === decisionId;
-    // })[0];
+    const updater = {
+      decisionId: decisionId,
+      newConsequence: newConsequence,
+      successCallback: this.refreshDecisions,
+      itemUpdater: (decision) => {
+        newConsequence["isActive"] = true;
+        newConsequence.id = uuid.v4();
+        decision.consequences.push(newConsequence);
+      }
+    };
 
-    // newConsequence["isActive"] = true;
-    // newConsequence.id = uuid.v4();
-
-    // targetDecision.consequences.push(newConsequence);
-
-    // let spliceStart = decisionsCopy.findIndex((decisionObj) => {
-    //   return decisionObj.decisionId === decisionId;
-    // });
-
-    // decisionsCopy.splice(spliceStart, 1);
-    // decisionsCopy.splice(spliceStart, 0, targetDecision);
-
-    // this.setState({decisions: decisionsCopy});
-
-    choiceCrafterDb.addVirtualConsequence(decisionId, newConsequence, this.refreshDecisions);    
+    //choiceCrafterDb.addVirtualConsequence(decisionId, newConsequence, this.refreshDecisions);
+    choiceCrafterDb.decisionUpdater(updater);
   }
 
   createNewConsequences(newObjectTitle, altsOrobjectives, objectStr) {
