@@ -10,10 +10,11 @@ class RemoveAlternativePanel extends Component {
     this.handleDominatedChange = this.handleDominatedChange.bind(this);
     this.handleDominatesChange = this.handleDominatesChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    this.findDominatedAlternativeByTitle = this.findDominatedAlternativeByTitle.bind(this);
+    this.findAlternativeByTitle = this.findAlternativeByTitle.bind(this);
   }
 
   handleDominatesChange(event) {
+    console.log(event.target.value);
     this.setState({ currentDominatesSelection: event.target.value });
   }
 
@@ -22,13 +23,10 @@ class RemoveAlternativePanel extends Component {
 
   }
 
-  findDominatedAlternativeByTitle = (title) => {
+  findAlternativeByTitle(title) {
     
-    const foundAlternative = this.props.decision.alternatives.filter(
-      (alternative) => alternative.title === title
-    );
-
-    return foundAlternative[0];
+    const foundAlternative = this.props.alternatives.filter(item => item.title === title);
+    return foundAlternative[0] || {id: ""};
   };
 
   handleClick(event) {
@@ -36,7 +34,7 @@ class RemoveAlternativePanel extends Component {
     this.setState(
       { currentDominatesSelection: 'None selected', currentDominatedSelection: 'None selected' },
       () => {
-        const foundAlternative = this.findDominatedAlternativeByTitle(title);
+        const foundAlternative = this.findAlternativeByTitle(title);
         this.props.updateAlternative(this.props.decision.decisionId, foundAlternative.id, { enabled: false });
       });
   }
@@ -50,11 +48,21 @@ class RemoveAlternativePanel extends Component {
       <option value={alternative.title} key={alternative.id}>{alternative.title}</option>
     );
 
-    const scores = this.props.decision.objectives.map(objective =>
+    const dominatesAlt = this.findAlternativeByTitle(this.state.currentDominatesSelection);
+    const dominatedAlt = this.findAlternativeByTitle(this.state.currentDominatedSelection);
+
+
+    const scores = this.props.objectives.map(objective =>
       <tr key={objective.id}>
         <td><strong>{objective.title}</strong></td>
-        <td key={objective.title + "0_dominates"}>{this.props.getActiveConsequence(objective.title, this.state.currentDominatesSelection).score}</td>
-        <td key={objective.title + "1_dominated"}>{this.props.getActiveConsequence(objective.title, this.state.currentDominatedSelection).score}</td>
+        <td 
+          key={objective.title + "0_dominates"}>
+          {this.props.getActiveConsequence(objective.id, dominatesAlt.id).score}
+        </td>
+        <td 
+          key={objective.title + "1_dominated"}>
+          {this.props.getActiveConsequence(objective.id, dominatedAlt.id).score}
+        </td>
       </tr>
     );
 

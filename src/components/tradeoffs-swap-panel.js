@@ -54,9 +54,19 @@ class SwapPanel extends Component {
   }
 
   processSwap() {
-    const firstConsequence = this.props.getActiveConsequence(this.state.currentSelectedSwapChoice, this.state.currentSelectedAlternative);
-    const secondConsequence = this.props.getActiveConsequence(this.state.currentSelectedSecondSwapChoice, this.state.currentSelectedAlternative);
-    const copyOfFirst = this.cloneConsequence(this.props.getActiveConsequence(this.state.currentSelectedSwapChoice, this.state.currentSelectedAlternative));
+    const firstConsequence = this.props.getActiveConsequence(
+      this.props.findObjectiveByTitle(this.state.currentSelectedSwapChoice).id, 
+      this.props.findAlternativeByTitle(this.state.currentSelectedAlternative).id);
+
+    const secondConsequence = this.props.getActiveConsequence(
+      this.props.findObjectiveByTitle(this.state.currentSelectedSecondSwapChoice).id, 
+      this.props.findAlternativeByTitle(this.state.currentSelectedAlternative).id);
+      
+    const copyOfFirst = this.cloneConsequence(this.props.getActiveConsequence(
+      this.props.findObjectiveByTitle(this.state.currentSelectedSwapChoice), 
+      this.props.findAlternativeByTitle(this.state.currentSelectedAlternative))
+    );
+
     const copyOfSecond = this.cloneConsequence(this.props.getActiveConsequence(this.state.currentSelectedSecondSwapChoice, this.state.currentSelectedAlternative));
 
     this.props.updateConsequence(this.props.decision.decisionId, firstConsequence.id, {isActive: false});
@@ -98,9 +108,13 @@ class SwapPanel extends Component {
 
     let noFieldsBlank = (this.state.currentSelectedAlternative !== 'Select' && this.state.newSwapBack.length > 0 && this.state.newSwapFront.length > 0);
 
-    let firstScore = this.props.getActiveConsequence(this.state.currentSelectedSwapChoice, this.state.currentSelectedAlternative).score;
+    let firstScore = this.props.getActiveConsequence(
+      this.props.findObjectiveByTitle(this.state.currentSelectedSwapChoice).id, 
+      this.props.findAlternativeByTitle(this.state.currentSelectedAlternative).id).score;
 
-    let secondScore = this.props.getActiveConsequence(this.state.currentSelectedSecondSwapChoice, this.state.currentSelectedAlternative).score;    
+    let secondScore = this.props.getActiveConsequence(
+      this.props.findObjectiveByTitle(this.state.currentSelectedSecondSwapChoice).id, 
+      this.props.findAlternativeByTitle(this.state.currentSelectedAlternative).id).score;    
 
     return (
       <Panel>

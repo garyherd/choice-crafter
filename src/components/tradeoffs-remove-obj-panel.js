@@ -47,7 +47,7 @@ class RemoveObjectivePanel extends Component {
     const scores = this.props.decision.alternatives.map(alternative =>
       <tr key={alternative.id}>
         <td><strong>{alternative.title}</strong></td>
-        <td key={alternative.title + "0_irrelevant"}>{this.props.getActiveConsequence(this.state.selectedObjective, alternative.title).score}</td>
+        <td key={alternative.title + "0_irrelevant"}>{this.props.getActiveConsequence(this.findObjectiveByTitle(this.state.selectedObjective).id, alternative.id).score}</td>
       </tr>
     );
 

@@ -43,6 +43,8 @@ class TradeOffs extends Component {
     const table = <TradeOffsTable
       alternatives={enabledAlternatives}
       objectives={enabledObjectives}
+      findAlternativeByTitle={this.props.findAlternativeByTitle}
+      findObjectiveByTitle={this.props.findObjectiveByTitle}
       getActiveConsequence={this.props.getActiveConsequence}
       getInactiveConsequences={this.props.getInactiveConsequences}
       decision={this.props.decision} />;
@@ -55,12 +57,15 @@ class TradeOffs extends Component {
                     addVirtualConsequence={this.props.addVirtualConsequence}
                     updateConsequence={this.props.updateConsequence}
                     decision={this.props.decision}
+                    findObjectiveByTitle={this.props.findObjectiveByTitle}
+                    findAlternativeByTitle={this.props.findAlternativeByTitle}
                     updateTable={this.updateTable}/>,
       "removeAlternative": <RemoveAlternativePanel
                               getActiveConsequence={this.props.getActiveConsequence}
                               updateObjective={this.props.updateObjective}
                               updateAlternative={this.props.updateAlternative}
                               alternatives={enabledAlternatives}
+                              objectives={enabledObjectives}
                               decision={this.props.decision} />,
       "removeObjective": <RemoveObjectivePanel
                               getActiveConsequence={this.props.getActiveConsequence}

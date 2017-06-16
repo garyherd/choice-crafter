@@ -14,50 +14,61 @@ class DecisionDetail extends Component {
     this.getActiveConsequence = this.getActiveConsequence.bind(this);
     this.getInactiveConsequences = this.getInactiveConsequences.bind(this);
     this.getInitialConsequence = this.getInitialConsequence.bind(this);
+    this.findAlternativeByTitle = this.findAlternativeByTitle.bind(this);
+    this.findObjectiveByTitle = this.findObjectiveByTitle.bind(this);
   }
 
   getDecision() {
     let userDecisions = [];
     let userDecision = {};
 
-    userDecisions = this.props.decisions.filter((decision) => {
-      return decision.uid === this.props.params.userId //is this right?
-    });
-
-    userDecision = userDecisions.filter((decision) => {
-      return decision.decisionId === this.props.params.decisionId
-    })[0];
+    userDecisions = this.props.decisions.filter(decision => decision.uid === this.props.params.userId);
+    userDecision = userDecisions.filter(decision => decision.decisionId === this.props.params.decisionId)[0];
 
     return userDecision;
   }
+
+  findAlternativeByTitle(title) {
+    const decision = this.getDecision();
+    const foundAlternative = decision.alternatives.filter(alternative => alternative.title === title);
+
+    return foundAlternative[0];
+  };
+
+  findObjectiveByTitle(title) {
+    const decision = this.getDecision();
+    const foundObjective = decision.objectives.filter(objective => objective.title === title);
+
+    return foundObjective[0];
+  };
 
   updateProblem(title, description) {
     let decision = this.getDecision();
     this.props.updateProblem(decision.decisionId, title, description);
   }
 
-  getInitialConsequence(objTitle, altTitle) {
+  getInitialConsequence(objId, altId) {
     let decision = this.getDecision();
     let foundItem = decision.consequences.filter(consequence => {
-      return ((consequence.objTitle === objTitle) && (consequence.altTitle === altTitle) && (consequence.isInitial === true))
+      return ((consequence.objId === objId) && (consequence.altId === altId) && (consequence.isInitial === true))
     });
 
     return (foundItem.length > 0 ? foundItem[0] : {});    
   }
 
-  getActiveConsequence(objTitle, altTitle) {
+  getActiveConsequence(objId, altId) {
     let decision = this.getDecision();
     let foundItem = decision.consequences.filter(consequence => {
-      return ((consequence.objTitle === objTitle) && (consequence.altTitle === altTitle) && (consequence.isActive === true))
+      return ((consequence.objId === objId) && (consequence.altId === altId) && (consequence.isActive === true))
     });
-
+    
     return (foundItem.length > 0 ? foundItem[0] : {});
   }
 
-  getInactiveConsequences(objTitle, altTitle) {
+  getInactiveConsequences(objId, altId) {
     let decision = this.getDecision();
     let foundItems = decision.consequences.filter(consequence => {
-      return ((consequence.objTitle === objTitle) && (consequence.altTitle === altTitle) && (consequence.isActive === false))
+      return ((consequence.objId === objId) && (consequence.altId === altId) && (consequence.isActive === false))
     });
 
     return (foundItems.length > 0 ? foundItems : []);    
@@ -79,7 +90,9 @@ class DecisionDetail extends Component {
         addVirtualConsequence: this.props.addVirtualConsequence,
         getActiveConsequence: this.getActiveConsequence,
         getInactiveConsequences: this.getInactiveConsequences,
-        getInitialConsequence: this.getInitialConsequence
+        getInitialConsequence: this.getInitialConsequence,
+        findAlternativeByTitle: this.findAlternativeByTitle,
+        findObjectiveByTitle: this.findObjectiveByTitle
       });
     });
   }

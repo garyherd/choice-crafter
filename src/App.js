@@ -36,20 +36,81 @@ class App extends Component {
   }
 
   handleUpdateProblem(decisionId, newShortDesc, newLongDesc) {
-    choiceCrafterDb.updateProblem(decisionId, newShortDesc, newLongDesc, this.refreshDecisions)
+    const updater = {
+      decisionId: decisionId,
+      newShortDesc: newShortDesc,
+      newLongDesc: newLongDesc,
+      successCallback: this.refreshDecisions,
+      itemUpdater: (decision) => {
+        if (newShortDesc) {
+          decision.decisionShort = newShortDesc;
+        }
+
+        if (newLongDesc) {
+          decision.decisionLong = newLongDesc;
+        }
+      }
+    }
+    //choiceCrafterDb.updateProblem(decisionId, newShortDesc, newLongDesc, this.refreshDecisions)
+    choiceCrafterDb.decisionUpdater(updater);
   }
  
 
   handleUpdateObjective(decisionId, objectiveId, newItem) {
-    choiceCrafterDb.updateObjective(decisionId, objectiveId, newItem, this.refreshDecisions)
+    const updater = {
+      decisionId: decisionId,
+      objectiveId: objectiveId,
+      newItem: newItem,
+      successCallback: this.refreshDecisions,
+      itemUpdater: (decision) => {
+        const targetObjectIndex = decision.objectives.findIndex(objective => objective.id === objectiveId);
+
+        if (newItem) {
+          decision.objectives[targetObjectIndex]["enabled"] = true;
+          const key = Object.keys(newItem)[0];
+          decision.objectives[targetObjectIndex][key] = newItem[key];
+        };
+      }
+    }
+    //choiceCrafterDb.updateObjective(decisionId, objectiveId, newItem, this.refreshDecisions)
+    choiceCrafterDb.decisionUpdater(updater);
   }
 
   handleAddObjective(decisionId, newObjective) {
-    choiceCrafterDb.addObjective(decisionId, newObjective, this.createNewConsequences, this.refreshDecisions);
+    const updater = {
+      decisionId: decisionId,
+      newObjective: newObjective,
+      successCallback: this.refreshDecisions,
+      createNewConsequences: this.createNewConsequences,
+      itemUpdater: (decision) => {
+        newObjective["enabled"] = true;
+        newObjective.id = uuid.v4();
+        newObjective.scale = "(required)";
+        newObjective.minMax = "(required)";
+        newObjective.unit = "(required)";
+
+        decision.objectives.push(newObjective);
+
+        const newObjConsequences = this.createNewConsequences(newObjective.title, decision.alternatives, "objective");
+        const newDecisionConsequences = decision.consequences.concat(newObjConsequences);
+        decision.consequences = newDecisionConsequences;
+      }
+    }
+    //choiceCrafterDb.addObjective(decisionId, newObjective, this.createNewConsequences, this.refreshDecisions);
+    choiceCrafterDb.decisionUpdater(updater);
   }
 
   handleRemoveObjective(decisionId, objectiveId) {
-    choiceCrafterDb.removeObjective(decisionId, objectiveId, this.refreshDecisions); 
+    const updater = {
+      decisionId: decisionId,
+      objectiveId: objectiveId,
+      successCallback: this.refreshDecisions,
+      itemUpdater: (decision) => {
+        decision.objectives = decision.objectives.filter(objective => objective.id !== objectiveId);
+      }
+    }
+
+    choiceCrafterDb.decisionUpdater(updater);
   }
 
   handleUpdateAlternative(decisionId, alternativeId, newItem) {
@@ -68,7 +129,7 @@ class App extends Component {
         };
       }
     }
-    //choiceCrafterDb.updateAlternative(decisionId, alternativeId, newItem, this.refreshDecisions);
+
     choiceCrafterDb.decisionUpdater(updater);
   } 
 
@@ -86,7 +147,7 @@ class App extends Component {
         decision.consequences = newDecisionConsequences;
       }     
     }
-    //choiceCrafterDb.addAlternative(decisionId, newAlternative, this.createNewConsequences, this.refreshDecisions);
+   
     choiceCrafterDb.decisionUpdater(updater);
   }
 
@@ -99,7 +160,7 @@ class App extends Component {
         decision.alternatives = decision.alternatives.filter(alternative => alternative.id !== alternativeId);
       }
     }
-    //choiceCrafterDb.removeAlternative(decisionId, alternativeId, this.refreshDecisions);
+
     choiceCrafterDb.decisionUpdater(updater);
   }
 
@@ -118,7 +179,7 @@ class App extends Component {
         };
       }
     }
-    //choiceCrafterDb.updateConsequence(decisionId, consequenceId, newItem, this.refreshDecisions);
+
     choiceCrafterDb.decisionUpdater(updater);    
   }
 

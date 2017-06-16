@@ -57,8 +57,8 @@ class ConsequencesTable extends Component {
             decisionId={this.props.decisionId}
             //key={this.props.getInitialConsequence(objective.title, alternative.title).id}
             key={objective.title + '_' + alternative.title}
-            id={this.props.getInitialConsequence(objective.title, alternative.title).id}
-            cellData={this.props.getInitialConsequence(objective.title, alternative.title).score}
+            id={this.props.getInitialConsequence(objective.id, alternative.id).id}
+            cellData={this.props.getInitialConsequence(objective.id, alternative.id).score}
             updateField="score"
             update={this.props.updateConsequence} />
         )}

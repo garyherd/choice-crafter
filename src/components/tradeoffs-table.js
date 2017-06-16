@@ -20,11 +20,11 @@ class TradeOffsTable extends Component {
         {this.props.objectives.map(objective =>
           <td key={objective.id}>
 
-            {this.props.getInactiveConsequences(objective.title, alternative.title).map(
+            {this.props.getInactiveConsequences(objective.id, alternative.id).map(
               consequence => <div key={consequence.id} style={lineThru}>{consequence.score}</div>)}
 
-            <div key={this.props.getActiveConsequence(objective.title, alternative.title).id}>
-              {this.props.getActiveConsequence(objective.title, alternative.title).score}
+            <div key={this.props.getActiveConsequence(objective.id, alternative.id).id}>
+              {this.props.getActiveConsequence(objective.id, alternative.id).score}
             </div>
 
           </td>
