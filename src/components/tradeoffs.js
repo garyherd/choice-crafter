@@ -71,6 +71,7 @@ class TradeOffs extends Component {
                               getActiveConsequence={this.props.getActiveConsequence}
                               updateObjective={this.props.updateObjective}
                               objectives={enabledObjectives}
+                              alternatives={enabledAlternatives}
                               decision={this.props.decision} />,
       "default": <SwapPanel
         alternatives={enabledAlternatives}/>

@@ -44,12 +44,13 @@ class SwapPanel extends Component {
 
   cloneConsequence(consequence) {
     const newObj = {};
-    newObj.objTitle = consequence.objTitle;
-    newObj.altTitle = consequence.altTitle;
     newObj.description = consequence.description;
+    newObj.altId = consequence.altId,
+    newObj.objId = consequence.objId,
     newObj.isActive = true;
     newObj.isInitial = false;
 
+    console.log(newObj);
     return newObj;
   }
 
@@ -62,12 +63,8 @@ class SwapPanel extends Component {
       this.props.findObjectiveByTitle(this.state.currentSelectedSecondSwapChoice).id, 
       this.props.findAlternativeByTitle(this.state.currentSelectedAlternative).id);
       
-    const copyOfFirst = this.cloneConsequence(this.props.getActiveConsequence(
-      this.props.findObjectiveByTitle(this.state.currentSelectedSwapChoice), 
-      this.props.findAlternativeByTitle(this.state.currentSelectedAlternative))
-    );
-
-    const copyOfSecond = this.cloneConsequence(this.props.getActiveConsequence(this.state.currentSelectedSecondSwapChoice, this.state.currentSelectedAlternative));
+    const copyOfFirst = this.cloneConsequence(firstConsequence);
+    const copyOfSecond = this.cloneConsequence(secondConsequence);
 
     this.props.updateConsequence(this.props.decision.decisionId, firstConsequence.id, {isActive: false});
     this.props.updateConsequence(this.props.decision.decisionId, secondConsequence.id, {isActive: false});

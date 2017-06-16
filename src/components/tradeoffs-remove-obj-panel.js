@@ -16,13 +16,11 @@ class RemoveObjectivePanel extends Component {
     this.setState({ selectedObjective: event.target.value });
   }
 
-  findObjectiveByTitle = (title) => {
+  findObjectiveByTitle(title) {
     
-    const foundObjective = this.props.decision.objectives.filter(
-      objective => objective.title === title
-    );
+    const foundObjective = this.props.objectives.filter(objective => objective.title === title);
 
-    return foundObjective[0];
+    return foundObjective[0] || {id: ""};
   };
 
   handleClick(event) {
@@ -40,14 +38,16 @@ class RemoveObjectivePanel extends Component {
       marginTop: '0.7em'
     };
 
+    const selectedObjTitle = this.findObjectiveByTitle(this.state.selectedObjective);
+
     const objectivesSelectOptions = this.props.objectives.map(objective =>
       <option value={objective.title} key={objective.id}>{objective.title}</option>
     );
 
-    const scores = this.props.decision.alternatives.map(alternative =>
+    const scores = this.props.alternatives.map(alternative =>
       <tr key={alternative.id}>
         <td><strong>{alternative.title}</strong></td>
-        <td key={alternative.title + "0_irrelevant"}>{this.props.getActiveConsequence(this.findObjectiveByTitle(this.state.selectedObjective).id, alternative.id).score}</td>
+        <td key={alternative.title + "0_irrelevant"}>{this.props.getActiveConsequence(selectedObjTitle.id, alternative.id).score}</td>
       </tr>
     );
 

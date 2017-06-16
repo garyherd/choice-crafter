@@ -32,14 +32,14 @@ class DecisionDetail extends Component {
     const decision = this.getDecision();
     const foundAlternative = decision.alternatives.filter(alternative => alternative.title === title);
 
-    return foundAlternative[0];
+    return foundAlternative[0] || {id: ""};
   };
 
   findObjectiveByTitle(title) {
     const decision = this.getDecision();
     const foundObjective = decision.objectives.filter(objective => objective.title === title);
 
-    return foundObjective[0];
+    return foundObjective[0] || {id: ""};
   };
 
   updateProblem(title, description) {
@@ -61,7 +61,7 @@ class DecisionDetail extends Component {
     let foundItem = decision.consequences.filter(consequence => {
       return ((consequence.objId === objId) && (consequence.altId === altId) && (consequence.isActive === true))
     });
-    
+
     return (foundItem.length > 0 ? foundItem[0] : {});
   }
 
