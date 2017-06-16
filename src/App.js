@@ -40,12 +40,55 @@ class App extends Component {
   }
  
 
-  handleUpdateObjective(decisionId, objectiveId, newItem) {   
+  handleUpdateObjective(decisionId, objectiveId, newItem) {
     choiceCrafterDb.updateObjective(decisionId, objectiveId, newItem, this.refreshDecisions)
   }
 
   handleAddObjective(decisionId, newObjective) {
     choiceCrafterDb.addObjective(decisionId, newObjective, this.createNewConsequences, this.refreshDecisions);
+  }
+
+  handleRemoveObjective(decisionId, objectiveId) {
+    choiceCrafterDb.removeObjective(decisionId, objectiveId, this.refreshDecisions); 
+  }
+
+  handleUpdateAlternative(decisionId, alternativeId, newItem) {
+    choiceCrafterDb.updateAlternative(decisionId, alternativeId, newItem, this.refreshDecisions);
+  } 
+
+  handleAddAlternative(decisionId, newAlternative) {
+    choiceCrafterDb.addAlternative(decisionId, newAlternative, this.createNewConsequences, this.refreshDecisions);
+  }
+
+  handleRemoveAlternative(decisionId, alternativeId) {
+    choiceCrafterDb.removeAlternative(decisionId, alternativeId, this.refreshDecisions);
+  }
+
+  handleUpdateConsequence(decisionId, consequenceId, newItem) {
+    choiceCrafterDb.updateConsequence(decisionId, consequenceId, newItem, this.refreshDecisions);     
+  }
+
+  handleAddVirtualConsequence(decisionId, newConsequence) {
+    // let decisionsCopy = this.state.decisions.slice();
+    // let targetDecision = decisionsCopy.filter((decision) => {
+    //   return decision.decisionId === decisionId;
+    // })[0];
+
+    // newConsequence["isActive"] = true;
+    // newConsequence.id = uuid.v4();
+
+    // targetDecision.consequences.push(newConsequence);
+
+    // let spliceStart = decisionsCopy.findIndex((decisionObj) => {
+    //   return decisionObj.decisionId === decisionId;
+    // });
+
+    // decisionsCopy.splice(spliceStart, 1);
+    // decisionsCopy.splice(spliceStart, 0, targetDecision);
+
+    // this.setState({decisions: decisionsCopy});
+
+    choiceCrafterDb.addVirtualConsequence(decisionId, newConsequence, this.refreshDecisions);    
   }
 
   createNewConsequences(newObjectTitle, altsOrobjectives, objectStr) {
@@ -82,163 +125,6 @@ class App extends Component {
     processor[objectStr]();
 
     return consequences;
-  }
-
-  handleRemoveObjective(decisionId, objectiveId) {
-
-    // let decisionsCopy = this.state.decisions.slice();
-    // let targetDecision = decisionsCopy.filter((decision) => {
-    //   return decision.decisionId === decisionId;
-    // })[0];
-
-    // targetDecision.objectives = targetDecision.objectives.filter((objective) => {
-    //   return objective.id !== objectiveId;
-    // });
-
-    // let spliceStart = decisionsCopy.findIndex((decisionObj) => {
-    //   return decisionObj.decisionId === decisionId;
-    // });
-
-    // decisionsCopy.splice(spliceStart, 1);
-    // decisionsCopy.splice(spliceStart, 0, targetDecision);
-
-    // this.setState({decisions: decisionsCopy});
-    choiceCrafterDb.removeObjective(decisionId, objectiveId, this.refreshDecisions); 
-  }
-
-  handleUpdateAlternative(decisionId, alternativeId, newItem) {
-
-    let decisionsCopy = this.state.decisions.slice();
-    let targetDecision = decisionsCopy.filter((decision) => {
-      return decision.decisionId === decisionId;
-    })[0];
-
-    let targetAlternative = targetDecision.alternatives.filter((alternative) => {
-      return alternative.id === alternativeId;
-    })[0];
-
-    if (newItem) {
-      targetAlternative["enabled"] = true;
-      let key = Object.keys(newItem)[0];
-      targetAlternative[key] = newItem[key];
-    }
-
-    
-
-    let spliceStart = targetDecision.alternatives.findIndex((alternative) => {
-      return alternative.id === alternativeId;
-    });
-
-    targetDecision.alternatives.splice(spliceStart, 1);
-    targetDecision.alternatives.splice(spliceStart, 0, targetAlternative);
-
-    spliceStart = decisionsCopy.findIndex((decisionObj) => {
-      return decisionObj.decisionId === decisionId;
-    });
-
-    decisionsCopy.splice(spliceStart, 1);
-    decisionsCopy.splice(spliceStart, 0, targetDecision);
-
-    this.setState({decisions: decisionsCopy});
-  } 
-
-  handleAddAlternative(decisionId, newAlternative) {
-
-    let decisionsCopy = this.state.decisions.slice();
-    let targetDecision = decisionsCopy.filter((decision) => {
-      return decision.decisionId === decisionId;
-    })[0];
-
-    newAlternative["enabled"] = true;
-
-    targetDecision.alternatives.push(newAlternative);
-
-    let newObjConsequences = this.createNewConsequences(newAlternative.title, targetDecision.objectives, "alternative");
-    let newDecisionConsequences = targetDecision.consequences.concat(newObjConsequences);
-    targetDecision.consequences = newDecisionConsequences;
-
-    let spliceStart = decisionsCopy.findIndex((decisionObj) => {
-      return decisionObj.decisionId === decisionId;
-    });
-
-    decisionsCopy.splice(spliceStart, 1);
-    decisionsCopy.splice(spliceStart, 0, targetDecision);
-
-    this.setState({decisions: decisionsCopy});  
-  }
-
-  handleRemoveAlternative(decisionId, alternativeId) {
-
-    let decisionsCopy = this.state.decisions.slice();
-    let targetDecision = decisionsCopy.filter((decision) => {
-      return decision.decisionId === decisionId;
-    })[0];
-
-    targetDecision.alternatives = targetDecision.alternatives.filter((alternative) => {
-      return alternative.id !== alternativeId;
-    });
-
-    let spliceStart = decisionsCopy.findIndex((decisionObj) => {
-      return decisionObj.decisionId === decisionId;
-    });
-
-    decisionsCopy.splice(spliceStart, 1);
-    decisionsCopy.splice(spliceStart, 0, targetDecision);
-
-    this.setState({decisions: decisionsCopy});    
-  }
-
-  handleUpdateConsequence(decisionId, consequenceId, newItem) {
-    let decisionsCopy = this.state.decisions.slice();
-    let targetDecision = decisionsCopy.filter((decision) => {
-      return decision.decisionId === decisionId;
-    })[0];
-
-    let targetConsequence = targetDecision.consequences.filter((consequence) => {
-      return (consequence.id === consequenceId && consequence.isActive === true);
-    })[0];
-
-    if (newItem) {
-      let key = Object.keys(newItem)[0];
-      targetConsequence[key] = newItem[key];
-    }
-
-    let spliceStart = targetDecision.consequences.findIndex((consequenceObj) => {
-      return consequenceObj.id === consequenceId;
-    });
-
-    targetDecision.consequences.splice(spliceStart, 1);
-    targetDecision.consequences.splice(spliceStart, 0, targetConsequence);
-
-    spliceStart = decisionsCopy.findIndex((decisionObj) => {
-      return decisionObj.decisionId === decisionId;
-    });
-
-    decisionsCopy.splice(spliceStart, 1);
-    decisionsCopy.splice(spliceStart, 0, targetDecision);
-
-    this.setState({decisions: decisionsCopy});        
-  }
-
-  handleAddVirtualConsequence(decisionId, newConsequence) {
-    let decisionsCopy = this.state.decisions.slice();
-    let targetDecision = decisionsCopy.filter((decision) => {
-      return decision.decisionId === decisionId;
-    })[0];
-
-    newConsequence["isActive"] = true;
-    newConsequence.id = uuid.v4();
-
-    targetDecision.consequences.push(newConsequence);
-
-    let spliceStart = decisionsCopy.findIndex((decisionObj) => {
-      return decisionObj.decisionId === decisionId;
-    });
-
-    decisionsCopy.splice(spliceStart, 1);
-    decisionsCopy.splice(spliceStart, 0, targetDecision);
-
-    this.setState({decisions: decisionsCopy});      
   }
 
   renderChildren() {

@@ -372,7 +372,8 @@ choiceCrafterDb.updateProblem = (decisionId, newShortDesc, newLongDesc, callback
   const getRequest = objStore.get(decisionId);
 
   getRequest.onsuccess = event => {
-    const data = getRequest.result;
+    // const data = getRequest.result;
+    const data = event.target.result;
 
     if (newShortDesc) {
       data.decisionShort = newShortDesc;
@@ -396,15 +397,14 @@ choiceCrafterDb.updateObjective = (decisionId, objectiveId, newItem, callback) =
   const getRequest = objStore.get(decisionId);
 
   getRequest.onsuccess = event => {
-    const decision = getRequest.result;
-
+    const decision = event.target.result;
     const targetObjectIndex = decision.objectives.findIndex(objective => objective.id === objectiveId);
 
     if (newItem) {
       decision.objectives[targetObjectIndex]["enabled"] = true;
       const key = Object.keys(newItem)[0];
       decision.objectives[targetObjectIndex][key] = newItem[key];
-    }
+    };
 
     const putRequest = objStore.put(decision);
     putRequest.onsuccess = event => {
@@ -460,6 +460,116 @@ choiceCrafterDb.removeObjective = (decisionId, objectiveId, callback) => {
     };
   }
 
+}
+
+choiceCrafterDb.updateAlternative = (decisionId, alternativeId, newItem, callback) => {
+  const db = choiceCrafterDb.datastore;
+  const transaction = db.transaction(['decisions'], 'readwrite');
+  const objStore = transaction.objectStore('decisions');
+  const getRequest = objStore.get(decisionId);
+
+  getRequest.onsuccess = event => {
+    const decision = event.target.result;
+
+    const alternativeIndex = decision.alternatives.findIndex(alternative => alternative.id === alternativeId);
+
+    if (newItem) {
+      decision.alternatives[alternativeIndex]["enabled"] = true;
+      const key = Object.keys(newItem)[0];
+      decision.alternatives[alternativeIndex][key] = newItem[key];
+    };
+    const putRequest = objStore.put(decision);
+    putRequest.onsuccess = event => {
+      callback();
+    };
+  }
+}
+
+choiceCrafterDb.addAlternative = (decisionId, newAlternative, createNewConsequences, callback) => {
+  const db = choiceCrafterDb.datastore;
+  const transaction = db.transaction(['decisions'], 'readwrite');
+  const objStore = transaction.objectStore('decisions');
+  const getRequest = objStore.get(decisionId);
+
+  getRequest.onsuccess = event => {
+
+    const decision = event.target.result;
+
+    newAlternative["enabled"] = true;
+
+    decision.alternatives.push(newAlternative);
+
+    const newObjConsequences = createNewConsequences(newAlternative.title, decision.objectives, "alternative");
+    const newDecisionConsequences = decision.consequences.concat(newObjConsequences);
+    decision.consequences = newDecisionConsequences;
+
+    const putRequest = objStore.put(decision);
+    putRequest.onsuccess = event => {
+      callback();
+    }
+  };
+}
+
+choiceCrafterDb.removeAlternative = (decisionId, alternativeId, callback) => {
+  const db = choiceCrafterDb.datastore;
+  const transaction = db.transaction(['decisions'], 'readwrite');
+  const objStore = transaction.objectStore('decisions');
+  const getRequest = objStore.get(decisionId);
+
+  getRequest.onsuccess = event => {
+    const decision = getRequest.result;
+
+    decision.alternatives = decision.alternatives.filter(alternative => alternative.id !== alternativeId);
+
+    const putRequest = objStore.put(decision);
+
+    putRequest.onsuccess = event => {
+      callback();
+    };
+  }
+}
+
+choiceCrafterDb.updateConsequence = (decisionId, consequenceId, newItem, callback) => {
+  const db = choiceCrafterDb.datastore;
+  const transaction = db.transaction(['decisions'], 'readwrite');
+  const objStore = transaction.objectStore('decisions');
+  const getRequest = objStore.get(decisionId);
+
+  getRequest.onsuccess = event => {
+    const decision = event.target.result;
+    const consequenceIndex = decision.consequences.findIndex(consequence => (consequence.id === consequenceId && consequence.isActive === true));
+    
+    if (newItem) {
+      const key = Object.keys(newItem)[0];
+      decision.consequences[consequenceIndex][key] = newItem[key];
+    };
+
+    const putRequest = objStore.put(decision);
+    putRequest.onsuccess = event => {
+      callback();
+    }
+  }
+}
+
+choiceCrafterDb.addVirtualConsequence = (decisionId, newConsequence, callback) => {
+  const db = choiceCrafterDb.datastore;
+  const transaction = db.transaction(['decisions'], 'readwrite');
+  const objStore = transaction.objectStore('decisions');
+  const getRequest = objStore.get(decisionId);
+
+  getRequest.onsuccess = event => {
+    const decision = event.target.result;
+
+    newConsequence["isActive"] = true;
+    newConsequence.id = uuid.v4();
+
+    decision.consequences.push(newConsequence);  
+
+    const putRequest = objStore.put(decision);
+    putRequest.onsuccess = event => {
+      callback();
+    }
+  }
 }
 
 choiceCrafterDb.error = () => alert("There was a problem with the database. Contact customer support");
