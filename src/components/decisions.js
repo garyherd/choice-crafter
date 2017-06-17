@@ -1,45 +1,48 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import { Link } from 'react-router';
 
 import { Grid, Row, Col, Panel, Button, Glyphicon } from 'react-bootstrap';
 
-// import DECISIONS_Arr from '../data.js';
+const Decisions = props => {
 
-class Decisions extends Component {
-
-  render() {
-    let userDecisions = this.props.decisions.filter((decision) => {
-      return decision.uid === this.props.params.userId
-    });
-
-    return (
-      <Grid>
-        <Row>
-          <Col xs={12}>
-            <div className="page-header">
-              <h1>Your Decisions</h1>
-              <p>User ID - {this.props.params.userId}</p>
-              <Button bsStyle="primary">New Decision</Button>
-            </div>
-          </Col>
-        </Row>
-        <Row>
-          {userDecisions.map((decision) =>
-            <Col sm={12} key={decision.decisionId}>
-              <DecisionPanel decision={decision} />
-            </Col>
-          )}
-        </Row>
-      </Grid>
-    );
+  const handleClick = (event) => {
+    const userId = props.params.userId;
+    props.createNewDecision(userId);
   }
+
+  let userDecisions = props.decisions.filter(decision => decision.uid === props.params.userId);
+
+  return (
+    <Grid>
+      <Row>
+        <Col xs={12}>
+          <div className="page-header">
+            <h1>Your Decisions</h1>
+            <p>User ID - {props.params.userId}</p>
+            <Button bsStyle="primary" onClick={handleClick}>New Decision</Button>
+          </div>
+        </Col>
+      </Row>
+      <Row>
+        {userDecisions.map((decision) =>
+          <Col sm={12} key={decision.decisionId}>
+            <DecisionPanel decision={decision} archiveDecision={props.archiveDecision}/>
+          </Col>
+        )}
+      </Row>
+    </Grid>
+  );
 }
 
 
 const DecisionPanel = (props) => {
 
   const decisionDetailUrl = `/decisions/${props.decision.uid}/${props.decision.decisionId}`;
+
+  const handleClick = event => {
+    props.archiveDecision(props.decision.decisionId);
+  }
 
   return (
     <div>
@@ -49,7 +52,7 @@ const DecisionPanel = (props) => {
             <h3>{props.decision.decisionShort}</h3>
             <Row>
               <Col sm={6}><Link to={decisionDetailUrl}><Glyphicon glyph="folder-open" />&nbsp;&nbsp;Open decision</Link></Col>
-              <Col sm={6}><Glyphicon glyph="trash" />&nbsp;Archive decision</Col>
+              <Col sm={6}><a href="#" onClick={handleClick}><Glyphicon glyph="trash" />&nbsp;Archive decision</a></Col>
             </Row>
           </Col>
           <Col sm={6}>

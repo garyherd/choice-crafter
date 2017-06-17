@@ -29,10 +29,12 @@ class App extends Component {
     this.handleRemoveObjective = this.handleRemoveObjective.bind(this);
     this.handleRemoveAlternative = this.handleRemoveAlternative.bind(this);
     this.handleUpdateConsequence = this.handleUpdateConsequence.bind(this);
-    //this.createNewConsequences = this.createNewConsequences.bind(this);
     this.handleAddVirtualConsequence = this.handleAddVirtualConsequence.bind(this);
     this.refreshDecisions = this.refreshDecisions.bind(this);
     this.loadDatabase = this.loadDatabase.bind(this);
+    this.handleResetTradeOffs = this.handleResetTradeOffs.bind(this);
+    this.handleCreateNewDecision = this.handleCreateNewDecision.bind(this);
+    this.handleArchiveDecision = this.handleArchiveDecision.bind(this);
   }
 
   handleUpdateProblem(decisionId, newShortDesc, newLongDesc) {
@@ -55,6 +57,17 @@ class App extends Component {
     choiceCrafterDb.decisionUpdater(updater);
   }
  
+  handleArchiveDecision(decisionId) {
+    const updater = {
+      decisionId: decisionId,
+      successCallback: this.refreshDecisions,
+      itemUpdater: (decision) => {
+        decision.isActive = false;
+      }
+    };
+
+    choiceCrafterDb.decisionUpdater(updater);
+  }
 
   handleUpdateObjective(decisionId, objectiveId, newItem) {
     const updater = {
@@ -72,7 +85,7 @@ class App extends Component {
         };
       }
     }
-    //choiceCrafterDb.updateObjective(decisionId, objectiveId, newItem, this.refreshDecisions)
+
     choiceCrafterDb.decisionUpdater(updater);
   }
 
@@ -96,7 +109,7 @@ class App extends Component {
         decision.consequences = newDecisionConsequences;
       }
     }
-    //choiceCrafterDb.addObjective(decisionId, newObjective, this.createNewConsequences, this.refreshDecisions);
+
     choiceCrafterDb.decisionUpdater(updater);
   }
 
@@ -195,8 +208,44 @@ class App extends Component {
       }
     };
 
-    //choiceCrafterDb.addVirtualConsequence(decisionId, newConsequence, this.refreshDecisions);
     choiceCrafterDb.decisionUpdater(updater);
+  }
+
+  handleResetTradeOffs(decisionId) {
+
+    const updater = {
+      decisionId: decisionId,
+      successCallback: this.refreshDecisions,
+      itemUpdater: (decision) => {
+        decision.consequences = decision.consequences.filter(item => item.isInitial === true);
+        decision.consequences.forEach(element => element.isActive = true);
+        decision.objectives.forEach(element => element.enabled = true);
+        decision.alternatives.forEach(element => element.enabled = true);
+      }
+    };
+
+    choiceCrafterDb.decisionUpdater(updater);
+  }
+
+  handleCreateNewDecision(userId) {
+    let today = new Date();
+    const updater = {
+      userId: userId,
+      successCallback: this.refreshDecisions,
+      newDecision: {
+        decisionId: uuid.v4(),
+        uid: userId,
+        decisionShort: "Type short description of problem",
+        decisionLong: "Enter more information about decision as needed",
+        objectives: [],
+        alternatives: [],
+        consequences: [],
+        isActive: true,
+        createdDate: today.toDateString(),
+      }
+    };
+
+    choiceCrafterDb.newDecision(updater);
   }
 
   createNewConsequences(newObjectTitle, altsOrobjectives, objectStr) {
@@ -248,26 +297,38 @@ class App extends Component {
         addAlternative: this.handleAddAlternative,
         removeAlternative: this.handleRemoveAlternative,
         updateConsequence: this.handleUpdateConsequence,
-        addVirtualConsequence: this.handleAddVirtualConsequence
+        addVirtualConsequence: this.handleAddVirtualConsequence,
+        resetTradeoffs: this.handleResetTradeOffs,
+        createNewDecision: this.handleCreateNewDecision,
+        archiveDecision: this.handleArchiveDecision
       });
     });
   }
 
   refreshDecisions() {
-    choiceCrafterDb.fetchDecisions(decisions => this.setState({decisions: decisions}))
+    choiceCrafterDb.fetchDecisions(decisions => {
+      decisions = decisions.filter(item => item.isActive === true);
+      this.setState({decisions: decisions});
+    }); 
   }
 
   loadDatabase() {
     choiceCrafterDb.open(() => {
-      choiceCrafterDb.getRecordCount(
-        count => {
-          if (count === 0) {
-            choiceCrafterDb.loadExampleDecision(this.refreshDecisions);
-          } else {
-            this.refreshDecisions();
-          }
+      // choiceCrafterDb.getRecordCount(count => {
+      //   if (count === 0) {
+      //     choiceCrafterDb.loadExampleDecision(this.refreshDecisions, this.state.firebaseUser.uid);
+      //   } else {
+      //     this.refreshDecisions();
+      //   }
+      // });
+      choiceCrafterDb.fetchDecisions(decisions => {
+        decisions = decisions.filter(item => (item.uid === this.state.firebaseUser.uid) );
+        if (decisions.length === 0) {
+          choiceCrafterDb.loadExampleDecision(this.refreshDecisions, this.state.firebaseUser.uid);
+        } else {
+          this.refreshDecisions();
         }
-      )
+      });
     });
   }
 

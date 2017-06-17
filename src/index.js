@@ -31,8 +31,6 @@ var config = {
 
 firebase.initializeApp(config);
 
-
-
 ReactDOM.render((
   <Router history={browserHistory}>
     <Route component={App}>

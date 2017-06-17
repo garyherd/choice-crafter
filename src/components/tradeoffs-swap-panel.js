@@ -43,14 +43,14 @@ class SwapPanel extends Component {
   }
 
   cloneConsequence(consequence) {
-    const newObj = {};
-    newObj.description = consequence.description;
-    newObj.altId = consequence.altId,
-    newObj.objId = consequence.objId,
-    newObj.isActive = true;
-    newObj.isInitial = false;
+    const newObj = {
+      description: consequence.description,
+      altId: consequence.altId,
+      objId: consequence.objId,
+      isActive: true,
+      isInitial: false
+    };
 
-    console.log(newObj);
     return newObj;
   }
 

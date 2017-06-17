@@ -16,6 +16,7 @@ class DecisionDetail extends Component {
     this.getInitialConsequence = this.getInitialConsequence.bind(this);
     this.findAlternativeByTitle = this.findAlternativeByTitle.bind(this);
     this.findObjectiveByTitle = this.findObjectiveByTitle.bind(this);
+    this.resetTradeoffs = this.resetTradeoffs.bind(this);
   }
 
   getDecision() {
@@ -74,6 +75,11 @@ class DecisionDetail extends Component {
     return (foundItems.length > 0 ? foundItems : []);    
   }
 
+  resetTradeoffs() {
+    let decision = this.getDecision();
+    this.props.resetTradeoffs(decision.decisionId);
+  }
+
   renderChildren() {
 
     return React.Children.map(this.props.children, child => {
@@ -92,7 +98,8 @@ class DecisionDetail extends Component {
         getInactiveConsequences: this.getInactiveConsequences,
         getInitialConsequence: this.getInitialConsequence,
         findAlternativeByTitle: this.findAlternativeByTitle,
-        findObjectiveByTitle: this.findObjectiveByTitle
+        findObjectiveByTitle: this.findObjectiveByTitle,
+        resetTradeoffs: this.resetTradeoffs
       });
     });
   }

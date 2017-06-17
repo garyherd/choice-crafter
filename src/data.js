@@ -2,8 +2,9 @@ import uuid from 'uuid';
 
 const dbSeed = [
   {
-    decisionId: uuid.v4(),
-    uid: 'Fg7D7hAan5QHE3jcdo6n64QYS4a2', 
+    decisionId: '',
+    //uid: 'Fg7D7hAan5QHE3jcdo6n64QYS4a2',
+    uid: '', 
     decisionShort: "Which job should I take?",
     decisionLong: "Planning to take time off from college to help relative recover from a serious illness",
     objectives: [
@@ -108,8 +109,6 @@ const dbSeed = [
 
 const createIdRefs = () => {
   dbSeed[0].consequences.forEach(element => {
-    // element.objId = dbSeed[0].objectives.filter(obj => obj.title === element.objTitle)[0].id;
-    // element.altId = dbSeed[0].alternatives.filter(obj => obj.title === element.altTitle)[0].id;
     element.objId = dbSeed[0].objectives.filter(obj => obj.title.trim().toUpperCase() === element.objTitle.trim().toUpperCase())[0].id;
     element.altId = dbSeed[0].alternatives.filter(obj => obj.title.trim().toUpperCase() === element.altTitle.trim().toUpperCase())[0].id;
   });
@@ -130,7 +129,7 @@ choiceCrafterDb.open = (callback) => {
       db.deleteObjectStore('decisions');
     }
 
-    const store = db.createObjectStore('decisions', {keyPath: "decisionId"});
+    db.createObjectStore('decisions', {keyPath: "decisionId"});
   };
 
   request.onsuccess = (event) => {
@@ -157,7 +156,7 @@ choiceCrafterDb.fetchDecisions = (callback) => {
   cursorRequest.onsuccess = event => {
     const result = event.target.result;
 
-    if (!!result == false) {
+    if (!!result === false) {
       return;
     }
 
@@ -170,8 +169,11 @@ choiceCrafterDb.fetchDecisions = (callback) => {
 
 }
 
-choiceCrafterDb.loadExampleDecision = callback => {
+choiceCrafterDb.loadExampleDecision = (callback, userId) => {
   createIdRefs();
+  dbSeed[0].uid = userId;
+  dbSeed[0].decisionId = uuid.v4();
+  console.log(dbSeed[0]);
   const db = choiceCrafterDb.datastore;
   const transaction = db.transaction(['decisions'], 'readwrite');
   const objStore = transaction.objectStore('decisions');
@@ -210,6 +212,21 @@ choiceCrafterDb.decisionUpdater = (updater) => {
     }
 
   }  
+}
+
+choiceCrafterDb.newDecision = (updater) => {
+  const db = choiceCrafterDb.datastore;
+  const transaction = db.transaction(['decisions'], 'readwrite');
+  const objStore = transaction.objectStore('decisions');
+  const request = objStore.add(updater.newDecision);
+
+  request.onsuccess = event => {
+    updater.successCallback();
+  }
+
+  request.onerror = choiceCrafterDb.onerror;
+  transaction.onerror = choiceCrafterDb.onerror;
+
 }
 
 choiceCrafterDb.error = () => alert("There was a problem with the database. Contact customer support");

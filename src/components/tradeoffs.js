@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Row, Col, Panel, ButtonToolbar, Button } from 'react-bootstrap';
+import { Row, Col, Panel, Button } from 'react-bootstrap';
 
 import { TradeOffsTable } from './tradeoffs-table';
 import { RemoveAlternativePanel } from './tradeoffs-remove-alt-panel';
@@ -20,16 +20,13 @@ class TradeOffs extends Component {
     const options = {
       "evenSwap": () => this.setState({ mode: "evenSwap" }),
       "removeAlternative": () => this.setState({ mode: "removeAlternative" }),
-      "removeObjective": () => this.setState({ mode: "removeObjective" })
+      "removeObjective": () => this.setState({ mode: "removeObjective" }),
+      "reset": () => this.props.resetTradeoffs()
     };
 
     options[msg]();
   }
 
-  updateTable(updateObject) {
-    //not sure yet if this goes here
-    console.log(updateObject);
-  }
 
   render() {
     const enabledAlternatives = this.props.decision.alternatives.filter(
@@ -98,6 +95,9 @@ class TradeOffs extends Component {
         </Row>
         <Row>
           <Col xs={12}>{table}</Col>
+        </Row>
+        <Row>
+          <Col xs={12} className="text-center"><Button bsStyle="default" type="button" onClick={() => this.handleClick("reset")} >Reset TradeOffs</Button></Col>
         </Row>
       </section>
     );
