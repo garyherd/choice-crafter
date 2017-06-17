@@ -19,7 +19,7 @@ const Decisions = props => {
         <Col xs={12}>
           <div className="page-header">
             <h1>Your Decisions</h1>
-            <p>User ID - {props.params.userId}</p>
+            <p>{props.userInfo.displayName || props.userInfo.email}</p>
             <Button bsStyle="primary" onClick={handleClick}>New Decision</Button>
           </div>
         </Col>
@@ -56,6 +56,7 @@ const DecisionPanel = (props) => {
             </Row>
           </Col>
           <Col sm={6}>
+          <h4></h4>
             <Row>
               <Col xs={5}><strong>Created:</strong></Col>
               <Col xs={7}>{props.decision.createdDate}</Col>
@@ -68,14 +69,14 @@ const DecisionPanel = (props) => {
               <Col xs={5}><strong>Alternatives:</strong></Col>
               <Col xs={7}>{props.decision.alternatives.length}</Col>
             </Row>
-            <Row>
+            {/*<Row>
               <Col xs={5}><strong>Consequences:</strong></Col>
               <Col xs={7}>In Progress</Col>
             </Row>
             <Row>
               <Col xs={5}><strong>Trade offs:</strong></Col>
               <Col xs={7}>Not Started</Col>
-            </Row>
+            </Row>*/}
           </Col>
         </Row>
       </Panel>

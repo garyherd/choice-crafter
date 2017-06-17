@@ -20,7 +20,8 @@ class FullWidthJumbotron extends Component {
   }
 
   handleClick() {
-    browserHistory.push('/freedecisions');
+    //browserHistory.push('/freedecisions');
+    browserHistory.push("/signin");
   }
 
   render() {

@@ -300,7 +300,8 @@ class App extends Component {
         addVirtualConsequence: this.handleAddVirtualConsequence,
         resetTradeoffs: this.handleResetTradeOffs,
         createNewDecision: this.handleCreateNewDecision,
-        archiveDecision: this.handleArchiveDecision
+        archiveDecision: this.handleArchiveDecision,
+        userInfo: {email: this.state.firebaseUser.email, displayName: this.state.firebaseUser.displayName}
       });
     });
   }
@@ -314,13 +315,6 @@ class App extends Component {
 
   loadDatabase() {
     choiceCrafterDb.open(() => {
-      // choiceCrafterDb.getRecordCount(count => {
-      //   if (count === 0) {
-      //     choiceCrafterDb.loadExampleDecision(this.refreshDecisions, this.state.firebaseUser.uid);
-      //   } else {
-      //     this.refreshDecisions();
-      //   }
-      // });
       choiceCrafterDb.fetchDecisions(decisions => {
         decisions = decisions.filter(item => (item.uid === this.state.firebaseUser.uid) );
         if (decisions.length === 0) {
