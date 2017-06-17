@@ -104,7 +104,7 @@ class App extends Component {
 
         decision.objectives.push(newObjective);
 
-        const newObjConsequences = this.createNewConsequences(newObjective.title, decision.alternatives, "objective");
+        const newObjConsequences = this.createNewConsequences(newObjective.id, decision.alternatives, "objective");
         const newDecisionConsequences = decision.consequences.concat(newObjConsequences);
         decision.consequences = newDecisionConsequences;
       }
@@ -155,7 +155,7 @@ class App extends Component {
       itemUpdater: (decision) => {
         newAlternative["enabled"] = true;
         decision.alternatives.push(newAlternative);
-        const newObjConsequences = this.createNewConsequences(newAlternative.title, decision.objectives, "alternative");
+        const newObjConsequences = this.createNewConsequences(newAlternative.id, decision.objectives, "alternative");
         const newDecisionConsequences = decision.consequences.concat(newObjConsequences);
         decision.consequences = newDecisionConsequences;
       }     
@@ -248,15 +248,15 @@ class App extends Component {
     choiceCrafterDb.newDecision(updater);
   }
 
-  createNewConsequences(newObjectTitle, altsOrobjectives, objectStr) {
+  createNewConsequences(newObjectId, altsOrobjectives, objectStr) {
     let consequences = [];
     let processor = {
       "objective": () => {
         altsOrobjectives.forEach((item) => {
           consequences.push({
             id: uuid.v4(),
-            objTitle: newObjectTitle,
-            altTitle: item.title,
+            objId: newObjectId,
+            altId: item.id,
             score: '(required)',
             description: "",
             isActive: true,
@@ -268,8 +268,8 @@ class App extends Component {
         altsOrobjectives.forEach((item) => {
           consequences.push({
             id: uuid.v4(),
-            objTitle: item.title,
-            altTitle: newObjectTitle,
+            objId: item.id,
+            altId: newObjectId,
             score: '(required)',
             description: "",
             isActive: true,
