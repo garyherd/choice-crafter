@@ -29,7 +29,7 @@ class FullWidthJumbotron extends Component {
       <Jumbotron>
         <Grid>
           <Row>
-            <Col sm={10} smOffset={1}>
+            <Col xs={12} className="text-center">
               <h1>Smarter choices made easier</h1>
               <Button bsStyle="primary" bsSize="large" className="center-block"
                 onClick={this.handleClick}>Start Free Now</Button>
