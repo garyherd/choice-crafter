@@ -13,14 +13,19 @@ class EditableListBox extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    this.setState({
+      title: this.props.listItem.title
+    });
+  }
+
   handleClick() {
     this.state.mode === "view" ? this.setState({ mode: "edit" }) : this.setState({ mode: "view" });
   }
 
   handleSubmit(e) {
+    this.state.mode === "view" ? this.setState({ mode: "edit" }) : this.setState({ mode: "view" });
     e.preventDefault();
-
-
   }
 
   handleInputChange(event) {
@@ -53,11 +58,11 @@ class EditableListBox extends Component {
               type="text"
               name="title"
               placeholder={this.props.placeholderText}
-              value={this.props.listItem.title}
+              value={this.state.title}
               onChange={this.handleInputChange}
             />
           </FormGroup>
-          <Button bsStyle="primary" bsSize="small" onClick={this.handleClick}>Save</Button>
+          <Button bsStyle="primary" bsSize="small" type="submit">Save</Button>
           <Button bsStyle="danger" bsSize="small" onClick={this.handleRemoveItem.bind(this, this.props.listItem.id)} className="pull-right">Delete</Button>
         </Form>
       </Panel>
@@ -75,3 +80,5 @@ class EditableListBox extends Component {
 }
 
 export default EditableListBox;
+
+              // value={this.props.listItem.title}

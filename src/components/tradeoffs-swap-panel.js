@@ -21,6 +21,7 @@ class SwapPanel extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.processSwap = this.processSwap.bind(this);
     this.cloneConsequence = this.cloneConsequence.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
   handleSelectedAlternativeChange(event) {
@@ -88,6 +89,16 @@ class SwapPanel extends Component {
       newSwapBack: ''
     });
 
+  }
+
+  handleCancel(event) {
+      this.setState({
+      currentSelectedAlternative: 'Select', 
+      currentSelectedSwapChoice: 'Select',
+      currentSelectedSecondSwapChoice: 'Select',
+      newSwapFront: '',
+      newSwapBack: ''
+    });  
   }
 
 
@@ -174,7 +185,7 @@ class SwapPanel extends Component {
             disabled={!noFieldsBlank}>
             OK
             </Button>
-          <Button type="button" className="pull-right">Cancel</Button>
+          <Button type="button" className="pull-right" onClick={this.handleCancel}>Cancel</Button>
         </ButtonToolbar>
       </Panel>
     );
