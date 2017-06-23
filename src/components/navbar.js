@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, NavItem} from 'react-bootstrap';
+import { Navbar, Nav, NavItem } from 'react-bootstrap';
 
 import { Link, browserHistory } from 'react-router';
 
@@ -12,7 +12,7 @@ class NavbarInstance extends Component {
 
   handleSelect(eventKey) {
 
-    switch(eventKey) {
+    switch (eventKey) {
       case 4:
         browserHistory.push('/decisions/' + this.props.firebaseUser.uid);
         break;
@@ -30,34 +30,43 @@ class NavbarInstance extends Component {
   render() {
     let nav = null;
 
+    let navLeft = (
+      <Nav pullLeft>
+        <NavItem href="https://www.facebook.com/herdingpixelstx/" target="_blank">FB</NavItem>
+      </Nav>
+    )
+
     if (this.props.isLoggedIn) {
-        nav = (
-            <Nav pullRight>
-                <NavItem eventKey={4}>My Decisions</NavItem>
-                <NavItem eventKey={5}>Log Out</NavItem>
-            </Nav>
-        );
+      nav = (
+        <Nav pullRight>
+          <NavItem eventKey={4}>My Decisions</NavItem>
+          <NavItem eventKey={5}>Log Out</NavItem>
+        </Nav>
+      );
 
     } else {
-        nav = (
-          <Nav pullRight>
-            <NavItem eventKey={6}>Log In</NavItem>
-          </Nav>
-        );
+      nav = (
+        <Nav pullRight>
+          <NavItem eventKey={6}>Log In</NavItem>
+        </Nav>
+      );
     }
 
     return (
-    <Navbar inverse collapseOnSelect fluid onSelect={this.handleSelect}>
+      <Navbar inverse collapseOnSelect fluid onSelect={this.handleSelect}>
         <Navbar.Header>
-        <Navbar.Brand>
+          <Navbar.Brand>
             <Link to="/">Choice Crafter</Link>
-        </Navbar.Brand>
-        <Navbar.Toggle />
+          </Navbar.Brand>
+          <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
-            {nav}
+          <Navbar.Text>
+            <Navbar.Link href="https://www.facebook.com/herdingpixelstx/" target="_blank">@herdingpixelstx</Navbar.Link>
+          </Navbar.Text>
+          {nav}
         </Navbar.Collapse>
-    </Navbar>
+      </Navbar>
     );
   }
 }
