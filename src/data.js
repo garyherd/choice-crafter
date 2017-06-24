@@ -173,7 +173,6 @@ choiceCrafterDb.loadExampleDecision = (callback, userId) => {
   createIdRefs();
   dbSeed[0].uid = userId;
   dbSeed[0].decisionId = uuid.v4();
-  console.log(dbSeed[0]);
   const db = choiceCrafterDb.datastore;
   const transaction = db.transaction(['decisions'], 'readwrite');
   const objStore = transaction.objectStore('decisions');

@@ -30,12 +30,6 @@ class NavbarInstance extends Component {
   render() {
     let nav = null;
 
-    let navLeft = (
-      <Nav pullLeft>
-        <NavItem href="https://www.facebook.com/herdingpixelstx/" target="_blank">FB</NavItem>
-      </Nav>
-    )
-
     if (this.props.isLoggedIn) {
       nav = (
         <Nav pullRight>
