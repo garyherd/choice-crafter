@@ -350,9 +350,7 @@ class App extends Component {
                         isLoggedIn={this.state.isLoggedIn} 
                         firebaseUser={this.state.firebaseUser}
         />
-        <main>
-          {this.renderChildren() || "Welcome to Choice Crafter"}
-        </main>
+        {this.renderChildren() || "Welcome to Choice Crafter"}
       </div>
     );
   }
